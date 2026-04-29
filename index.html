@@ -24,7 +24,7 @@ body{background:var(--sky);font-family:"Helvetica Neue",Helvetica,Arial,sans-ser
 .nk:hover{color:var(--sky-d)}
 
 /* HERO */
-#s-hero{position:relative}
+#s-home{position:relative}
 .hero-stick{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--sky);overflow:hidden}
 .iam{font-size:clamp(64px,14vw,120px);font-weight:800;letter-spacing:-.03em;color:var(--sky-d);line-height:1;text-align:center;margin-bottom:72px;user-select:none;pointer-events:none}
 .scene{width:250px;height:250px;perspective:720px;perspective-origin:50% 42%;cursor:grab;user-select:none}
@@ -179,7 +179,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   <div class="nl" id="navSt">CURRENTLY: FILMMAKER</div>
   <div class="nc">SHEKHAR DASH</div>
   <div class="nr">
-    <a class="nk" href="#s-hero">HOME</a>
+    <a class="nk" href="#s-home">HOME</a>
     <a class="nk" href="#s-about">ABOUT</a>
     <a class="nk" href="#s-work">WORK</a>
     <a class="nk" href="#s-certs">CERTIFICATES</a>
@@ -189,7 +189,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   </div>
 </nav>
 
-<section id="s-hero">
+<section id="s-home">
   <div class="hero-stick" id="heroStick">
     <div class="iam">I AM A</div>
     <div class="scene" id="scene">
@@ -347,7 +347,7 @@ const scene=document.getElementById('scene');
 const dotsEl=document.querySelectorAll('.fd');
 const navSt=document.getElementById('navSt');
 const scueTxt=document.getElementById('scue');
-const heroSec=document.getElementById('s-hero');
+const heroSec=document.getElementById('s-home');
 let rotX=-18,rotY=20,facesSeen=new Set([0]),allSeen=false,wheelAcc=0;
 let passCount=0,isAutoRevealing=false,scrollCycleLock=false;
 const WHEEL_TOTAL=1800;
