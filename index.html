@@ -62,7 +62,7 @@ body{background:var(--sky);font-family:"Helvetica Neue",Helvetica,Arial,sans-ser
 .a-bgname span{font-size:clamp(54px,12vw,92px);font-weight:800;letter-spacing:-.03em;color:var(--grn-m);opacity:.07;white-space:nowrap}
 .about-progress-track{position:absolute;left:22px;top:80px;bottom:80px;width:2px;background:rgba(27,61,44,.12);z-index:20;pointer-events:none;border-radius:2px}
 .about-progress-fill{position:absolute;top:0;left:0;width:100%;height:0%;background:var(--grn-m);border-radius:2px}
-.about-scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:20;opacity:0;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.2em;color:rgba(27,61,44,.55);pointer-events:none;white-space:nowrap;animation:cue-drift 1.2s ease-in-out infinite alternate}
+.about-scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:20;opacity:0;font-family:"Courier New",monospace;font-size:12px;letter-spacing:.2em;color:var(--grn);background:rgba(234,244,234,.8);padding:6px 16px;border-radius:3px;pointer-events:none;white-space:nowrap;animation:cue-drift 1.2s ease-in-out infinite alternate}
 @keyframes cue-drift{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(7px)}}
 
 /* 50/50 split */
@@ -238,6 +238,9 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   /* FOOTER */
   footer{flex-direction:column;gap:8px;padding:12px 14px}
   .fl{font-size:11px}
+
+  /* BIO PANEL — too narrow on mobile, hide it */
+  .bio-panel{display:none}
 }
 </style>
 </head>
@@ -702,6 +705,8 @@ function aboutScroll(){
     split.style.transform = 'translateX(0)';
     photo.style.clipPath  = 'inset(0 0 0 50%)';
     if(img) img.style.transform = 'scale(3) translateX(8%)';
+    const bio0=document.getElementById('bioPannel');
+    if(bio0) bio0.style.opacity='0';
     return;
   }
 
@@ -742,7 +747,7 @@ function aboutScroll(){
   /* Scroll cue — appears only in the dead zone (after P2_END) */
   if(cue){
     const dz = maxScroll > P2_END ? Math.max(0, Math.min(1, (top - P2_END) / (maxScroll - P2_END))) : 0;
-    cue.style.opacity = dz > 0.05 ? String(Math.min(dz * 3, 0.65)) : '0';
+    cue.style.opacity = dz > 0.05 ? String(Math.min(dz * 3, 1)) : '0';
     const bio = document.getElementById('bioPannel');
     if(bio) bio.style.opacity = dz > 0.08 ? String(Math.min(dz * 2, 1)) : '0';
   }
