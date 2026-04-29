@@ -377,8 +377,8 @@ function detectFace(){
   }
 }
 let drag=false,dragX=0,dragY=0,dragMoved=false,dragStartX=0,dragStartY=0;
-scene.addEventListener('mousedown',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.clientX;dragStartY=dragY=e.clientY;e.preventDefault()});
-scene.addEventListener('touchstart',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.touches[0].clientX;dragStartY=dragY=e.touches[0].clientY;e.preventDefault()},{passive:false});
+scene.addEventListener('mousedown',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.clientX;dragStartY=dragY=e.clientY;cancelAnimationFrame(springRaf);scrollCycleLock=false;e.preventDefault()});
+scene.addEventListener('touchstart',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.touches[0].clientX;dragStartY=dragY=e.touches[0].clientY;cancelAnimationFrame(springRaf);scrollCycleLock=false;e.preventDefault()},{passive:false});
 window.addEventListener('mousemove',e=>{if(!drag)return;if(Math.abs(e.clientX-dragStartX)>4||Math.abs(e.clientY-dragStartY)>4)dragMoved=true;rotY+=(e.clientX-dragX)*.55;rotX-=(e.clientY-dragY)*.55;dragX=e.clientX;dragY=e.clientY;applyRot()});
 window.addEventListener('touchmove',e=>{if(!drag)return;if(Math.abs(e.touches[0].clientX-dragStartX)>4||Math.abs(e.touches[0].clientY-dragStartY)>4)dragMoved=true;rotY+=(e.touches[0].clientX-dragX)*.55;rotX-=(e.touches[0].clientY-dragY)*.55;dragX=e.touches[0].clientX;dragY=e.touches[0].clientY;applyRot();e.preventDefault()},{passive:false});
 function handleClickAdvance(){
@@ -398,6 +398,7 @@ let springRaf=null,scrollEndTimer=null;
 const SPRING=0.042,DAMP=0.82;
 
 function spinFromAccValue(acc){
+  if(drag)return; /* never override an active grab */
   const pct=clamp(acc/WHEEL_TOTAL,0,1);
   const t3=pct*3;const seg=clamp(Math.floor(t3),0,2);
   const t=t3-seg;                         /* linear — spring handles the easing */
