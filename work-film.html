@@ -235,6 +235,7 @@ function closeVideoModal(){
 document.addEventListener('keydown', e => { if(e.key === 'Escape') { closeVideoModal(); closeSkills(); closeMobNav(); } });
 function toggleMobNav(){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham'),o=mn.classList.toggle('open');h.innerHTML=o?'&#10005;':'&#9776;';}
 function closeMobNav(){document.getElementById('mob-nav').classList.remove('open');document.getElementById('ham').innerHTML='&#9776;';}
+document.addEventListener('click',function(e){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham');if(mn&&mn.classList.contains('open')&&!mn.contains(e.target)&&!h.contains(e.target)){closeMobNav();}});
 
 function openSkills(){
   document.getElementById('skills-panel').classList.add('open');

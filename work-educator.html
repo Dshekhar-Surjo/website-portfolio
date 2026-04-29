@@ -206,6 +206,7 @@ function toggleDesc(btn){
 function toggleMobNav(){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham'),o=mn.classList.toggle('open');h.innerHTML=o?'&#10005;':'&#9776;';}
 function closeMobNav(){document.getElementById('mob-nav').classList.remove('open');document.getElementById('ham').innerHTML='&#9776;';}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobNav();});
+document.addEventListener('click',function(e){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham');if(mn&&mn.classList.contains('open')&&!mn.contains(e.target)&&!h.contains(e.target)){closeMobNav();}});
 </script>
 </body>
 </html>

@@ -193,18 +193,6 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   .iam{font-size:clamp(44px,11vw,64px);margin-bottom:40px}
   .scue{font-size:9px;letter-spacing:.06em;white-space:normal;padding:0 16px}
 
-  /* ABOUT — disable sticky scroll animation, show chat inline */
-  #s-about{height:auto!important}
-  .about-stick{position:relative!important;height:auto!important;overflow:visible!important;padding:32px 0 52px}
-  .split-lay{position:relative!important;inset:auto!important;display:block!important;width:100%;transform:none!important}
-  .photo-full{display:none!important}
-  .a-bgname{display:none}
-  .about-progress-track{display:none}
-  .about-scroll-cue{display:none}
-  .chat-col{padding:24px 18px;border-right:none}
-  .bubble{font-size:13px}
-  .msg.me,.msg.you{opacity:1;transform:none}
-
   /* WORK */
   #s-work{padding:24px 0 36px}
   .sh{padding:0 14px 10px;flex-wrap:wrap;gap:4px}
@@ -398,7 +386,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
     </div>
   </div>
   <div class="res-iframe-wrap" id="resume-iframe-wrap">
-    <iframe src="media/resume_shekhar_D.pdf" title="Shekhar Dash — Resume"></iframe>
+    <iframe id="resume-iframe" title="Shekhar Dash — Resume"></iframe>
   </div>
 </section>
 
@@ -773,7 +761,10 @@ function sendDispatch(){
 /* ── RESUME VIEW TOGGLE ── */
 function toggleResumeView(btn){
   const wrap=document.getElementById('resume-iframe-wrap');
+  const iframe=document.getElementById('resume-iframe');
   const open=wrap.style.display==='block';
+  /* Lazy-load: only set src the first time the user clicks VIEW */
+  if(!open && !iframe.src) iframe.src='media/resume_shekhar_D.pdf';
   wrap.style.display=open?'none':'block';
   btn.innerHTML=open?'⊞&nbsp;&nbsp;VIEW':'✕&nbsp;&nbsp;CLOSE';
 }
@@ -826,20 +817,11 @@ function closeMobNav(){
   document.getElementById('mob-nav').classList.remove('open');
   document.getElementById('ham').innerHTML='&#9776;';
 }
-/* Auto-show msgs on mobile (about section not sticky) */
-(function(){
-  if(window.innerWidth<=430 && !typingStarted){
-    typingStarted=true;
-    MSGS.forEach(function(m){
-      var el=document.getElementById(m.id);
-      var bub=el.querySelector('.bubble');
-      bub.innerHTML=m.text;
-      bub.style.minHeight=bub.offsetHeight+'px';
-      bub.innerHTML='';
-    });
-    setTimeout(type,300);
-  }
-})();
+document.addEventListener('click',function(e){
+  var mn=document.getElementById('mob-nav');
+  var ham=document.getElementById('ham');
+  if(mn&&mn.classList.contains('open')&&!mn.contains(e.target)&&!ham.contains(e.target)){closeMobNav();}
+});
 </script>
 </body>
 </html>
