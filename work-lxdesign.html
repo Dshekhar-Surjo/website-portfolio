@@ -7,10 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1A1A1A;--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--cream:#F4EFE4;--mu:#5A7A8A}
+:root{--ink:#36454F;--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--cream:#F4EFE4;--mu:#5A7A8A}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#fff;min-height:100vh}
-nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(26,26,26,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
+nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(54,69,79,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
 .back{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);text-decoration:none;border:.5px solid rgba(255,255,255,.18);padding:4px 10px;transition:all .15s}.back:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 .nav-title{font-size:14px;font-weight:700;letter-spacing:.06em;color:#fff;margin-right:auto}
 .nk{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);text-decoration:none}.nk:hover{color:#fff}
@@ -77,7 +77,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 
 /* ── HAMBURGER + MOBILE NAV ── */
 .ham{display:none;background:none;border:none;font-size:20px;color:rgba(255,255,255,.7);cursor:pointer;padding:4px 2px;line-height:1;margin-left:auto;flex-shrink:0}
-#mob-nav{display:none;position:fixed;top:44px;left:0;right:0;background:rgba(10,10,10,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1);z-index:99;flex-direction:column}
+#mob-nav{display:none;position:fixed;top:44px;left:0;right:0;background:rgba(54,69,79,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1);z-index:99;flex-direction:column}
 #mob-nav.open{display:flex}
 #mob-nav a{display:block;padding:13px 22px;font-family:"Courier New",monospace;font-size:12px;letter-spacing:.12em;color:rgba(255,255,255,.75);text-decoration:none;border-bottom:.5px solid rgba(255,255,255,.07)}
 #mob-nav a:last-child{border-bottom:none}
