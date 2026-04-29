@@ -7,23 +7,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0A0A0A;--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--cream:#F4EFE4;--mu:#5A7A8A}
+:root{--ink:#1A1A1A;--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--cream:#F4EFE4;--mu:#5A7A8A}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#fff;min-height:100vh}
-nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(10,10,10,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
+nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(26,26,26,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
 .back{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);text-decoration:none;border:.5px solid rgba(255,255,255,.18);padding:4px 10px;transition:all .15s}.back:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 .nav-title{font-size:14px;font-weight:700;letter-spacing:.06em;color:#fff;margin-right:auto}
 .nk{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);text-decoration:none}.nk:hover{color:#fff}
 main{padding:80px 32px 72px;max-width:960px;margin:0 auto}
-.dim-label{font-family:"Courier New",monospace;font-size:12.5px;letter-spacing:.18em;color:rgba(255,255,255,.88);margin-bottom:12px}
+.dim-label{font-family:"Courier New",monospace;font-size:14px;letter-spacing:.18em;color:rgba(255,255,255,.88);margin-bottom:12px}
 h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:32px}
 .sub{font-size:17.5px;color:rgba(255,255,255,.9);margin-bottom:48px;font-family:"Courier New",monospace;letter-spacing:.06em}
-.sec-label{font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.22em;color:rgba(255,255,255,.88);border-bottom:.5px solid rgba(255,255,255,.15);padding-bottom:10px;margin-bottom:24px;margin-top:52px}
+.sec-label{font-family:"Courier New",monospace;font-size:13px;letter-spacing:.22em;color:rgba(255,255,255,.88);border-bottom:.5px solid rgba(255,255,255,.15);padding-bottom:10px;margin-bottom:24px;margin-top:52px}
 /* VIDEO GRID */
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .video-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden}
 .video-card video{width:100%;display:block;background:#000}
-.video-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase}
+.video-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase}
 .video-card.full{grid-column:1/-1}
 /* YOUTUBE EMBED */
 .yt-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000}
@@ -33,7 +33,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .screenshot-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s}
 .screenshot-card:hover{background:rgba(255,255,255,.1)}
 .screenshot-card img{width:100%;display:block;max-height:220px;object-fit:contain;background:rgba(255,255,255,.04);padding:8px}
-.screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
 .sc-link{font-size:11px;opacity:.6}
 .screenshot-card.clickable{cursor:pointer}
 /* PROJECT DOCS — view-only PDF embeds */
@@ -44,7 +44,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .doc-icon{font-size:26px;line-height:1;flex-shrink:0}
 .doc-info{flex:1;min-width:0}
 .doc-title{font-size:14px;font-weight:700;letter-spacing:.02em;margin-bottom:4px}
-.doc-type{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.3)}
+.doc-type{font-family:"Courier New",monospace;font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,.3)}
 .doc-toggle{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.4);flex-shrink:0;padding:5px 12px;border:.5px solid rgba(255,255,255,.2)}
 .doc-iframe-wrap{display:none;border-top:.5px solid rgba(255,255,255,.08)}
 .doc-iframe-wrap iframe{width:100%;height:560px;border:none;display:block;background:#fff}
@@ -56,7 +56,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .proj-desc ul li{position:relative;padding-left:18px;font-size:13px;line-height:1.65;color:rgba(255,255,255,.65)}
 .proj-desc ul li::before{content:"—";position:absolute;left:0;opacity:.4}
 /* SKILLS PANEL */
-.skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:9px;letter-spacing:.2em;padding:16px 9px;background:rgba(255,255,255,.12);color:#fff;border:none;border-right:.5px solid rgba(255,255,255,.12);cursor:pointer;z-index:200;transition:background .15s}
+.skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:11px;letter-spacing:.2em;padding:20px 12px;background:rgba(255,255,255,.12);color:#fff;border:none;border-right:.5px solid rgba(255,255,255,.12);cursor:pointer;z-index:200;transition:background .15s}
 .skills-trigger:hover{background:rgba(255,255,255,.22)}
 .skills-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300}
 .skills-overlay.open{display:block}
@@ -104,7 +104,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 <body>
 <nav>
   <a class="back" href="index.html#s-work">← WORK</a>
-  <span class="nav-title">SHEKHAR DASH</span>
+  <a class="nav-title" href="index.html" style="text-decoration:none">SHEKHAR DASH</a>
   <a class="nk" href="index.html#s-home">HOME</a>
   <a class="nk" href="index.html#s-about">ABOUT</a>
   <a class="nk" href="index.html#s-work">WORK</a>

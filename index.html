@@ -53,7 +53,7 @@ body{background:var(--sky);font-family:"Helvetica Neue",Helvetica,Arial,sans-ser
 .fdots{display:flex;gap:8px;margin-top:30px}
 .fd{width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(26,58,92,.28);transition:background .3s,border-color .3s}
 .fd.lit{background:var(--sky-d);border-color:var(--sky-d)}
-.scue{margin-top:65px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.16em;color:rgba(26,58,92,.32);text-align:center}
+.scue{margin-top:65px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.16em;color:rgba(26,58,92,.65);text-align:center}
 
 /* ABOUT */
 #s-about{position:relative;height:600vh}
@@ -172,6 +172,14 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
 .soc-icon:hover{color:#fff;border-color:rgba(255,255,255,.6)}
 .soc-icon svg{width:14px;height:14px;fill:currentColor}
 
+/* ── CHAT CARD ── */
+.chat-card{background:rgba(255,255,255,.52);border:.5px solid rgba(26,58,92,.11);border-radius:14px;padding:26px 22px;box-shadow:0 4px 22px rgba(26,58,92,.08);display:flex;flex-direction:column;gap:0;width:100%;max-width:440px}
+
+/* ── BIO PANEL (appears left side after photo zooms out) ── */
+.bio-panel{position:absolute;left:0;top:0;width:46%;height:100%;z-index:15;display:flex;align-items:center;padding:32px 44px;opacity:0;transition:opacity .7s ease;pointer-events:none}
+.bio-label{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.2em;color:var(--grn-m);margin-bottom:16px;text-transform:uppercase}
+.bio-body{font-size:14px;line-height:1.85;color:var(--sky-d)}
+
 /* ── HAMBURGER + MOBILE DROPDOWN NAV ── */
 .ham{display:none;background:none;border:none;font-size:20px;color:var(--sky-d);cursor:pointer;padding:4px 2px;line-height:1;flex-shrink:0}
 #mob-nav{display:none;position:fixed;top:40px;left:0;right:0;background:rgba(194,216,238,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(26,58,92,.14);z-index:498;flex-direction:column}
@@ -237,7 +245,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
 
 <nav id="nav">
   <div class="nl" id="navSt">CURRENTLY: FILMMAKER</div>
-  <div class="nc">SHEKHAR DASH</div>
+  <a class="nc" href="#s-home" style="text-decoration:none">SHEKHAR DASH</a>
   <div class="nr">
     <a class="nk" href="#s-home">HOME</a>
     <a class="nk" href="#s-about">ABOUT</a>
@@ -269,7 +277,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
         <div class="face f3"><div class="cdots"><div class="dot tl"></div><div class="dot mr"></div><div class="dot bl"></div></div><div class="fword">MENTOR</div></div>
         <div class="face f4"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ml"></div><div class="dot mr"></div></div><div class="fword">LX DESIGNER</div></div>
         <div class="face f5"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ct"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword">SYSTEMS THINKER</div></div>
-        <div class="face f6"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ml"></div><div class="dot mr"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword wrap">COLLABORATIVE<br>PERSON BY BORN</div></div>
+        <div class="face f6"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ml"></div><div class="dot mr"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword wrap">COLLABORATIVE<br>PERSON BY BIRTH</div></div>
       </div>
     </div>
     <div class="fdots" id="faceDots"><div class="fd lit"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div></div>
@@ -284,12 +292,14 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
     <div class="a-bgname"><span>SHEKHAR DASH</span></div>
     <div class="split-lay" id="splitLay">
       <div class="chat-col">
-        <div class="clbl">SHEKHAR DASH</div>
-        <div class="msg me" id="m1"><div class="bubble"></div></div>
-        <div class="msg me" id="m2"><div class="bubble"></div></div>
-        <div class="msg me" id="m3"><div class="bubble"></div></div>
-        <div class="msg you" id="m4"><div class="bubble"></div></div>
-        <div class="msg me" id="m5"><div class="bubble"></div></div>
+        <div class="chat-card">
+          <div class="clbl">SHEKHAR DASH</div>
+          <div class="msg me" id="m1"><div class="bubble"></div></div>
+          <div class="msg me" id="m2"><div class="bubble"></div></div>
+          <div class="msg me" id="m3"><div class="bubble"></div></div>
+          <div class="msg you" id="m4"><div class="bubble"></div></div>
+          <div class="msg me" id="m5"><div class="bubble"></div></div>
+        </div>
       </div>
       <div class="photo-right">
         <img src="shk-water-bg-removed.png" alt="Shekhar Dash"/>
@@ -297,6 +307,12 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
     </div>
     <div class="photo-full" id="photoFull">
       <img src="shk-water-bg-removed.png" alt="Shekhar Dash"/>
+    </div>
+    <div class="bio-panel" id="bioPannel">
+      <div>
+        <div class="bio-label">About Me</div>
+        <p class="bio-body">filmmaker, educator, LX designer, and researcher — Shekhar Dash occupies a rare intersection where cinematic storytelling meets learning science and data analytics. Born in Bangladesh and trained at Santiniketan, Nobel laureate Tagore's university, and later at the prestigious and highly competitive Satyajit Ray Film &amp; Television Institute, he spent nearly a decade building media institutions in Dhaka before crossing the ocean to pursue a graduate degree in Educational Innovation, Technology &amp; Entrepreneurship at UNC Chapel Hill.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -421,9 +437,30 @@ const heroSec=document.getElementById('s-home');
 let rotX=-18,rotY=20,facesSeen=new Set([0]),allSeen=false,wheelAcc=0;
 let passCount=0,isAutoRevealing=false,scrollCycleLock=false;
 const WHEEL_TOTAL=1800;
-const DIMS=['FILMMAKER','RESEARCHER','MENTOR','LX DESIGNER','SYSTEMS THINKER','COLLABORATIVE PERSON BY BORN'];
+const DIMS=['FILMMAKER','RESEARCHER','MENTOR','LX DESIGNER','SYSTEMS THINKER','COLLABORATIVE PERSON BY BIRTH'];
 const FACE_ANG=[{rx:0,ry:0},{rx:0,ry:180},{rx:0,ry:-90},{rx:0,ry:90},{rx:-90,ry:0},{rx:90,ry:0}];
 const PATH=[{rx:-18,ry:0},{rx:-18,ry:-90},{rx:-18,ry:-180},{rx:-18,ry:-270}];
+
+/* ── AUTO-ROTATION after all 6 faces revealed ── */
+let autoRotRAF=null,autoRotPaused=false,autoRotResumeTimer=null;
+function startAutoRot(){
+  if(autoRotRAF)return;
+  (function frame(){
+    if(!allSeen||autoRotPaused){autoRotRAF=null;return;}
+    rotY+=0.25;applyRot();
+    autoRotRAF=requestAnimationFrame(frame);
+  })();
+}
+function pauseAutoRot(){
+  autoRotPaused=true;
+  cancelAnimationFrame(autoRotRAF);
+  autoRotRAF=null;
+  clearTimeout(autoRotResumeTimer);
+}
+function scheduleAutoRotResume(){
+  clearTimeout(autoRotResumeTimer);
+  autoRotResumeTimer=setTimeout(()=>{autoRotPaused=false;startAutoRot();},2000);
+}
 
 function applyRot(){
   cube.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
@@ -444,24 +481,26 @@ function detectFace(){
     allSeen=true;
     scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
     heroSec.style.height=(window.innerHeight*1.05)+'px';
+    setTimeout(startAutoRot,800);
   }
 }
 let drag=false,dragX=0,dragY=0,dragMoved=false,dragStartX=0,dragStartY=0;
-scene.addEventListener('mousedown',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.clientX;dragStartY=dragY=e.clientY;cancelAnimationFrame(springRaf);scrollCycleLock=false;e.preventDefault()});
-scene.addEventListener('touchstart',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.touches[0].clientX;dragStartY=dragY=e.touches[0].clientY;cancelAnimationFrame(springRaf);scrollCycleLock=false;e.preventDefault()},{passive:false});
+scene.addEventListener('mousedown',e=>{pauseAutoRot();drag=true;dragMoved=false;dragStartX=dragX=e.clientX;dragStartY=dragY=e.clientY;cancelAnimationFrame(springRaf);scrollCycleLock=false;e.preventDefault()});
+scene.addEventListener('touchstart',e=>{pauseAutoRot();drag=true;dragMoved=false;dragStartX=dragX=e.touches[0].clientX;dragStartY=dragY=e.touches[0].clientY;cancelAnimationFrame(springRaf);scrollCycleLock=false;e.preventDefault()},{passive:false});
 window.addEventListener('mousemove',e=>{if(!drag)return;if(Math.abs(e.clientX-dragStartX)>4||Math.abs(e.clientY-dragStartY)>4)dragMoved=true;rotY+=(e.clientX-dragX)*.55;rotX-=(e.clientY-dragY)*.55;dragX=e.clientX;dragY=e.clientY;applyRot()});
 window.addEventListener('touchmove',e=>{if(!drag)return;if(Math.abs(e.touches[0].clientX-dragStartX)>4||Math.abs(e.touches[0].clientY-dragStartY)>4)dragMoved=true;rotY+=(e.touches[0].clientX-dragX)*.55;rotX-=(e.touches[0].clientY-dragY)*.55;dragX=e.touches[0].clientX;dragY=e.touches[0].clientY;applyRot();e.preventDefault()},{passive:false});
 function handleClickAdvance(){
+  /* Safety net: if 3 passes done but top/bottom still not found, auto-reveal now */
+  if(!allSeen&&!isAutoRevealing&&passCount>=3&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
   const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));
   wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);
   startSpring();
-  /* ni===3 means wrapping back to face 0 = completed one click cycle */
   if(ni===3&&!allSeen&&!isAutoRevealing){
     setTimeout(()=>onPassComplete(false),200);
   }
 }
-window.addEventListener('mouseup',()=>{if(drag&&!dragMoved)handleClickAdvance();drag=false;});
-window.addEventListener('touchend',()=>{if(drag&&!dragMoved)handleClickAdvance();drag=false;});
+window.addEventListener('mouseup',()=>{if(drag&&!dragMoved)handleClickAdvance();drag=false;if(allSeen)scheduleAutoRotResume();});
+window.addEventListener('touchend',()=>{if(drag&&!dragMoved)handleClickAdvance();drag=false;if(allSeen)scheduleAutoRotResume();});
 /* Spring physics — oil-smooth scroll with momentum and natural face-snap */
 let wheelTarget=0,wheelPos=0,wheelVel=0;
 let springRaf=null,scrollEndTimer=null;
@@ -506,22 +545,18 @@ function spinFromAcc(){spinFromAccValue(wheelPos);}
 /* ── PASS / AUTO-REVEAL LOGIC ── */
 function onPassComplete(fromScroll){
   if(allSeen||isAutoRevealing)return;
-  if(facesSeen.has(4)||facesSeen.has(5)){scrollCycleLock=false;return;} /* user already found top/bottom */
+  if(facesSeen.has(4)||facesSeen.has(5)){scrollCycleLock=false;return;}
   passCount++;
-  const hints=['GRAB & SPIN THE CUBE ↕↕','SPIN IT UPSIDE DOWN! ↕↕'];
-  if(passCount<=2){
-    scueTxt.textContent=hints[passCount-1];
+  if(passCount>=3){
+    /* 3rd pass complete — auto-reveal top & bottom */
+    autoRevealAll();
+  } else {
+    scueTxt.textContent=passCount===1?'GRAB & SPIN THE CUBE ↕↕':'SPIN IT UPSIDE DOWN! ↕↕';
     if(fromScroll){
-      setTimeout(()=>{
-        scrollCycleLock=false;
-        wheelTarget=0;
-        startSpring();
-      },1000);
+      setTimeout(()=>{scrollCycleLock=false;wheelTarget=0;startSpring();},800);
     } else {
       scrollCycleLock=false;
     }
-  } else {
-    autoRevealAll();
   }
 }
 
@@ -552,12 +587,14 @@ function autoRevealAll(){
           isAutoRevealing=false;
           scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
           heroSec.style.height=(window.innerHeight*1.05)+'px';
+          setTimeout(startAutoRot,800);
         },600);
       });
     },500);
   });
 }
 window.addEventListener('wheel',e=>{
+  if(!allSeen&&!isAutoRevealing&&passCount>=3&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
   if(allSeen||isAutoRevealing)return;
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   e.preventDefault();
@@ -569,6 +606,7 @@ window.addEventListener('wheel',e=>{
 let tY=0;
 document.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
 document.addEventListener('touchmove',e=>{
+  if(!allSeen&&!isAutoRevealing&&!drag&&passCount>=3&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
   if(allSeen||isAutoRevealing||drag)return;
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   const dy=tY-e.touches[0].clientY;tY=e.touches[0].clientY;
@@ -592,7 +630,7 @@ window.scrollTo(0,0);
 */
 const MSGS=[
   {id:'m1',text:'Hi, I am Shekhar.'},
-  {id:'m2',text:'As you have discovered, I am a six-dimensional person.'},
+  {id:'m2',text:'I am a six-dimensional person.'},
   {id:'m3',text:'Which one do you need?'},
   {id:'m4',text:'All six!'},
   {id:'m5',text:"Great! Happy to help. Let's go."},
@@ -705,6 +743,8 @@ function aboutScroll(){
   if(cue){
     const dz = maxScroll > P2_END ? Math.max(0, Math.min(1, (top - P2_END) / (maxScroll - P2_END))) : 0;
     cue.style.opacity = dz > 0.05 ? String(Math.min(dz * 3, 0.65)) : '0';
+    const bio = document.getElementById('bioPannel');
+    if(bio) bio.style.opacity = dz > 0.08 ? String(Math.min(dz * 2, 1)) : '0';
   }
 }
 window.addEventListener('scroll',()=>{
