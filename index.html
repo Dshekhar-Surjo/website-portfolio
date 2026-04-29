@@ -510,6 +510,9 @@ document.addEventListener('touchmove',e=>{
 },{passive:false});
 heroSec.style.height=(window.innerHeight-40)+'px';
 applyRot();
+/* ── ALWAYS START AT TOP ON LOAD / REFRESH ── */
+if(history.scrollRestoration)history.scrollRestoration='manual';
+window.scrollTo(0,0);
 
 /* ── TYPEWRITER ──
    m1,m2,m3 = Shekhar (me/left)
