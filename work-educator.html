@@ -47,20 +47,58 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .t-quote-inner{padding:40px 36px;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;text-align:center}
 .t-quote-mark{font-family:Georgia,serif;font-size:96px;line-height:.75;color:var(--sky-m);margin-bottom:16px;opacity:.45}
 .t-quote-text{font-size:clamp(24px,3.5vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.18;color:#fff;font-style:italic}
+
+/* ── HAMBURGER + MOBILE NAV ── */
+.ham{display:none;background:none;border:none;font-size:20px;color:var(--ink);cursor:pointer;padding:4px 2px;line-height:1;margin-left:auto;flex-shrink:0}
+#mob-nav{display:none;position:fixed;top:44px;left:0;right:0;background:rgba(244,239,228,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.1);z-index:99;flex-direction:column}
+#mob-nav.open{display:flex}
+#mob-nav a{display:block;padding:13px 22px;font-family:"Courier New",monospace;font-size:12px;letter-spacing:.12em;color:var(--ink);text-decoration:none;border-bottom:.5px solid rgba(0,0,0,.08)}
+#mob-nav a:last-child{border-bottom:none}
+
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:430px){
+  nav{gap:0;padding:0 12px;flex-wrap:nowrap}
+  .nk{display:none}
+  .nav-title{font-size:13px}
+  .ham{display:flex;align-items:center}
+  main{padding:64px 16px 56px}
+  h1{margin-bottom:16px}
+  .sub{font-size:14px;margin-bottom:28px;letter-spacing:.04em}
+  .sec-label{margin-top:36px;margin-bottom:16px}
+  /* single column teaching grid */
+  .teaching-grid{grid-template-columns:1fr;gap:0}
+  /* quote card: reset desktop span, show full width */
+  .teaching-quote-card{grid-column:1/-1}
+  .t-quote-text{font-size:clamp(22px,6vw,32px)}
+  .t-quote-inner{padding:32px 20px}
+  .t-quote-mark{font-size:72px}
+  .teaching-info{padding:14px 16px 12px}
+  .teaching-name{font-size:15px}
+}
 </style>
 </head>
 <body>
 <nav>
   <a class="back" href="index.html#s-work">← WORK</a>
   <span class="nav-title">SHEKHAR DASH</span>
-  <a class="nk" href="index.html#s-hero">HOME</a>
+  <a class="nk" href="index.html#s-home">HOME</a>
   <a class="nk" href="index.html#s-about">ABOUT</a>
   <a class="nk" href="index.html#s-work">WORK</a>
   <a class="nk" href="index.html#s-certs">CERTIFICATES</a>
   <a class="nk" href="index.html#s-disp">DISPATCHES</a>
   <a class="nk" href="index.html#s-resume">RESUME</a>
   <a class="nk" href="index.html#s-contact">CONTACT</a>
+  <button class="ham" id="ham" onclick="toggleMobNav()" aria-label="Menu">&#9776;</button>
 </nav>
+<div id="mob-nav">
+  <a href="index.html#s-home">HOME</a>
+  <a href="index.html#s-about">ABOUT</a>
+  <a href="index.html#s-work">WORK</a>
+  <a href="index.html#s-certs">CERTIFICATES</a>
+  <a href="index.html#s-disp">DISPATCHES</a>
+  <a href="index.html#s-resume">RESUME</a>
+  <a href="index.html#s-contact">CONTACT</a>
+</div>
 <main>
   <div class="dim-label">03 — EDUCATOR</div>
   <h1>TEACHING EXPERIENCES</h1>
@@ -165,6 +203,9 @@ function toggleDesc(btn){
   const open = desc.classList.toggle('open');
   btn.textContent = open ? 'VIEW LESS ↑' : 'VIEW MORE ↓';
 }
+function toggleMobNav(){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham'),o=mn.classList.toggle('open');h.innerHTML=o?'&#10005;':'&#9776;';}
+function closeMobNav(){document.getElementById('mob-nav').classList.remove('open');document.getElementById('ham').innerHTML='&#9776;';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobNav();});
 </script>
 </body>
 </html>

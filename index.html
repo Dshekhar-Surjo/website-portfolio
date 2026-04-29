@@ -171,6 +171,78 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
 .soc-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.5);transition:color .15s,border-color .15s;text-decoration:none}
 .soc-icon:hover{color:#fff;border-color:rgba(255,255,255,.6)}
 .soc-icon svg{width:14px;height:14px;fill:currentColor}
+
+/* ── HAMBURGER + MOBILE DROPDOWN NAV ── */
+.ham{display:none;background:none;border:none;font-size:20px;color:var(--sky-d);cursor:pointer;padding:4px 2px;line-height:1;flex-shrink:0}
+#mob-nav{display:none;position:fixed;top:40px;left:0;right:0;background:rgba(194,216,238,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(26,58,92,.14);z-index:498;flex-direction:column}
+#mob-nav.open{display:flex}
+#mob-nav a{display:block;padding:13px 22px;font-family:"Courier New",monospace;font-size:12px;letter-spacing:.12em;color:var(--sky-d);text-decoration:none;border-bottom:.5px solid rgba(26,58,92,.09)}
+#mob-nav a:last-child{border-bottom:none}
+#mob-nav a:active{background:rgba(26,58,92,.06)}
+
+/* ── MOBILE RESPONSIVE (375–430px) ── */
+@media(max-width:430px){
+  /* NAV */
+  #nav{display:flex;padding:0 14px;gap:0}
+  .nl{display:none}
+  .nr{display:none}
+  .nc{flex:1;font-size:14px;text-align:left}
+  .ham{display:flex;align-items:center}
+
+  /* HERO */
+  .iam{font-size:clamp(44px,11vw,64px);margin-bottom:40px}
+  .scue{font-size:9px;letter-spacing:.06em;white-space:normal;padding:0 16px}
+
+  /* ABOUT — disable sticky scroll animation, show chat inline */
+  #s-about{height:auto!important}
+  .about-stick{position:relative!important;height:auto!important;overflow:visible!important;padding:32px 0 52px}
+  .split-lay{position:relative!important;inset:auto!important;display:block!important;width:100%;transform:none!important}
+  .photo-full{display:none!important}
+  .a-bgname{display:none}
+  .about-progress-track{display:none}
+  .about-scroll-cue{display:none}
+  .chat-col{padding:24px 18px;border-right:none}
+  .bubble{font-size:13px}
+  .msg.me,.msg.you{opacity:1;transform:none}
+
+  /* WORK */
+  #s-work{padding:24px 0 36px}
+  .sh{padding:0 14px 10px;flex-wrap:wrap;gap:4px}
+  .sm{margin-left:0;font-size:11px;width:100%;margin-top:2px}
+  .wgrid{grid-template-columns:1fr;margin:0 14px}
+  .wt{font-size:20px}
+
+  /* CERTIFICATES */
+  #s-certs{padding:24px 0 36px}
+  #s-certs .sh{padding-right:14px}
+  .cert-strip{padding:14px 14px 24px;gap:12px}
+  .cert-modal{padding:56px 16px 28px}
+  .cert-modal img{max-width:92vw;max-height:54vh}
+  .cert-modal-ph{width:92vw}
+
+  /* DISPATCHES */
+  #s-disp{padding:24px 0 32px}
+  .dfilts{padding:10px 14px;gap:4px;flex-wrap:wrap}
+  .df{font-size:11px;padding:4px 8px}
+  .di{grid-template-columns:44px 62px 1fr}
+  .dyr{font-size:11px;padding:8px 4px;text-align:right}
+  .dpl{font-size:10px;padding:2px 5px}
+  .db{font-size:13px;padding:7px 9px;line-height:1.45}
+  .drd{display:none}
+
+  /* RESUME */
+  #s-resume{padding:24px 14px 48px}
+  .res-card{flex-direction:column;gap:14px;padding:18px 16px;max-width:100%}
+  .res-btns{flex-direction:column}
+  .res-dl,.res-view{width:100%;text-align:center;justify-content:center}
+
+  /* CONTACT */
+  #s-contact{padding:24px 14px 48px}
+
+  /* FOOTER */
+  footer{flex-direction:column;gap:8px;padding:12px 14px}
+  .fl{font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -187,7 +259,17 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
     <a class="nk" href="#s-resume">RESUME</a>
     <a class="nk" href="#s-contact">CONTACT</a>
   </div>
+  <button class="ham" id="ham" onclick="toggleMobNav()" aria-label="Menu">&#9776;</button>
 </nav>
+<div id="mob-nav">
+  <a href="#s-home" onclick="closeMobNav()">HOME</a>
+  <a href="#s-about" onclick="closeMobNav()">ABOUT</a>
+  <a href="#s-work" onclick="closeMobNav()">WORK</a>
+  <a href="#s-certs" onclick="closeMobNav()">CERTIFICATES</a>
+  <a href="#s-disp" onclick="closeMobNav()">DISPATCHES</a>
+  <a href="#s-resume" onclick="closeMobNav()">RESUME</a>
+  <a href="#s-contact" onclick="closeMobNav()">CONTACT</a>
+</div>
 
 <section id="s-home">
   <div class="hero-stick" id="heroStick">
@@ -732,6 +814,32 @@ document.getElementById('cert-modal').addEventListener('click',function(e){
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape')closeCert();
 });
+
+/* ── MOBILE NAV TOGGLE ── */
+function toggleMobNav(){
+  var mn=document.getElementById('mob-nav');
+  var ham=document.getElementById('ham');
+  var open=mn.classList.toggle('open');
+  ham.innerHTML=open?'&#10005;':'&#9776;';
+}
+function closeMobNav(){
+  document.getElementById('mob-nav').classList.remove('open');
+  document.getElementById('ham').innerHTML='&#9776;';
+}
+/* Auto-show msgs on mobile (about section not sticky) */
+(function(){
+  if(window.innerWidth<=430 && !typingStarted){
+    typingStarted=true;
+    MSGS.forEach(function(m){
+      var el=document.getElementById(m.id);
+      var bub=el.querySelector('.bubble');
+      bub.innerHTML=m.text;
+      bub.style.minHeight=bub.offsetHeight+'px';
+      bub.innerHTML='';
+    });
+    setTimeout(type,300);
+  }
+})();
 </script>
 </body>
 </html>
