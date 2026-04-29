@@ -39,7 +39,15 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .paper-info{flex:1;min-width:0}
 .paper-title{font-size:15px;font-weight:700;margin-bottom:4px}
 .paper-type{font-family:"Courier New",monospace;font-size:12px;letter-spacing:.14em;color:rgba(27,61,44,.5);margin-bottom:10px}
-.paper-btn{display:inline-block;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:var(--grn-m);border:.5px solid rgba(27,61,44,.3);padding:5px 12px;text-decoration:none;transition:all .15s}.paper-btn:hover{background:var(--grn);color:var(--grn-l);border-color:var(--grn)}
+.paper-btn{display:inline-block;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:var(--grn-m);border:.5px solid rgba(27,61,44,.3);padding:5px 12px;text-decoration:none;background:none;cursor:pointer;transition:all .15s}.paper-btn:hover{background:var(--grn);color:var(--grn-l);border-color:var(--grn)}
+/* PDF MODAL */
+.pdf-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;align-items:center;justify-content:center}
+.pdf-modal-overlay.open{display:flex}
+.pdf-modal{background:#fff;width:min(92vw,820px);height:min(90vh,700px);display:flex;flex-direction:column;overflow:hidden;border-radius:4px}
+.pdf-modal-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:.5px solid rgba(27,61,44,.15);flex-shrink:0}
+.pdf-modal-title{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.14em;color:var(--grn)}
+.pdf-modal-close{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.12em;background:none;border:.5px solid rgba(27,61,44,.2);padding:4px 10px;cursor:pointer;color:var(--grn);transition:all .15s}.pdf-modal-close:hover{background:var(--grn);color:#fff}
+.pdf-modal iframe{flex:1;width:100%;border:none;display:block}
 /* SKILLS PANEL */
 .skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:11px;letter-spacing:.2em;padding:20px 12px;background:var(--grn);color:#fff;border:none;cursor:pointer;z-index:200;transition:background .15s}
 .skills-trigger:hover{background:var(--grn-m)}
@@ -138,7 +146,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
       <div class="paper-info">
         <div class="paper-title">SITE Proceedings</div>
         <div class="paper-type">CONFERENCE PROCEEDINGS · PDF · 2026</div>
-        <a class="paper-btn" href="media/research%20activities/SITE%20proceedings-3.30.26%20.pdf" target="_blank">OPEN ↗</a>
+        <button class="paper-btn" onclick="openPdfModal()">VIEW ↗</button>
       </div>
     </div>
   </div>
@@ -180,11 +188,35 @@ function closeSkills(){
   document.getElementById('skills-overlay').classList.remove('open');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeSkills(); closeMobNav(); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeSkills(); closeMobNav(); closePdfModal(); } });
+let pdfLoaded=false;
+function openPdfModal(){
+  if(!pdfLoaded){
+    document.getElementById('pdf-iframe').src='media/research%20activities/SITE%20proceedings-3.30.26%20.pdf';
+    pdfLoaded=true;
+  }
+  document.getElementById('pdf-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePdfModal(){
+  document.getElementById('pdf-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
 function toggleMobNav(){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham'),o=mn.classList.toggle('open');h.innerHTML=o?'&#10005;':'&#9776;';}
 function closeMobNav(){document.getElementById('mob-nav').classList.remove('open');document.getElementById('ham').innerHTML='&#9776;';}
 document.addEventListener('click',function(e){var mn=document.getElementById('mob-nav'),h=document.getElementById('ham');if(mn&&mn.classList.contains('open')&&!mn.contains(e.target)&&!h.contains(e.target)){closeMobNav();}});
 </script>
+
+<!-- PDF MODAL -->
+<div id="pdf-modal" class="pdf-modal-overlay" onclick="if(event.target===this)closePdfModal()">
+  <div class="pdf-modal">
+    <div class="pdf-modal-hd">
+      <span class="pdf-modal-title">SITE PROCEEDINGS · 2026</span>
+      <button class="pdf-modal-close" onclick="closePdfModal()">✕ CLOSE</button>
+    </div>
+    <iframe id="pdf-iframe" title="SITE Proceedings PDF"></iframe>
+  </div>
+</div>
 
 </body>
 </html>
