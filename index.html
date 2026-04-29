@@ -349,6 +349,7 @@ const navSt=document.getElementById('navSt');
 const scueTxt=document.getElementById('scue');
 const heroSec=document.getElementById('s-hero');
 let rotX=-18,rotY=20,facesSeen=new Set([0]),allSeen=false,wheelAcc=0;
+let passCount=0,isAutoRevealing=false,scrollCycleLock=false;
 const WHEEL_TOTAL=1800;
 const DIMS=['FILMMAKER','RESEARCHER','MENTOR','LX DESIGNER','SYSTEMS THINKER','COLLABORATIVE PERSON BY BORN'];
 const FACE_ANG=[{rx:0,ry:0},{rx:0,ry:180},{rx:0,ry:-90},{rx:0,ry:90},{rx:-90,ry:0},{rx:90,ry:0}];
@@ -380,8 +381,17 @@ scene.addEventListener('mousedown',e=>{drag=true;dragMoved=false;dragStartX=drag
 scene.addEventListener('touchstart',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.touches[0].clientX;dragStartY=dragY=e.touches[0].clientY;e.preventDefault()},{passive:false});
 window.addEventListener('mousemove',e=>{if(!drag)return;if(Math.abs(e.clientX-dragStartX)>4||Math.abs(e.clientY-dragStartY)>4)dragMoved=true;rotY+=(e.clientX-dragX)*.55;rotX-=(e.clientY-dragY)*.55;dragX=e.clientX;dragY=e.clientY;applyRot()});
 window.addEventListener('touchmove',e=>{if(!drag)return;if(Math.abs(e.touches[0].clientX-dragStartX)>4||Math.abs(e.touches[0].clientY-dragStartY)>4)dragMoved=true;rotY+=(e.touches[0].clientX-dragX)*.55;rotX-=(e.touches[0].clientY-dragY)*.55;dragX=e.touches[0].clientX;dragY=e.touches[0].clientY;applyRot();e.preventDefault()},{passive:false});
-window.addEventListener('mouseup',()=>{if(drag&&!dragMoved){const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);startSpring();}drag=false;});
-window.addEventListener('touchend',()=>{if(drag&&!dragMoved){const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);startSpring();}drag=false;});
+function handleClickAdvance(){
+  const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));
+  wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);
+  startSpring();
+  /* ni===3 means wrapping back to face 0 = completed one click cycle */
+  if(ni===3&&!allSeen&&!isAutoRevealing){
+    setTimeout(()=>onPassComplete(false),200);
+  }
+}
+window.addEventListener('mouseup',()=>{if(drag&&!dragMoved)handleClickAdvance();drag=false;});
+window.addEventListener('touchend',()=>{if(drag&&!dragMoved)handleClickAdvance();drag=false;});
 /* Spring physics — oil-smooth scroll with momentum and natural face-snap */
 let wheelTarget=0,wheelPos=0,wheelVel=0;
 let springRaf=null,scrollEndTimer=null;
@@ -405,6 +415,11 @@ function springLoop(){
   } else {
     wheelPos=wheelTarget;
     spinFromAccValue(wheelPos);
+    /* Detect: spring settled at end of 4-face scroll cycle */
+    if(wheelPos>=WHEEL_TOTAL-0.5&&!allSeen&&!isAutoRevealing&&!scrollCycleLock){
+      scrollCycleLock=true;
+      onPassComplete(true); /* true = came from scroll, needs reset */
+    }
   }
 }
 function startSpring(){cancelAnimationFrame(springRaf);springRaf=requestAnimationFrame(springLoop);}
@@ -416,8 +431,63 @@ function snapToNearestFace(){
 }
 /* alias so the rest of the code still works */
 function spinFromAcc(){spinFromAccValue(wheelPos);}
+
+/* ── PASS / AUTO-REVEAL LOGIC ── */
+function onPassComplete(fromScroll){
+  if(allSeen||isAutoRevealing)return;
+  if(facesSeen.has(4)||facesSeen.has(5)){scrollCycleLock=false;return;} /* user already found top/bottom */
+  passCount++;
+  const hints=['GRAB & SPIN THE CUBE ↕↕','SPIN IT UPSIDE DOWN! ↕↕'];
+  if(passCount<=2){
+    scueTxt.textContent=hints[passCount-1];
+    if(fromScroll){
+      setTimeout(()=>{
+        scrollCycleLock=false;
+        wheelTarget=0;
+        startSpring();
+      },1000);
+    } else {
+      scrollCycleLock=false;
+    }
+  } else {
+    autoRevealAll();
+  }
+}
+
+function autoRevealAll(){
+  if(allSeen||isAutoRevealing)return;
+  isAutoRevealing=true;
+  scueTxt.textContent='✦ REVEALING HIDDEN FACES...';
+  function tweenTo(tx,ty,dur,done){
+    const sx=rotX,sy=rotY,t0=performance.now();
+    function fr(now){
+      const p=Math.min((now-t0)/dur,1);
+      const e=p<0.5?2*p*p:-1+(4-2*p)*p; /* ease in-out quad */
+      rotX=sx+(tx-sx)*e; rotY=sy+(ty-sy)*e;
+      applyRot();
+      p<1?requestAnimationFrame(fr):(rotX=tx,rotY=ty,applyRot(),done&&done());
+    }
+    requestAnimationFrame(fr);
+  }
+  tweenTo(-90,0,700,()=>{           /* show top */
+    facesSeen.add(4);
+    dotsEl.forEach((d,i)=>d.classList.toggle('lit',facesSeen.has(i)));
+    setTimeout(()=>{
+      tweenTo(90,0,700,()=>{        /* show bottom */
+        facesSeen.add(5);
+        dotsEl.forEach((d,i)=>d.classList.toggle('lit',facesSeen.has(i)));
+        setTimeout(()=>{
+          allSeen=true;
+          isAutoRevealing=false;
+          scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
+          heroSec.style.height=(window.innerHeight*1.05)+'px';
+        },600);
+      });
+    },500);
+  });
+}
 window.addEventListener('wheel',e=>{
-  if(allSeen)return;
+  if(allSeen||isAutoRevealing)return;
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   e.preventDefault();
   wheelTarget=clamp(wheelTarget+e.deltaY,0,WHEEL_TOTAL);
@@ -428,7 +498,7 @@ window.addEventListener('wheel',e=>{
 let tY=0;
 document.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
 document.addEventListener('touchmove',e=>{
-  if(allSeen||drag)return;
+  if(allSeen||isAutoRevealing||drag)return;
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   const dy=tY-e.touches[0].clientY;tY=e.touches[0].clientY;
   if(Math.abs(dy)<1)return;
@@ -514,7 +584,7 @@ function aboutScroll(){
   const maxScroll = sec.offsetHeight - window.innerHeight;
   const P1_START  = maxScroll * 0.12;
   const P1_END    = maxScroll * 0.37;
-  const P2_END    = maxScroll * 0.70;
+  const P2_END    = maxScroll * 0.85;
 
   if(top <= 0){
     split.style.transform = 'translateX(0)';
