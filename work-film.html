@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Film Showreel — Shekhar Dash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--sky-l:#E0EEF8;--cream:#F4EFE4;--ink:#0A0A0A;--mu:#5A7A8A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--sky);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--sky-d);min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(194,216,238,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(26,58,92,.12);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
+.back{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:var(--sky-m);text-decoration:none;border:.5px solid rgba(26,58,92,.2);padding:4px 10px;transition:all .15s}.back:hover{color:var(--sky-d);border-color:var(--sky-d)}
+.nav-title{font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--sky-d);margin-right:auto}
+.nk{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:var(--sky-m);text-decoration:none}.nk:hover{color:var(--sky-d)}
+main{padding:80px 32px 72px;max-width:960px;margin:0 auto}
+.dim-label{font-family:"Courier New",monospace;font-size:12.5px;letter-spacing:.18em;color:var(--sky-d);margin-bottom:12px}
+h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:32px;color:var(--sky-d)}
+.sub{font-size:17.5px;color:var(--sky-d);margin-bottom:48px;font-family:"Courier New",monospace;letter-spacing:.06em}
+.sec-label{font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.22em;color:var(--sky-d);border-bottom:.5px solid rgba(26,58,92,.3);padding-bottom:10px;margin-bottom:24px;margin-top:52px}
+
+/* VIDEOS */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:20px}
+.video-card{background:rgba(255,255,255,.28);border:.5px solid rgba(26,58,92,.14);overflow:hidden}
+.video-card.full{grid-column:1/-1}
+.video-card video{width:100%;display:block;background:#000}
+.video-caption{padding:11px 14px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.15em;color:var(--sky-d);border-top:.5px solid rgba(26,58,92,.2);text-transform:uppercase}
+
+/* YOUTUBE EMBED */
+.yt-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000}
+.yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+
+/* POSTERS */
+.poster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.poster-card{background:rgba(255,255,255,.28);border:.5px solid rgba(26,58,92,.14);overflow:hidden;transition:transform .2s,background .2s;position:relative}
+.poster-card:hover{background:rgba(255,255,255,.5);transform:translateY(-3px)}
+.poster-card img{width:100%;display:block;aspect-ratio:2/3;object-fit:cover}
+.poster-caption{padding:9px 12px;font-family:"Courier New",monospace;font-size:10.5px;letter-spacing:.12em;color:var(--sky-d);text-transform:uppercase;border-top:.5px solid rgba(26,58,92,.08)}
+
+/* KHOKA PLAY OVERLAY */
+.play-overlay{position:absolute;top:0;left:0;right:0;bottom:33px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);transition:background .2s;pointer-events:none;cursor:pointer}
+.poster-card.playable{cursor:pointer}
+.poster-card.playable:hover .play-overlay{background:rgba(0,0,0,.12)}
+.play-circle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:17px;padding-left:4px;transition:transform .2s,background .2s;pointer-events:none}
+.poster-card.playable:hover .play-circle{transform:scale(1.1);background:#fff}
+
+/* CURRENT PROJECT — allow natural aspect ratio */
+.poster-card.current-proj img{aspect-ratio:auto;max-height:320px;object-fit:contain;background:rgba(255,255,255,.12)}
+
+/* SKILLS PANEL */
+.skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:9px;letter-spacing:.2em;padding:16px 9px;background:var(--sky-d);color:#fff;border:none;cursor:pointer;z-index:200;transition:background .15s}
+.skills-trigger:hover{background:var(--sky-m)}
+.skills-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:300}
+.skills-overlay.open{display:block}
+.skills-panel{position:fixed;left:-310px;top:0;bottom:0;width:290px;background:#fff;border-right:.5px solid rgba(26,58,92,.15);z-index:400;overflow-y:auto;transition:left .32s cubic-bezier(0.16,1,0.3,1);padding:52px 24px 40px}
+.skills-panel.open{left:0}
+.skills-panel-hd{font-family:"Courier New",monospace;font-size:9px;letter-spacing:.22em;color:var(--mu);padding-bottom:12px;border-bottom:.5px solid rgba(0,0,0,.1);margin-bottom:20px}
+.skills-close{position:absolute;top:14px;right:14px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.12em;background:none;border:.5px solid rgba(0,0,0,.18);padding:4px 10px;cursor:pointer;color:var(--sky-d)}
+.skill-row{display:flex;align-items:center;gap:13px;padding:9px 0;border-bottom:.5px solid rgba(0,0,0,.05)}
+.skill-badge{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:0;font-family:"Helvetica Neue",sans-serif;line-height:1.1;text-align:center}
+.skill-name{font-size:13px;font-weight:600;color:var(--sky-d);line-height:1.3}
+.skill-sub{font-size:10px;color:var(--mu);font-family:"Courier New",monospace}
+.skill-text-only .skill-badge{background:none;border:.5px solid rgba(26,58,92,.25);color:var(--sky-d);font-size:7px;letter-spacing:.05em;font-style:italic}
+/* DEGREE SECTION */
+.degree-section{margin-top:28px;background:linear-gradient(150deg,rgba(26,58,92,.04) 0%,rgba(26,58,92,.1) 100%);border:.5px solid rgba(26,58,92,.18);overflow:hidden;position:relative}
+.degree-section::before{content:'';display:block;height:2px;background:linear-gradient(90deg,#C9A84C 0%,rgba(201,168,76,.22) 55%,transparent 100%)}
+.degree-lbl{font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:600;letter-spacing:.12em;color:#B8952A;margin:16px 18px 14px;display:flex;align-items:center;gap:10px;text-transform:uppercase;font-style:italic}
+.degree-lbl::after{content:'';flex:1;height:.5px;background:rgba(184,149,42,.35)}
+.degree-item{font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:500;line-height:1.85;color:var(--sky-d);margin:0 18px 12px;padding:10px 13px;background:rgba(26,58,92,.05);border-left:2px solid rgba(201,168,76,.55)}
+.degree-item:last-child{margin-bottom:18px}
+.deg-spec{font-style:italic;opacity:.75;font-size:13px}
+
+/* VIDEO MODAL */
+.vid-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;align-items:center;justify-content:center;padding:50px 24px 36px}
+.vid-modal.open{display:flex}
+.vid-modal-close{position:absolute;top:18px;right:22px;font-family:"Courier New",monospace;font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.5);border:.5px solid rgba(255,255,255,.22);padding:6px 16px;background:transparent;cursor:pointer;transition:color .15s,border-color .15s}
+.vid-modal-close:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.vid-modal-inner{width:min(780px,94vw)}
+.vid-modal-inner video{width:100%;display:block;max-height:72vh;background:#000}
+.vid-modal-cap{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.16em;color:rgba(255,255,255,.35);margin-top:12px;text-align:center;text-transform:uppercase}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back" href="index.html#s-work">← WORK</a>
+  <span class="nav-title">SHEKHAR DASH</span>
+  <a class="nk" href="index.html#s-hero">HOME</a>
+  <a class="nk" href="index.html#s-about">ABOUT</a>
+  <a class="nk" href="index.html#s-work">WORK</a>
+  <a class="nk" href="index.html#s-certs">CERTIFICATES</a>
+  <a class="nk" href="index.html#s-disp">DISPATCHES</a>
+  <a class="nk" href="index.html#s-resume">RESUME</a>
+  <a class="nk" href="index.html#s-contact">CONTACT</a>
+</nav>
+
+<main>
+  <div class="dim-label">01 — FILMMAKER</div>
+  <h1>FILM SHOWREEL</h1>
+  <div class="sub">documentary · live action · animation · commercial</div>
+
+  <!-- SHOWREEL -->
+  <div class="sec-label">— SHOWREEL</div>
+  <div class="video-grid">
+    <div class="video-card full">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/j590oywuOQA"
+          title="Showreel — Shekhar Dash"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">Showreel — Shekhar Dash</div>
+    </div>
+  </div>
+
+  <!-- SCREENPLAY & CREATIVE PRODUCING -->
+  <div class="sec-label">— SCREENPLAY &amp; CREATIVE PRODUCING</div>
+  <div class="poster-grid">
+    <div class="poster-card">
+      <img src="media/filmmaking/screenplay%20writing%20and%20creative%20producing/badhonhara_apatoto.png" alt="Badhonhara">
+      <div class="poster-caption">Badhonhara</div>
+    </div>
+    <div class="poster-card">
+      <img src="media/filmmaking/screenplay%20writing%20and%20creative%20producing/bildakini.jpg" alt="Bildakini">
+      <div class="poster-caption">Bildakini</div>
+    </div>
+    <div class="poster-card playable" onclick="openVideoModal('media/filmmaking/khoka%20preview.mp4','Khoka')">
+      <img src="media/filmmaking/screenplay%20writing%20and%20creative%20producing/khoka_temp.jpg" alt="Khoka">
+      <div class="play-overlay"><div class="play-circle">&#9654;</div></div>
+      <div class="poster-caption">Khoka</div>
+    </div>
+    <div class="poster-card">
+      <img src="media/filmmaking/screenplay%20writing%20and%20creative%20producing/laal%20morog.jpg" alt="Laal Morog">
+      <div class="poster-caption">Laal Morog</div>
+    </div>
+  </div>
+
+  <!-- CURRENT PROJECT -->
+  <div class="sec-label">— CURRENT PROJECT</div>
+  <div class="poster-grid">
+    <div class="poster-card current-proj">
+      <img src="media/filmmaking/screenplay%20writing%20and%20creative%20producing/badhonhara_apatoto.png" alt="Badhonhara">
+      <div class="poster-caption">Badhonhara</div>
+    </div>
+    <div class="poster-card current-proj">
+      <img src="media/filmmaking/bokjon%20hokjhok_temp-2.png" alt="Bokjon Hokjhok">
+      <div class="poster-caption">Bokjon Hokjhok</div>
+    </div>
+  </div>
+
+  <!-- GOVERNMENT, NGO & CORPORATES -->
+  <div class="sec-label">— FOR GOVERNMENT, NGO &amp; CORPORATES</div>
+  <div class="video-grid">
+    <div class="video-card">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/dfarwJh4Ubo"
+          title="ATC Day Celebration, Civil Aviation Authority, Bangladesh"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">ATC Day Celebration, Civil Aviation Authority, Bangladesh — 2025</div>
+    </div>
+    <div class="video-card">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/rFYHBW-4rFo"
+          title="Government, NGO & Corporate Work"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">Government, NGO &amp; Corporate Work</div>
+    </div>
+  </div>
+</main>
+
+<!-- VIDEO MODAL -->
+<div id="vid-modal" class="vid-modal" onclick="if(event.target===this)closeVideoModal()">
+  <button class="vid-modal-close" onclick="closeVideoModal()">&#10005;&nbsp;&nbsp;CLOSE</button>
+  <div class="vid-modal-inner">
+    <video id="modal-video" controls>
+      <source id="modal-src" src="" type="video/mp4">
+    </video>
+    <div id="modal-cap" class="vid-modal-cap"></div>
+  </div>
+</div>
+
+<script>
+function openVideoModal(src, caption){
+  document.getElementById('modal-src').src = src;
+  document.getElementById('modal-video').load();
+  document.getElementById('modal-video').play();
+  document.getElementById('modal-cap').textContent = caption;
+  document.getElementById('vid-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideoModal(){
+  document.getElementById('vid-modal').classList.remove('open');
+  const v = document.getElementById('modal-video');
+  v.pause();
+  document.getElementById('modal-src').src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') { closeVideoModal(); closeSkills(); } });
+
+function openSkills(){
+  document.getElementById('skills-panel').classList.add('open');
+  document.getElementById('skills-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSkills(){
+  document.getElementById('skills-panel').classList.remove('open');
+  document.getElementById('skills-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+</script>
+
+<!-- SKILLS TRIGGER -->
+<button class="skills-trigger" onclick="openSkills()">SKILLS</button>
+
+<!-- SKILLS OVERLAY -->
+<div id="skills-overlay" class="skills-overlay" onclick="closeSkills()"></div>
+
+<!-- SKILLS PANEL -->
+<div id="skills-panel" class="skills-panel">
+  <button class="skills-close" onclick="closeSkills()">✕ CLOSE</button>
+  <div class="skills-panel-hd">01 — FILMMAKER · TOOLS &amp; SKILLS</div>
+
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#9999FF">Pr</div>
+    <div><div class="skill-name">Adobe Premiere Pro</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#FF6B35">DR</div>
+    <div><div class="skill-name">DaVinci Resolve</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#333">FCP</div>
+    <div><div class="skill-name">Final Cut Pro</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#000">CC</div>
+    <div><div class="skill-name">CapCut</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#1D5C96">FD</div>
+    <div><div class="skill-name">Final Draft</div></div>
+  </div>
+  <div class="skill-row skill-text-only">
+    <div class="skill-badge">Mise-<br>en-scène</div>
+    <div><div class="skill-name">Mise-en-scène</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#9999FF">Ae</div>
+    <div><div class="skill-name">Adobe After Effects</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#31A8FF">Ps</div>
+    <div><div class="skill-name">Adobe Photoshop</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#0A0A0A">RL</div>
+    <div><div class="skill-name">Runway ML</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#5A3E8A">ND</div>
+    <div><div class="skill-name">Narrative Design</div></div>
+  </div>
+
+  <!-- DEGREE SECTION -->
+  <div class="degree-section">
+    <div class="degree-lbl">Degree</div>
+    <div class="degree-item">
+      3 years<br>
+      Postgraduate Degree in Cinema<br>
+      <span class="deg-spec">Specialization in:</span><br>
+      Direction &amp;<br>
+      Screenplay Writing<br>
+      Satyajit Ray Film &amp; TV Institute<br>
+      India
+    </div>
+    <div class="degree-item">
+      B.Mus (Hons) in<br>
+      Drama and Theatre Arts<br>
+      Visva Bharati, Santiniketan<br>
+      India
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

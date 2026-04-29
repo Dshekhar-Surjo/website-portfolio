@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Instructional Design — Shekhar Dash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A0A0A;--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--cream:#F4EFE4;--mu:#5A7A8A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#fff;min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(10,10,10,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
+.back{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);text-decoration:none;border:.5px solid rgba(255,255,255,.18);padding:4px 10px;transition:all .15s}.back:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.nav-title{font-size:14px;font-weight:700;letter-spacing:.06em;color:#fff;margin-right:auto}
+.nk{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);text-decoration:none}.nk:hover{color:#fff}
+main{padding:80px 32px 72px;max-width:960px;margin:0 auto}
+.dim-label{font-family:"Courier New",monospace;font-size:12.5px;letter-spacing:.18em;color:rgba(255,255,255,.88);margin-bottom:12px}
+h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:32px}
+.sub{font-size:17.5px;color:rgba(255,255,255,.9);margin-bottom:48px;font-family:"Courier New",monospace;letter-spacing:.06em}
+.sec-label{font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.22em;color:rgba(255,255,255,.88);border-bottom:.5px solid rgba(255,255,255,.15);padding-bottom:10px;margin-bottom:24px;margin-top:52px}
+/* VIDEO GRID */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.video-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden}
+.video-card video{width:100%;display:block;background:#000}
+.video-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase}
+.video-card.full{grid-column:1/-1}
+/* YOUTUBE EMBED */
+.yt-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000}
+.yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+/* APP SCREENSHOTS */
+.screenshot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.screenshot-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s}
+.screenshot-card:hover{background:rgba(255,255,255,.1)}
+.screenshot-card img{width:100%;display:block;max-height:220px;object-fit:contain;background:rgba(255,255,255,.04);padding:8px}
+.screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.sc-link{font-size:11px;opacity:.6}
+.screenshot-card.clickable{cursor:pointer}
+/* PROJECT DOCS — view-only PDF embeds */
+.doc-grid{display:flex;flex-direction:column;gap:16px}
+.doc-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden}
+.doc-header{padding:18px 22px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:background .2s}
+.doc-header:hover{background:rgba(255,255,255,.08)}
+.doc-icon{font-size:26px;line-height:1;flex-shrink:0}
+.doc-info{flex:1;min-width:0}
+.doc-title{font-size:14px;font-weight:700;letter-spacing:.02em;margin-bottom:4px}
+.doc-type{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.3)}
+.doc-toggle{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.4);flex-shrink:0;padding:5px 12px;border:.5px solid rgba(255,255,255,.2)}
+.doc-iframe-wrap{display:none;border-top:.5px solid rgba(255,255,255,.08)}
+.doc-iframe-wrap iframe{width:100%;height:560px;border:none;display:block;background:#fff}
+/* PROJECT DESCRIPTION BLOCK */
+.proj-desc{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);padding:22px 26px;margin-top:16px}
+.proj-desc-title{font-size:14px;font-weight:700;letter-spacing:.02em;margin-bottom:3px}
+.proj-desc-meta{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.13em;color:rgba(255,255,255,.3);margin-bottom:14px}
+.proj-desc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.proj-desc ul li{position:relative;padding-left:18px;font-size:13px;line-height:1.65;color:rgba(255,255,255,.65)}
+.proj-desc ul li::before{content:"—";position:absolute;left:0;opacity:.4}
+/* SKILLS PANEL */
+.skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:9px;letter-spacing:.2em;padding:16px 9px;background:rgba(255,255,255,.12);color:#fff;border:none;border-right:.5px solid rgba(255,255,255,.12);cursor:pointer;z-index:200;transition:background .15s}
+.skills-trigger:hover{background:rgba(255,255,255,.22)}
+.skills-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300}
+.skills-overlay.open{display:block}
+.skills-panel{position:fixed;left:-310px;top:0;bottom:0;width:290px;background:#1a1a1a;border-right:.5px solid rgba(255,255,255,.1);z-index:400;overflow-y:auto;transition:left .32s cubic-bezier(0.16,1,0.3,1);padding:52px 24px 40px}
+.skills-panel.open{left:0}
+.skills-panel-hd{font-family:"Courier New",monospace;font-size:9px;letter-spacing:.22em;color:rgba(255,255,255,.35);padding-bottom:12px;border-bottom:.5px solid rgba(255,255,255,.08);margin-bottom:20px}
+.skills-close{position:absolute;top:14px;right:14px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.12em;background:none;border:.5px solid rgba(255,255,255,.2);padding:4px 10px;cursor:pointer;color:rgba(255,255,255,.6)}
+.skill-row{display:flex;align-items:center;gap:13px;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,.06)}
+.skill-badge{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:0;font-family:"Helvetica Neue",sans-serif;line-height:1.1;text-align:center}
+.skill-name{font-size:13px;font-weight:600;color:#fff;line-height:1.3}
+/* DEGREE SECTION */
+.degree-section{margin-top:28px;background:linear-gradient(150deg,rgba(194,216,238,.05) 0%,rgba(26,58,92,.18) 100%);border:.5px solid rgba(194,216,238,.14);overflow:hidden;position:relative}
+.degree-section::before{content:'';display:block;height:2px;background:linear-gradient(90deg,#C9A84C 0%,rgba(201,168,76,.25) 55%,transparent 100%)}
+.degree-lbl{font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:600;letter-spacing:.12em;color:#B8952A;margin:16px 18px 14px;display:flex;align-items:center;gap:10px;text-transform:uppercase;font-style:italic}
+.degree-lbl::after{content:'';flex:1;height:.5px;background:rgba(201,168,76,.35)}
+.degree-item{font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:500;line-height:1.85;color:rgba(255,255,255,.88);margin:0 18px 12px;padding:10px 13px;background:rgba(255,255,255,.06);border-left:2px solid rgba(201,168,76,.55)}
+.degree-item:last-child{margin-bottom:18px}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back" href="index.html#s-work">← WORK</a>
+  <span class="nav-title">SHEKHAR DASH</span>
+  <a class="nk" href="index.html#s-hero">HOME</a>
+  <a class="nk" href="index.html#s-about">ABOUT</a>
+  <a class="nk" href="index.html#s-work">WORK</a>
+  <a class="nk" href="index.html#s-certs">CERTIFICATES</a>
+  <a class="nk" href="index.html#s-disp">DISPATCHES</a>
+  <a class="nk" href="index.html#s-resume">RESUME</a>
+  <a class="nk" href="index.html#s-contact">CONTACT</a>
+</nav>
+<main>
+  <div class="dim-label">04 — LX DESIGNER</div>
+  <h1>INSTRUCTIONAL DESIGN</h1>
+  <div class="sub">e-learning · educational video · experience systems</div>
+
+  <!-- EDUCATIONAL APP -->
+  <div class="sec-label">— EDUCATIONAL APP</div>
+  <div class="screenshot-grid">
+    <div class="screenshot-card clickable" onclick="window.open('https://montana-static1-ocuhy6ayt-dshekhar-surjos-projects.vercel.app/','_blank')">
+      <img src="media/instructional%20design/educational%20app/montana-logo.png" alt="Montana App">
+      <div class="screenshot-caption">
+        <span>Montana App</span>
+        <span class="sc-link">↗</span>
+      </div>
+    </div>
+    <div class="screenshot-card">
+      <img src="media/instructional%20design/educational%20app/intuition.png" alt="Intuition">
+      <div class="screenshot-caption">Intuition</div>
+    </div>
+    <div class="screenshot-card">
+      <img src="media/instructional%20design/educational%20app/eil.png" alt="EIL">
+      <div class="screenshot-caption">EIL</div>
+    </div>
+  </div>
+
+  <!-- EDUCATIONAL VIDEOS -->
+  <div class="sec-label">— EDUCATIONAL VIDEOS</div>
+  <div class="video-grid">
+    <div class="video-card">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/GyhNnk650rI"
+          title="Bangla: Class 2, Lesson 1 — Tamanna Sarkar"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">Bangla: Class 2, Lesson 1 — Tamanna Sarkar</div>
+    </div>
+    <div class="video-card">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/p0flo9r0b_s"
+          title="Lesson 2 — Israt Update (Pre)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">Lesson 2 — Israt Update (Pre)</div>
+    </div>
+    <div class="video-card">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/GqNhriLtFh0"
+          title="Lesson 3 — Israt Update"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">Lesson 3 — Israt Update</div>
+    </div>
+    <div class="video-card">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/r9jHN-YPO48"
+          title="PP 38 — Nilima Das"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">PP 38 — Nilima Das</div>
+    </div>
+    <!-- PP 26 & PP 40 — awaiting YouTube links -->
+    <div class="video-card">
+      <div class="yt-wrap" style="background:#111;display:flex;align-items:center;justify-content:center">
+        <span style="position:absolute;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.25)">VIDEO COMING SOON</span>
+      </div>
+      <div class="video-caption">PP 26 — Nondoni Gus</div>
+    </div>
+    <div class="video-card">
+      <div class="yt-wrap" style="background:#111;display:flex;align-items:center;justify-content:center">
+        <span style="position:absolute;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.25)">VIDEO COMING SOON</span>
+      </div>
+      <div class="video-caption">PP 40 — Chondro</div>
+    </div>
+  </div>
+
+  <!-- EDUCATIONAL VIDEO DESCRIPTION -->
+  <div class="proj-desc">
+    <div class="proj-desc-title">Remote Learning Initiative — Ministry of Education, Bangladesh</div>
+    <div class="proj-desc-meta">PROJECT LEAD / CREATIVE DIRECTOR &nbsp;·&nbsp; 2021–2023</div>
+    <ul>
+      <li>Coordinated all phases of a multi-phase research and production lifecycle, delivering hundreds of educational videos for elementary and middle school students.</li>
+      <li>Managed complex project workflows and timelines, ensuring consistency across large-scale data and content management efforts.</li>
+      <li>Collaborated with diverse stakeholders, including government officials and educators, to translate curriculum standards into engaging, evidence-based learning media.</li>
+    </ul>
+  </div>
+
+  <!-- GAME DESIGN -->
+  <div class="sec-label">— GAME DESIGN</div>
+  <div class="video-grid">
+    <div class="video-card full">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/w59JQ6yKw38"
+          title="Code Cracker — Educational Game"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-caption">Code Cracker — Educational Game</div>
+    </div>
+  </div>
+
+  <!-- PROJECTS — view-only PDF iframes -->
+  <div class="sec-label">— PROJECTS</div>
+  <div class="doc-grid">
+    <div class="doc-card">
+      <div class="doc-header" onclick="toggleDoc('intuition-wrap', this)">
+        <div class="doc-icon">📄</div>
+        <div class="doc-info">
+          <div class="doc-title">Intuition Pitch</div>
+          <div class="doc-type">PRESENTATION · PDF</div>
+        </div>
+        <span class="doc-toggle">VIEW ↓</span>
+      </div>
+      <div class="doc-iframe-wrap" id="intuition-wrap">
+        <iframe src="media/instructional%20design/projects/Intuition_Pitch.pdf" title="Intuition Pitch"></iframe>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-header" onclick="toggleDoc('montana-wrap', this)">
+        <div class="doc-icon">📄</div>
+        <div class="doc-info">
+          <div class="doc-title">Montana App — White Paper</div>
+          <div class="doc-type">WHITE PAPER · PDF</div>
+        </div>
+        <span class="doc-toggle">VIEW ↓</span>
+      </div>
+      <div class="doc-iframe-wrap" id="montana-wrap">
+        <iframe src="media/instructional%20design/projects/Montana_App_White_Paper_draft.pdf" title="Montana App White Paper"></iframe>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+function toggleDoc(id, header){
+  const wrap = document.getElementById(id);
+  const btn = header.querySelector('.doc-toggle');
+  const open = wrap.style.display === 'block';
+  wrap.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? 'VIEW ↓' : 'CLOSE ↑';
+}
+function openSkills(){
+  document.getElementById('skills-panel').classList.add('open');
+  document.getElementById('skills-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSkills(){
+  document.getElementById('skills-panel').classList.remove('open');
+  document.getElementById('skills-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSkills(); });
+</script>
+
+<!-- SKILLS TRIGGER -->
+<button class="skills-trigger" onclick="openSkills()">SKILLS</button>
+
+<!-- SKILLS OVERLAY -->
+<div id="skills-overlay" class="skills-overlay" onclick="closeSkills()"></div>
+
+<!-- SKILLS PANEL -->
+<div id="skills-panel" class="skills-panel">
+  <button class="skills-close" onclick="closeSkills()">✕ CLOSE</button>
+  <div class="skills-panel-hd">04 — LX DESIGNER · TOOLS &amp; SKILLS</div>
+
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#F24E1E">Fig</div>
+    <div><div class="skill-name">Figma</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#E47B35">A360</div>
+    <div><div class="skill-name">Articulate 360</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#1A3A5C">360</div>
+    <div><div class="skill-name">360 Video Production</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#4A7AA0">WD</div>
+    <div><div class="skill-name">Web Design</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#2E6B4F">GD</div>
+    <div><div class="skill-name">Game Design</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#3776AB">Py</div>
+    <div><div class="skill-name">Python</div></div>
+  </div>
+
+  <!-- DEGREE SECTION -->
+  <div class="degree-section">
+    <div class="degree-lbl">Degree</div>
+    <div class="degree-item">
+      MA in Educational Innovation,<br>
+      Technology and Entrepreneurship<br>
+      UNC Chapel Hill, USA
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

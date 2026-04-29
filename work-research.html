@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research Activities — Shekhar Dash</title>
+<style>
+:root{--sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--cream:#F4EFE4;--ink:#0A0A0A;--mu:#5A7A8A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--grn-l);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--grn);min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;height:44px;background:rgba(212,236,216,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(27,61,44,.12);display:flex;align-items:center;padding:0 22px;gap:20px;z-index:100}
+.back{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:var(--grn-m);text-decoration:none;border:.5px solid rgba(27,61,44,.2);padding:4px 10px;transition:all .15s}.back:hover{color:var(--grn);border-color:var(--grn)}
+.nav-title{font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--grn);margin-right:auto}
+.nk{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.1em;color:var(--grn-m);text-decoration:none}.nk:hover{color:var(--grn)}
+main{padding:80px 32px 72px;max-width:960px;margin:0 auto}
+.dim-label{font-family:"Courier New",monospace;font-size:12.5px;letter-spacing:.18em;color:rgba(27,61,44,.9);margin-bottom:12px}
+h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:32px}
+.sub{font-size:17.5px;color:rgba(27,61,44,.88);margin-bottom:48px;font-family:"Courier New",monospace;letter-spacing:.06em}
+.sec-label{font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.22em;color:var(--grn);border-bottom:.5px solid rgba(27,61,44,.25);padding-bottom:10px;margin-bottom:24px;margin-top:52px}
+
+/* IFRAME VISUALIZATION */
+.viz-wrapper{background:rgba(255,255,255,.4);border:.5px solid rgba(27,61,44,.15);overflow:hidden}
+.viz-wrapper iframe{width:100%;height:560px;display:block;border:none}
+.viz-caption{padding:12px 16px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.15em;color:var(--grn);border-top:.5px solid rgba(27,61,44,.15);text-transform:uppercase}
+
+/* RESEARCH LAB THUMBNAILS */
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.lab-card{background:rgba(255,255,255,.4);border:.5px solid rgba(27,61,44,.15);overflow:hidden;text-decoration:none;color:inherit;display:block;transition:background .2s,transform .2s}
+.lab-card:hover{background:rgba(255,255,255,.7);transform:translateY(-2px)}
+.lab-card img{width:100%;display:block;max-height:220px;object-fit:contain;background:rgba(255,255,255,.6);padding:8px}
+.lab-caption{padding:11px 14px;font-family:"Courier New",monospace;font-size:11.5px;letter-spacing:.15em;color:var(--grn);border-top:.5px solid rgba(27,61,44,.15);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.lab-link-arrow{font-size:12px;opacity:.6}
+
+/* PAPER & PRESENTATION */
+.paper-grid{display:flex;flex-direction:column;gap:1px}
+.paper-card{background:rgba(255,255,255,.4);border:.5px solid rgba(27,61,44,.15);padding:18px 22px;display:flex;align-items:center;gap:18px;transition:background .2s}
+.paper-card:hover{background:rgba(255,255,255,.65)}
+.paper-icon{font-size:28px;flex-shrink:0;line-height:1}
+.paper-info{flex:1;min-width:0}
+.paper-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.paper-type{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(27,61,44,.5);margin-bottom:10px}
+.paper-btn{display:inline-block;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:var(--grn-m);border:.5px solid rgba(27,61,44,.3);padding:5px 12px;text-decoration:none;transition:all .15s}.paper-btn:hover{background:var(--grn);color:var(--grn-l);border-color:var(--grn)}
+/* SKILLS PANEL */
+.skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:9px;letter-spacing:.2em;padding:16px 9px;background:var(--grn);color:#fff;border:none;cursor:pointer;z-index:200;transition:background .15s}
+.skills-trigger:hover{background:var(--grn-m)}
+.skills-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:300}
+.skills-overlay.open{display:block}
+.skills-panel{position:fixed;left:-310px;top:0;bottom:0;width:290px;background:#fff;border-right:.5px solid rgba(27,61,44,.15);z-index:400;overflow-y:auto;transition:left .32s cubic-bezier(0.16,1,0.3,1);padding:52px 24px 40px}
+.skills-panel.open{left:0}
+.skills-panel-hd{font-family:"Courier New",monospace;font-size:9px;letter-spacing:.22em;color:var(--grn-m);padding-bottom:12px;border-bottom:.5px solid rgba(27,61,44,.12);margin-bottom:20px}
+.skills-close{position:absolute;top:14px;right:14px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.12em;background:none;border:.5px solid rgba(27,61,44,.2);padding:4px 10px;cursor:pointer;color:var(--grn)}
+.skill-row{display:flex;align-items:center;gap:13px;padding:9px 0;border-bottom:.5px solid rgba(27,61,44,.07)}
+.skill-badge{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:0;font-family:"Helvetica Neue",sans-serif;line-height:1.1;text-align:center}
+.skill-name{font-size:13px;font-weight:600;color:var(--grn);line-height:1.3}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back" href="index.html#s-work">← WORK</a>
+  <span class="nav-title">SHEKHAR DASH</span>
+  <a class="nk" href="index.html#s-hero">HOME</a>
+  <a class="nk" href="index.html#s-about">ABOUT</a>
+  <a class="nk" href="index.html#s-work">WORK</a>
+  <a class="nk" href="index.html#s-certs">CERTIFICATES</a>
+  <a class="nk" href="index.html#s-disp">DISPATCHES</a>
+  <a class="nk" href="index.html#s-resume">RESUME</a>
+  <a class="nk" href="index.html#s-contact">CONTACT</a>
+</nav>
+<main>
+  <div class="dim-label">02 — RESEARCHER</div>
+  <h1>RESEARCH ACTIVITIES</h1>
+  <div class="sub">papers · projects · collaborations</div>
+
+  <!-- DATA VISUALIZATION -->
+  <div class="sec-label">— DATA VISUALIZATION</div>
+  <div class="viz-wrapper">
+    <iframe src="media/research%20activities/MP7%20by%20R.html" title="Data Visualization — MP7" loading="lazy"></iframe>
+    <div class="viz-caption">Data Visualization — MP7</div>
+  </div>
+
+  <!-- RESEARCH LAB -->
+  <div class="sec-label">— RESEARCH LAB</div>
+  <div class="lab-grid">
+    <a class="lab-card" href="https://www.mathematicspotential.com/about-1-1" target="_blank" rel="noopener">
+      <img src="media/research%20activities/%20MPL%20UNC.avif" alt="Mathematics Potential Lab — UNC">
+      <div class="lab-caption">
+        <span>Mathematics Potential Lab — UNC</span>
+        <span class="lab-link-arrow">↗</span>
+      </div>
+    </a>
+    <a class="lab-card" href="https://www.ver.coach/" target="_blank" rel="noopener">
+      <img src="media/research%20activities/VER.2.png" alt="VER Coaching">
+      <div class="lab-caption">
+        <span>VER Coaching</span>
+        <span class="lab-link-arrow">↗</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- PAPER & PRESENTATION -->
+  <div class="sec-label">— PAPER &amp; PRESENTATION</div>
+  <div class="paper-grid">
+    <div class="paper-card">
+      <div class="paper-icon">📄</div>
+      <div class="paper-info">
+        <div class="paper-title">SITE Proceedings</div>
+        <div class="paper-type">CONFERENCE PROCEEDINGS · PDF · 2026</div>
+        <a class="paper-btn" href="media/research%20activities/SITE%20proceedings-3.30.26%20.pdf" target="_blank">OPEN ↗</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- SKILLS TRIGGER -->
+<button class="skills-trigger" onclick="openSkills()">SKILLS</button>
+
+<!-- SKILLS OVERLAY -->
+<div id="skills-overlay" class="skills-overlay" onclick="closeSkills()"></div>
+
+<!-- SKILLS PANEL -->
+<div id="skills-panel" class="skills-panel">
+  <button class="skills-close" onclick="closeSkills()">✕ CLOSE</button>
+  <div class="skills-panel-hd">02 — RESEARCHER · TOOLS &amp; SKILLS</div>
+
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#276DC3">R</div>
+    <div><div class="skill-name">R</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#FF2800">Q</div>
+    <div><div class="skill-name">Qualtrics</div></div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-badge" style="background:#2E6B4F">PM</div>
+    <div><div class="skill-name">Project Management</div></div>
+  </div>
+</div>
+
+<script>
+function openSkills(){
+  document.getElementById('skills-panel').classList.add('open');
+  document.getElementById('skills-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSkills(){
+  document.getElementById('skills-panel').classList.remove('open');
+  document.getElementById('skills-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSkills(); });
+</script>
+
+</body>
+</html>

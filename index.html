@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Shekhar Dash</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:50px}
+:root{
+  --sky:#C2D8EE;--sky-d:#1A3A5C;--sky-m:#4A7AA0;--sky-l:#E0EEF8;
+  --grn:#1B3D2C;--grn-m:#2E6B4F;--grn-l:#D4ECD8;--grn-bg:#EAF4EA;
+  --cream:#F4EFE4;--paper:#F8F6F0;--ink:#0A0A0A;--mu:#5A7A8A;
+}
+html{overflow-x:hidden}
+body{background:var(--sky);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--sky-d);max-width:100vw}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;height:40px;background:rgba(194,216,238,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(26,58,92,.12);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 22px;z-index:500}
+.nl{font-family:"Courier New",monospace;font-size:9px;letter-spacing:.13em;color:var(--sky-m)}
+.nc{font-size:16px;font-weight:700;letter-spacing:.06em;color:var(--sky-d)}
+.nr{display:flex;gap:18px;justify-content:flex-end}
+.nk{font-size:13px;letter-spacing:.1em;color:rgba(26,58,92,.8);cursor:pointer;font-family:"Courier New",monospace;text-decoration:none}
+.nk:hover{color:var(--sky-d)}
+
+/* HERO */
+#s-hero{position:relative}
+.hero-stick{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--sky);overflow:hidden}
+.iam{font-size:clamp(64px,14vw,120px);font-weight:800;letter-spacing:-.03em;color:var(--sky-d);line-height:1;text-align:center;margin-bottom:72px;user-select:none;pointer-events:none}
+.scene{width:250px;height:250px;perspective:720px;perspective-origin:50% 42%;cursor:grab;user-select:none}
+.scene:active{cursor:grabbing}
+.cube{width:250px;height:250px;position:relative;transform-style:preserve-3d;will-change:transform}
+.face{
+  position:absolute;width:250px;height:250px;border-radius:34px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(145deg,rgba(255,255,255,.82) 0%,rgba(214,236,250,.72) 100%);
+  border:2px solid rgba(255,255,255,.92);
+  box-shadow:inset 0 3px 14px rgba(255,255,255,.88),inset 0 -3px 8px rgba(26,58,92,.07),0 10px 36px rgba(26,58,92,.16)
+}
+.face::after{content:"";position:absolute;inset:0;border-radius:32px;background:linear-gradient(135deg,rgba(255,255,255,.45) 0%,transparent 55%);pointer-events:none}
+.f1{transform:translateZ(125px)}
+.f2{transform:rotateY(180deg) translateZ(125px)}
+.f3{transform:rotateY(90deg) translateZ(125px)}
+.f4{transform:rotateY(-90deg) translateZ(125px)}
+.f5{transform:rotateX(90deg) translateZ(125px);background:linear-gradient(145deg,rgba(200,228,210,.82) 0%,rgba(160,210,180,.64) 100%)}
+.f6{transform:rotateX(-90deg) translateZ(125px);background:linear-gradient(145deg,rgba(240,234,220,.84) 0%,rgba(220,213,196,.68) 100%)}
+.fword{font-size:24px;font-weight:700;letter-spacing:.04em}.fword.wrap{white-space:normal;font-size:18px}.f5 .fword{font-size:18px}
+.cdots{position:absolute;inset:16px;pointer-events:none}
+.dot{position:absolute;width:9px;height:9px;border-radius:50%;background:rgba(26,58,92,.18)}
+.tl{top:0;left:0}.tr{top:0;right:0}.bl{bottom:0;left:0}.br{bottom:0;right:0}
+.ml{top:50%;left:0;transform:translateY(-50%)}.mr{top:50%;right:0;transform:translateY(-50%)}
+.ct{top:50%;left:50%;transform:translate(-50%,-50%)}
+.fdots{display:flex;gap:8px;margin-top:30px}
+.fd{width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(26,58,92,.28);transition:background .3s,border-color .3s}
+.fd.lit{background:var(--sky-d);border-color:var(--sky-d)}
+.scue{margin-top:65px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.16em;color:rgba(26,58,92,.32);text-align:center}
+
+/* ABOUT */
+#s-about{position:relative;height:600vh}
+.about-stick{position:sticky;top:0;height:100vh;background:var(--grn-bg);overflow:hidden}
+.a-bgname{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}
+.a-bgname span{font-size:clamp(54px,12vw,92px);font-weight:800;letter-spacing:-.03em;color:var(--grn-m);opacity:.07;white-space:nowrap}
+.about-progress-track{position:absolute;left:22px;top:80px;bottom:80px;width:2px;background:rgba(27,61,44,.12);z-index:20;pointer-events:none;border-radius:2px}
+.about-progress-fill{position:absolute;top:0;left:0;width:100%;height:0%;background:var(--grn-m);border-radius:2px}
+.about-scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:20;opacity:0;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.2em;color:rgba(27,61,44,.55);pointer-events:none;white-space:nowrap;animation:cue-drift 1.2s ease-in-out infinite alternate}
+@keyframes cue-drift{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(7px)}}
+
+/* 50/50 split */
+.chat-col{padding:44px 40px;display:flex;flex-direction:column;justify-content:center;gap:0;border-right:1px solid rgba(26,58,92,.08);background:var(--grn-bg)}
+.clbl{font-family:"Courier New",monospace;font-size:8px;letter-spacing:.14em;color:rgba(26,58,92,.4);margin-bottom:14px}
+.msg{display:flex;margin-bottom:12px;opacity:0;transform:translateY(7px);transition:opacity .45s ease,transform .45s cubic-bezier(0.16,1,0.3,1)}
+.msg.me{justify-content:flex-start}.msg.you{justify-content:flex-end}
+.msg.show{opacity:1;transform:translateY(0)}
+.bubble{padding:11px 16px;font-size:14px;line-height:1.5;max-width:88%}
+.me .bubble{background:rgba(26,58,92,.1);color:var(--sky-d);border-left:3px solid var(--sky-d);border-radius:0 10px 10px 0}
+.you .bubble{background:var(--sky-d);color:#fff;border-radius:10px 0 10px 10px}
+.tw-cur{display:inline-block;width:2px;height:1em;background:currentColor;opacity:.7;vertical-align:text-bottom;margin-left:1px;animation:blink .7s step-end infinite}
+@keyframes blink{0%,100%{opacity:.7}50%{opacity:0}}
+.photo-right{display:none}
+.photo-full{position:absolute;inset:0;z-index:2;background:var(--grn-bg);clip-path:inset(0 0 0 50%)}
+.photo-full img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center top;transform-origin:center top;transform:scale(3) translateX(8%)}
+.split-lay{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;z-index:5}
+
+/* WORK */
+#s-work{background:var(--cream);padding:32px 0 48px}
+.sh{padding:0 22px 14px;border-bottom:1px solid rgba(0,0,0,.09);display:flex;align-items:baseline;gap:12px}
+.sn{font-family:"Courier New",monospace;font-size:14px;color:var(--mu)}
+.st{font-size:14px;letter-spacing:.14em;font-weight:700}
+.sm{margin-left:auto;font-family:"Courier New",monospace;font-size:13px;color:var(--mu)}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid rgba(0,0,0,.09);border-top:1px solid rgba(0,0,0,.09);margin:0 22px}
+.wc{padding:16px;border-right:1px solid rgba(0,0,0,.09);border-bottom:1px solid rgba(0,0,0,.09)}
+.wact:hover{opacity:.7;letter-spacing:.14em}
+.wn{font-family:"Courier New",monospace;font-size:12px;color:var(--mu);letter-spacing:.1em;margin-bottom:5px}
+.wt{font-size:24px;font-weight:800;line-height:1;margin-bottom:5px}
+.ws{font-size:14px;color:var(--mu);margin-bottom:10px}
+.skbar{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px}
+.sk{font-size:12px;padding:3px 9px;border:.5px solid rgba(0,0,0,.14);background:rgba(0,0,0,.03);letter-spacing:.04em}
+.sk.nw{border-color:var(--grn-m);color:var(--grn-m)}
+.wa{background:var(--sky-l)}.wa .wt,.wa .wact{color:var(--sky-d)}
+.wb{background:var(--grn-l)}.wb .wt,.wb .wact{color:var(--grn)}
+.wc2{background:var(--cream)}
+.wd{background:var(--ink)}.wd .wn{color:rgba(255,255,255,.3)}.wd .wt,.wd .wact{color:#fff}.wd .ws{color:rgba(255,255,255,.4)}.wd .sk{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.14)}
+.wact{font-size:13px;letter-spacing:.1em;border-bottom:.5px solid currentColor;display:inline-block;text-decoration:none;cursor:pointer}
+/* ── CERTIFICATES ── */
+#s-certs .sh{padding-right:40px;border-bottom-color:rgba(255,255,255,.14)}
+#s-certs{background:#6B1818;padding:32px 0 48px}
+#s-certs .sn{color:rgba(255,220,210,.55)}
+#s-certs .st{color:#fff}
+#s-certs .sm{color:rgba(255,220,210,.55)}
+.cert-strip{display:flex;gap:20px;overflow-x:auto;padding:24px 28px 32px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.cert-strip::-webkit-scrollbar{height:3px}
+.cert-strip::-webkit-scrollbar-track{background:transparent}
+.cert-strip::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
+.cert-card{flex-shrink:0;width:230px;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+.cert-card:hover{transform:scale(1.06);box-shadow:0 14px 36px rgba(0,0,0,.13)}
+.cert-ph{width:230px;height:165px;background:var(--cream);border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.cert-ph::before{content:'';position:absolute;inset:9px;border:.5px solid rgba(0,0,0,.09)}
+.cert-ph-num{font-family:"Courier New",monospace;font-size:28px;font-weight:700;color:rgba(0,0,0,.08);letter-spacing:.05em}
+.cert-ph-lbl{font-family:"Courier New",monospace;font-size:9px;letter-spacing:.14em;color:rgba(0,0,0,.28);text-align:center;padding:0 20px}
+.cert-card img{width:230px;height:165px;object-fit:cover;display:block}
+/* Fullscreen modal */
+.cert-modal{position:fixed;inset:0;background:rgba(10,10,10,.93);z-index:900;display:none;flex-direction:column;align-items:center;justify-content:center;padding:70px 40px 48px}
+.cert-modal.open{display:flex}
+.cert-modal-close{position:absolute;top:20px;right:24px;font-family:"Courier New",monospace;font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.5);border:.5px solid rgba(255,255,255,.22);padding:7px 16px;background:transparent;cursor:pointer;transition:color .15s,border-color .15s}
+.cert-modal-close:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.cert-modal img{max-width:80vw;max-height:62vh;object-fit:contain;display:block}
+.cert-modal-ph{width:min(580px,80vw);height:min(400px,52vh);background:var(--paper);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.cert-modal-ph span{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.14em;color:rgba(0,0,0,.28)}
+.cert-modal-desc{margin-top:22px;font-family:"Courier New",monospace;font-size:12px;letter-spacing:.1em;color:rgba(255,255,255,.42);text-align:center;max-width:580px;line-height:1.9}
+#s-disp{background:var(--paper);padding:32px 0 48px}
+.dfilts{display:flex;gap:6px;padding:12px 22px;border-bottom:.5px solid rgba(0,0,0,.07);flex-wrap:wrap}
+.df{font-family:"Courier New",monospace;font-size:13px;letter-spacing:.1em;padding:5px 12px;border:.5px solid rgba(0,0,0,.14);cursor:pointer;background:transparent;color:var(--mu)}
+.df.on{background:var(--sky-d);color:#fff;border-color:var(--sky-d)}
+.di{display:grid;grid-template-columns:68px 90px 1fr 82px;align-items:center;border-bottom:.5px solid rgba(0,0,0,.06)}
+.dyr{font-family:"Courier New",monospace;font-size:13px;color:var(--mu);padding:10px 8px;border-right:.5px solid rgba(0,0,0,.06);text-align:right}
+.dtc{padding:8px;border-right:.5px solid rgba(0,0,0,.06)}
+.dpl{font-size:12px;letter-spacing:.06em;padding:3px 8px;font-weight:700}
+.pf{background:var(--sky-l);color:var(--sky-d)}.pr{background:var(--grn-l);color:var(--grn)}
+.pe{background:var(--sky-d);color:#fff}.pc{background:var(--grn);color:var(--grn-l)}
+.db{padding:10px 12px;font-size:16px;color:var(--ink)}
+.drd{padding:8px 12px;border-left:.5px solid rgba(0,0,0,.06);font-family:"Courier New",monospace;font-size:12px;color:var(--mu);text-decoration:underline;cursor:pointer;text-align:right}
+.di2{background:var(--sky-l)}.di3{background:var(--grn-l)}.di4{background:#F0EDE4}
+#s-contact{background:var(--cream);padding:32px 22px 64px}
+.ctop{background:var(--grn);padding:18px 20px;border:1px solid rgba(0,0,0,.1);border-bottom:none}
+.cq{font-size:20px;font-weight:700;color:#fff;margin-bottom:14px}
+.cdims{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cbtn{padding:10px 14px;font-size:13px;letter-spacing:.1em;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.2);color:#fff;background:transparent;text-align:left;font-family:inherit;transition:background .15s}
+.cbtn:hover{background:rgba(255,255,255,.1)}
+.cbtn.sky{border-color:#8BBFD4;color:#8BBFD4}
+.cform{padding:16px 20px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;gap:8px}
+.cf{background:var(--cream);border:.5px solid rgba(0,0,0,.14);padding:9px 12px;font-size:15px;color:var(--mu);font-family:inherit;width:100%}
+.cta{height:70px;resize:none}
+.csub{background:var(--ink);color:#fff;border:none;padding:12px 16px;font-size:13px;letter-spacing:.14em;cursor:pointer;font-weight:700;display:flex;justify-content:space-between;width:100%;font-family:inherit}
+/* RESUME */
+#s-resume{background:var(--ink);padding:32px 22px 56px}
+.res-card{display:flex;align-items:center;gap:28px;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.14);padding:28px 32px;margin-top:18px;max-width:640px}
+.res-icon{font-size:40px;flex-shrink:0;line-height:1}
+.res-info{flex:1;min-width:0}
+.res-title{font-size:17px;font-weight:800;color:#fff;letter-spacing:.02em;margin-bottom:5px}
+.res-meta{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.3);margin-bottom:18px}
+.res-dl{display:inline-flex;align-items:center;gap:12px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.18em;color:#fff;border:.5px solid rgba(255,255,255,.32);padding:9px 22px;text-decoration:none;transition:all .18s;background:transparent}
+.res-dl:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65)}
+.res-btns{display:flex;gap:10px;flex-wrap:wrap}
+.res-view{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.6);border:.5px solid rgba(255,255,255,.22);padding:9px 22px;background:transparent;cursor:pointer;transition:all .18s}.res-view:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.55)}
+.res-iframe-wrap{margin-top:24px;border:.5px solid rgba(255,255,255,.15);overflow:hidden;display:none}
+.res-iframe-wrap iframe{width:100%;height:640px;border:none;display:block;background:#fff}
+.disp-more-btn{padding:13px 22px;border-top:.5px solid rgba(0,0,0,.07)}
+.disp-more-btn button{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.16em;color:var(--mu);border:.5px solid rgba(0,0,0,.14);padding:7px 18px;background:transparent;cursor:pointer;transition:all .15s}.disp-more-btn button:hover{background:var(--sky-d);color:#fff;border-color:var(--sky-d)}
+footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:space-between}
+.fl{font-family:"Courier New",monospace;font-size:12px;letter-spacing:.1em;color:rgba(255,255,255,.35)}
+.soc-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.5);transition:color .15s,border-color .15s;text-decoration:none}
+.soc-icon:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.soc-icon svg{width:14px;height:14px;fill:currentColor}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nl" id="navSt">CURRENTLY: FILMMAKER</div>
+  <div class="nc">SHEKHAR DASH</div>
+  <div class="nr">
+    <a class="nk" href="#s-hero">HOME</a>
+    <a class="nk" href="#s-about">ABOUT</a>
+    <a class="nk" href="#s-work">WORK</a>
+    <a class="nk" href="#s-certs">CERTIFICATES</a>
+    <a class="nk" href="#s-disp">DISPATCHES</a>
+    <a class="nk" href="#s-resume">RESUME</a>
+    <a class="nk" href="#s-contact">CONTACT</a>
+  </div>
+</nav>
+
+<section id="s-hero">
+  <div class="hero-stick" id="heroStick">
+    <div class="iam">I AM A</div>
+    <div class="scene" id="scene">
+      <div class="cube" id="cube">
+        <div class="face f1"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword">FILMMAKER</div></div>
+        <div class="face f2"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ml"></div><div class="dot mr"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword">RESEARCHER</div></div>
+        <div class="face f3"><div class="cdots"><div class="dot tl"></div><div class="dot mr"></div><div class="dot bl"></div></div><div class="fword">MENTOR</div></div>
+        <div class="face f4"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ml"></div><div class="dot mr"></div></div><div class="fword">LX DESIGNER</div></div>
+        <div class="face f5"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ct"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword">SYSTEMS THINKER</div></div>
+        <div class="face f6"><div class="cdots"><div class="dot tl"></div><div class="dot tr"></div><div class="dot ml"></div><div class="dot mr"></div><div class="dot bl"></div><div class="dot br"></div></div><div class="fword wrap">COLLABORATIVE<br>PERSON BY BORN</div></div>
+      </div>
+    </div>
+    <div class="fdots" id="faceDots"><div class="fd lit"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div></div>
+    <div class="scue" id="scue">CLICK TO ROLL &middot; SCROLL TO ROLL &middot; DRAG TO SPIN</div>
+  </div>
+</section>
+
+<section id="s-about" style="height:600vh">
+  <div class="about-stick" id="aboutStick">
+    <div class="about-progress-track"><div class="about-progress-fill" id="aboutProgressFill"></div></div>
+    <div class="about-scroll-cue" id="aboutScrollCue">↓ SCROLL TO CONTINUE</div>
+    <div class="a-bgname"><span>SHEKHAR DASH</span></div>
+    <div class="split-lay" id="splitLay">
+      <div class="chat-col">
+        <div class="clbl">SHEKHAR DASH</div>
+        <div class="msg me" id="m1"><div class="bubble"></div></div>
+        <div class="msg me" id="m2"><div class="bubble"></div></div>
+        <div class="msg me" id="m3"><div class="bubble"></div></div>
+        <div class="msg you" id="m4"><div class="bubble"></div></div>
+        <div class="msg me" id="m5"><div class="bubble"></div></div>
+      </div>
+      <div class="photo-right">
+        <img src="shk-water-bg-removed.png" alt="Shekhar Dash"/>
+      </div>
+    </div>
+    <div class="photo-full" id="photoFull">
+      <img src="shk-water-bg-removed.png" alt="Shekhar Dash"/>
+    </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="s-work">
+  <div class="sh"><span class="sn">002</span><span class="st">WORK</span><span class="sm">FOUR ACTIVE DIMENSIONS</span></div>
+  <div class="wgrid">
+    <div class="wc wa"><div class="wn">01 &mdash; FILMMAKER</div><div class="wt">FILM SHOWREEL</div><div class="ws">documentary &middot; film&ndash; live action, animation &middot; commercial</div><div class="skbar"><span class="sk">story writing</span><span class="sk">screenwriting</span><span class="sk">direction</span><span class="sk">editing</span><span class="sk">visual narrative</span></div><a class="wact" href="work-film.html">[ WATCH &rarr; ]</a></div>
+    <div class="wc wb"><div class="wn">02 &mdash; RESEARCHER</div><div class="wt">RESEARCH ACTIVITIES</div><div class="ws">papers &middot; projects &middot; collaborations</div><div class="skbar"><span class="sk">data viz (R)</span><span class="sk">qualitative methods</span><span class="sk">academic writing</span><span class="sk">lit synthesis</span></div><a class="wact" href="work-research.html">[ EXPLORE &rarr; ]</a></div>
+    <div class="wc wc2"><div class="wn">03 &mdash; EDUCATOR</div><div class="wt">TEACHING EXPERIENCES</div><div class="ws">classrooms &middot; workshops</div><div class="skbar"><span class="sk">curriculum design</span><span class="sk">facilitation</span><span class="sk">youth media initiative</span></div><a class="wact" href="work-educator.html">[ VIEW &rarr; ]</a></div>
+    <div class="wc wd"><div class="wn">04 &mdash; LX DESIGNER</div><div class="wt">INSTRUCTIONAL DESIGN</div><div class="ws">e-learning &middot; experience systems</div><div class="skbar"><span class="sk">Articulate 360</span><span class="sk">UX for learning</span><span class="sk">learning systems</span><span class="sk nw">acquiring: Python</span></div><a class="wact" href="work-lxdesign.html">[ VIEW &rarr; ]</a></div>
+  </div>
+</section>
+
+<section id="s-certs">
+  <div class="sh" style="padding-right:40px"><span class="sn">003</span><span class="st">CERTIFICATES</span><span class="sm">CREDENTIALS &amp; TRAINING</span></div>
+  <div class="cert-strip">
+    <div class="cert-card" data-src="media/certificates/CERTIFICATE COURSERA VR.jpeg" data-desc="VR IN EDUCATION — COURSERA / UNITY TECHNOLOGIES" onclick="openCert(this)">
+      <img src="media/certificates/CERTIFICATE COURSERA VR.jpeg" alt="VR in Education Certificate">
+    </div>
+    <div class="cert-card" data-src="media/certificates/AI for Business Analysis.pdf" data-type="pdf" data-desc="AI FOR BUSINESS ANALYSIS — LINKEDIN LEARNING" onclick="openCert(this)">
+      <img src="media/certificates/thumbs/AI for Business Analysis-1.jpg" alt="AI for Business Analysis Certificate">
+    </div>
+    <div class="cert-card" data-src="media/certificates/Statistics Foundations 1 The Basics.pdf" data-type="pdf" data-desc="STATISTICS FOUNDATIONS 1: THE BASICS — LINKEDIN LEARNING" onclick="openCert(this)">
+      <img src="media/certificates/thumbs/Statistics Foundations 1 The Basics-1.jpg" alt="Statistics Foundations Certificate">
+    </div>
+    <div class="cert-card" data-src="media/certificates/Articulate Storyline Essential Training.pdf" data-type="pdf" data-desc="ARTICULATE STORYLINE ESSENTIAL TRAINING — LINKEDIN LEARNING" onclick="openCert(this)">
+      <img src="media/certificates/thumbs/Articulate Storyline Essential Training-1.jpg" alt="Articulate Storyline Certificate">
+    </div>
+    <div class="cert-card" data-src="media/certificates/Negotiation Foundations.pdf" data-type="pdf" data-desc="NEGOTIATION FOUNDATIONS — LINKEDIN LEARNING" onclick="openCert(this)">
+      <img src="media/certificates/thumbs/Negotiation Foundations-1.jpg" alt="Negotiation Foundations Certificate">
+    </div>
+    <div class="cert-card" data-src="media/certificates/Project Management Foundations.pdf" data-type="pdf" data-desc="PROJECT MANAGEMENT FOUNDATIONS — LINKEDIN LEARNING" onclick="openCert(this)">
+      <img src="media/certificates/thumbs/Project Management Foundations-1.jpg" alt="Project Management Foundations Certificate">
+    </div>
+    <div class="cert-card" data-src="media/certificates/CertificateOfCompletion_Project Management Foundations.pdf" data-type="pdf" data-desc="PROJECT MANAGEMENT FOUNDATIONS — CERTIFICATE OF COMPLETION · LINKEDIN LEARNING" onclick="openCert(this)">
+      <img src="media/certificates/thumbs/CertificateOfCompletion_Project Management Foundations-1.jpg" alt="PM Foundations Completion Certificate">
+    </div>
+  </div>
+</section>
+
+<!-- Certificate fullscreen modal -->
+<div id="cert-modal" class="cert-modal">
+  <button class="cert-modal-close" onclick="closeCert()">✕ &nbsp; CLOSE</button>
+  <img id="cert-modal-img" src="" alt="Certificate" style="display:none">
+  <iframe id="cert-modal-pdf" src="" style="display:none;width:min(80vw,900px);height:min(65vh,620px);border:none;background:#fff"></iframe>
+  <div id="cert-modal-ph" class="cert-modal-ph"><span>CERTIFICATE IMAGE WILL APPEAR HERE</span></div>
+  <div id="cert-modal-desc" class="cert-modal-desc"></div>
+</div>
+
+<section id="s-disp">
+  <div class="sh"><span class="sn">004</span><span class="st">DISPATCHES</span><span class="sm">FIELD NOTES FROM SIX DIMENSIONS</span></div>
+  <div class="dfilts"><button class="df on" data-cat="">ALL</button><button class="df" data-cat="FILM">FILM</button><button class="df" data-cat="RESEARCH">RESEARCH</button><button class="df" data-cat="EDUTECH">EDUTECH</button><button class="df" data-cat="COLLABORATIONS">COLLABORATIONS</button></div>
+  <div>
+    <div class="di di2" data-cat="EDUTECH"><div class="dyr">—<br>2025</div><div class="dtc"><span class="dpl pe">EDUTECH</span></div><div class="db">selected for u.s. state dept. professional fellowship &mdash; global emerging youth leaders program · india, bangladesh, pakistan, sri lanka</div><div class="drd">READ &rarr;</div></div>
+    <div class="di di3" data-cat="RESEARCH"><div class="dyr">—<br>2025</div><div class="dtc"><span class="dpl pr">RESEARCH</span></div><div class="db">joins mathematics potential lab as research assistant &mdash; special education &amp; mathematical thinking, unc chapel hill</div><div class="drd">READ &rarr;</div></div>
+    <div class="di di4" data-cat="RESEARCH"><div class="dyr">—<br>2025</div><div class="dtc"><span class="dpl pr">RESEARCH</span></div><div class="db">analyst &amp; designer intern at ver coaching &mdash; decoding vr athlete performance data, chapel hill, nc</div><div class="drd">READ &rarr;</div></div>
+    <div class="di" data-cat="RESEARCH"><div class="dyr">—<br>2025</div><div class="dtc"><span class="dpl pr">RESEARCH</span></div><div class="db">new graduate project: embodied, ai-supported learning ecology &mdash; meite program, unc chapel hill</div><div class="drd">READ &rarr;</div></div>
+    <div class="di di2" data-cat="FILM"><div class="dyr">—<br>2024</div><div class="dtc"><span class="dpl pf">FILM</span></div><div class="db">screenplay writer &amp; director &mdash; black mirror films, dhaka</div><div class="drd">READ &rarr;</div></div>
+    <div class="di di3" data-cat="COLLABORATIONS"><div class="dyr">—<br>2024</div><div class="dtc"><span class="dpl pc">COLLAB</span></div><div class="db">founded payntara &mdash; youth arts initiative bringing creative tools to young makers in dhaka</div><div class="drd">READ &rarr;</div></div>
+    <div class="di di4" data-cat="COLLABORATIONS"><div class="dyr">—<br>2024</div><div class="dtc"><span class="dpl pc">COLLAB</span></div><div class="db">cultural initiative lead, hatey lekha &mdash; arts-centered literacy program, dhaka</div><div class="drd">READ &rarr;</div></div>
+    <div id="disp-more" style="display:none">
+      <div class="di" data-cat="COLLABORATIONS"><div class="dyr">—<br>2023</div><div class="dtc"><span class="dpl pc">COLLAB</span></div><div class="db">appointed senior instructor &mdash; bangladesh cinema &amp; television institute, graduate program, dhaka</div><div class="drd">READ &rarr;</div></div>
+      <div class="di di2" data-cat="EDUTECH"><div class="dyr">—<br>2023</div><div class="dtc"><span class="dpl pe">EDUTECH</span></div><div class="db">rushpath c programming game shortlisted for ict idea grant &mdash; cosmic soup ltd., dhaka</div><div class="drd">READ &rarr;</div></div>
+      <div class="di di3" data-cat="COLLABORATIONS"><div class="dyr">—<br>2022</div><div class="dtc"><span class="dpl pc">COLLAB</span></div><div class="db">adjunct faculty &mdash; dept. of film &amp; television, jagannath university, dhaka</div><div class="drd">READ &rarr;</div></div>
+      <div class="di di4" data-cat="FILM"><div class="dyr">—<br>2021</div><div class="dtc"><span class="dpl pf">FILM</span></div><div class="db">screenplay writer &amp; creative producer &mdash; data solutions, dhaka</div><div class="drd">READ &rarr;</div></div>
+      <div class="di" data-cat="FILM"><div class="dyr">—<br>2021</div><div class="dtc"><span class="dpl pf">FILM</span></div><div class="db">studio consultant, digital content studio &mdash; the daily samakal, dhaka</div><div class="drd">READ &rarr;</div></div>
+      <div class="di di2" data-cat="FILM"><div class="dyr">—<br>2019</div><div class="dtc"><span class="dpl pf">FILM</span></div><div class="db">graduated srfti kolkata &mdash; postgraduate diploma, direction &amp; screenplay writing · fully funded iccr scholarship</div><div class="drd">READ &rarr;</div></div>
+    </div>
+  </div>
+  <div class="disp-more-btn"><button id="disp-toggle-btn" onclick="toggleDispatches()">VIEW MORE &darr;</button></div>
+</section>
+
+<section id="s-resume">
+  <div class="sh" style="border-bottom:1px solid rgba(255,255,255,.08)"><span class="sn" style="color:rgba(255,255,255,.3)">005</span><span class="st" style="color:#fff">RESUME</span><span class="sm" style="color:rgba(255,255,255,.3)">FULL CREDENTIALS &amp; EXPERIENCE</span></div>
+  <div class="res-card">
+    <div class="res-icon">📄</div>
+    <div class="res-info">
+      <div class="res-title">SHEKHAR DASH &mdash; RESUME</div>
+      <div class="res-meta">MA · FILMMAKER · RESEARCHER · EDUCATOR · LX DESIGNER</div>
+      <div class="res-btns">
+        <a class="res-dl" href="media/resume_shekhar_D.pdf" download="Shekhar_Dash_Resume.pdf">↓&nbsp;&nbsp;DOWNLOAD</a>
+        <button class="res-view" onclick="toggleResumeView(this)">⊞&nbsp;&nbsp;VIEW</button>
+      </div>
+    </div>
+  </div>
+  <div class="res-iframe-wrap" id="resume-iframe-wrap">
+    <iframe src="media/resume_shekhar_D.pdf" title="Shekhar Dash — Resume"></iframe>
+  </div>
+</section>
+
+<section id="s-contact">
+  <div class="sh"><span class="sn">006</span><span class="st">CONTACT</span><span class="sm">WHICH DIMENSION DO YOU NEED?</span></div>
+  <div style="margin-top:14px">
+    <div class="cform"><input id="cf-name" class="cf" type="text" placeholder="NAME"/><input id="cf-email" class="cf" type="email" placeholder="EMAIL"/><textarea id="cf-msg" class="cf cta" placeholder="YOUR MESSAGE"></textarea><select id="cf-dim" class="cf" style="cursor:pointer;color:var(--mu)"><option value="ALL" selected>DISPATCH — ALL DIMENSIONS</option><option value="FILMMAKER">FILMMAKER</option><option value="RESEARCHER">RESEARCHER</option><option value="EDUCATOR">EDUCATOR</option><option value="LX DESIGNER">LX DESIGNER</option></select><button class="csub" onclick="sendDispatch()"><span>SEND DISPATCH</span><span>&rarr;</span></button></div>
+  </div>
+</section>
+
+<footer><div class="fl">SHEKHAR DASH &copy; 2026</div><div class="fl">SIX DIMENSIONS &mdash; V.001</div><div style="display:flex;gap:8px;align-items:center">
+  <a href="https://www.linkedin.com/in/shekhar-dash-19ab1ab2/" id="li-link" class="soc-icon" title="LinkedIn" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a href="https://github.com/Dshekhar-Surjo" id="gh-link" class="soc-icon" title="GitHub" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+  </a>
+</div></footer>
+
+<script>
+function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+function lerp(a,b,t){return a+(b-a)*Math.max(0,Math.min(1,t))}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+
+/* ── DICE ── */
+const cube=document.getElementById('cube');
+const scene=document.getElementById('scene');
+const dotsEl=document.querySelectorAll('.fd');
+const navSt=document.getElementById('navSt');
+const scueTxt=document.getElementById('scue');
+const heroSec=document.getElementById('s-hero');
+let rotX=-18,rotY=20,facesSeen=new Set([0]),allSeen=false,wheelAcc=0;
+const WHEEL_TOTAL=1800;
+const DIMS=['FILMMAKER','RESEARCHER','MENTOR','LX DESIGNER','SYSTEMS THINKER','COLLABORATIVE PERSON BY BORN'];
+const FACE_ANG=[{rx:0,ry:0},{rx:0,ry:180},{rx:0,ry:-90},{rx:0,ry:90},{rx:-90,ry:0},{rx:90,ry:0}];
+const PATH=[{rx:-18,ry:0},{rx:-18,ry:-90},{rx:-18,ry:-180},{rx:-18,ry:-270}];
+
+function applyRot(){
+  cube.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
+  detectFace();
+}
+function detectFace(){
+  let best=0,bs=-Infinity;
+  FACE_ANG.forEach((a,i)=>{
+    const rx=((rotX%360)+360)%360,ry=((rotY%360)+360)%360;
+    const ax=((a.rx%360)+360)%360,ay=((a.ry%360)+360)%360;
+    const s=-(Math.min(Math.abs(rx-ax),360-Math.abs(rx-ax))+Math.min(Math.abs(ry-ay),360-Math.abs(ry-ay)));
+    if(s>bs){bs=s;best=i;}
+  });
+  facesSeen.add(best);
+  dotsEl.forEach((d,i)=>d.classList.toggle('lit',facesSeen.has(i)));
+  navSt.textContent='CURRENTLY: '+DIMS[best];
+  if(facesSeen.size===6&&!allSeen){
+    allSeen=true;
+    scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
+    heroSec.style.height=(window.innerHeight*1.05)+'px';
+  }
+}
+let drag=false,dragX=0,dragY=0,dragMoved=false,dragStartX=0,dragStartY=0;
+scene.addEventListener('mousedown',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.clientX;dragStartY=dragY=e.clientY;e.preventDefault()});
+scene.addEventListener('touchstart',e=>{drag=true;dragMoved=false;dragStartX=dragX=e.touches[0].clientX;dragStartY=dragY=e.touches[0].clientY;e.preventDefault()},{passive:false});
+window.addEventListener('mousemove',e=>{if(!drag)return;if(Math.abs(e.clientX-dragStartX)>4||Math.abs(e.clientY-dragStartY)>4)dragMoved=true;rotY+=(e.clientX-dragX)*.55;rotX-=(e.clientY-dragY)*.55;dragX=e.clientX;dragY=e.clientY;applyRot()});
+window.addEventListener('touchmove',e=>{if(!drag)return;if(Math.abs(e.touches[0].clientX-dragStartX)>4||Math.abs(e.touches[0].clientY-dragStartY)>4)dragMoved=true;rotY+=(e.touches[0].clientX-dragX)*.55;rotX-=(e.touches[0].clientY-dragY)*.55;dragX=e.touches[0].clientX;dragY=e.touches[0].clientY;applyRot();e.preventDefault()},{passive:false});
+window.addEventListener('mouseup',()=>{if(drag&&!dragMoved){const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);startSpring();}drag=false;});
+window.addEventListener('touchend',()=>{if(drag&&!dragMoved){const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);startSpring();}drag=false;});
+/* Spring physics — oil-smooth scroll with momentum and natural face-snap */
+let wheelTarget=0,wheelPos=0,wheelVel=0;
+let springRaf=null,scrollEndTimer=null;
+const SPRING=0.042,DAMP=0.82;
+
+function spinFromAccValue(acc){
+  const pct=clamp(acc/WHEEL_TOTAL,0,1);
+  const t3=pct*3;const seg=clamp(Math.floor(t3),0,2);
+  const t=t3-seg;                         /* linear — spring handles the easing */
+  const cur=PATH[seg],nxt=PATH[Math.min(seg+1,3)];
+  rotX=lerp(cur.rx,nxt.rx,t);rotY=lerp(cur.ry,nxt.ry,t);
+  applyRot();
+}
+function springLoop(){
+  wheelVel+=(wheelTarget-wheelPos)*SPRING;
+  wheelVel*=DAMP;
+  wheelPos+=wheelVel;
+  spinFromAccValue(wheelPos);
+  if(Math.abs(wheelTarget-wheelPos)>0.05||Math.abs(wheelVel)>0.05){
+    springRaf=requestAnimationFrame(springLoop);
+  } else {
+    wheelPos=wheelTarget;
+    spinFromAccValue(wheelPos);
+  }
+}
+function startSpring(){cancelAnimationFrame(springRaf);springRaf=requestAnimationFrame(springLoop);}
+function snapToNearestFace(){
+  const pct=clamp(wheelPos/WHEEL_TOTAL,0,1);
+  const nearestIdx=Math.round(clamp(pct*3,0,3));
+  wheelTarget=clamp((nearestIdx/3)*WHEEL_TOTAL,0,WHEEL_TOTAL);
+  startSpring();
+}
+/* alias so the rest of the code still works */
+function spinFromAcc(){spinFromAccValue(wheelPos);}
+window.addEventListener('wheel',e=>{
+  if(allSeen)return;
+  if(heroSec.getBoundingClientRect().bottom<=40)return;
+  e.preventDefault();
+  wheelTarget=clamp(wheelTarget+e.deltaY,0,WHEEL_TOTAL);
+  startSpring();
+  clearTimeout(scrollEndTimer);
+  scrollEndTimer=setTimeout(snapToNearestFace,160);
+},{passive:false});
+let tY=0;
+document.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchmove',e=>{
+  if(allSeen||drag)return;
+  if(heroSec.getBoundingClientRect().bottom<=40)return;
+  const dy=tY-e.touches[0].clientY;tY=e.touches[0].clientY;
+  if(Math.abs(dy)<1)return;
+  e.preventDefault();
+  wheelTarget=clamp(wheelTarget+dy*2.5,0,WHEEL_TOTAL);
+  startSpring();
+  clearTimeout(scrollEndTimer);
+  scrollEndTimer=setTimeout(snapToNearestFace,160);
+},{passive:false});
+heroSec.style.height=(window.innerHeight-40)+'px';
+applyRot();
+
+/* ── TYPEWRITER ──
+   m1,m2,m3 = Shekhar (me/left)
+   m4 = visitor reply (you/right)
+   m5 = Shekhar again (me/left)
+*/
+const MSGS=[
+  {id:'m1',text:'Hi, I am Shekhar.'},
+  {id:'m2',text:'As you have discovered, I am a six-dimensional person.'},
+  {id:'m3',text:'Which one do you need?'},
+  {id:'m4',text:'All six!'},
+  {id:'m5',text:"Great! Happy to help. Let's go."},
+];
+let cm=0,cc=0;
+let typingDone = false;
+function type(){
+  if(cm>=MSGS.length){
+    typingDone = true;
+    return;
+  }
+  const m=MSGS[cm];
+  const el=document.getElementById(m.id);
+  const bub=el.querySelector('.bubble');
+  if(cc===0) el.classList.add('show');
+  if(cc<m.text.length){
+    bub.innerHTML=m.text.slice(0,cc+1)+'<span class="tw-cur"></span>';
+    cc++;
+    setTimeout(type,cc===1?300:40);
+  }else{
+    bub.innerHTML=m.text;
+    cm++;cc=0;
+    setTimeout(type,500);
+  }
+}
+/* Start typing when about section first enters the viewport — independent of scroll animation */
+let typingStarted = false;
+function checkAboutVisible() {
+  if(typingStarted) return;
+  const about = document.getElementById('s-about');
+  if(about.getBoundingClientRect().top < window.innerHeight * 0.9) {
+    typingStarted = true;
+    /* Lock bubble heights before typing — prevents layout shifts */
+    MSGS.forEach(function(m){
+      var el=document.getElementById(m.id);
+      var bub=el.querySelector('.bubble');
+      bub.innerHTML=m.text;
+      bub.style.minHeight=bub.offsetHeight+'px';
+      bub.innerHTML='';
+    });
+    setTimeout(type, 300);
+    window.removeEventListener('scroll', checkAboutVisible);
+  }
+}
+window.addEventListener('scroll', checkAboutVisible, {passive: true});
+
+/* ── ABOUT SCROLL ──
+   #s-about is 600vh tall. The sticky panel holds for all of it.
+   We split into 3 scroll phases so the image STAYS on screen the whole time:
+
+/* ── ABOUT SCROLL ──
+   photo-full sits behind chat from the start, clipped to right half.
+   Phase 1: chat slides left (no opacity), clip-path opens left — same image, no dissolve
+   Phase 2: image scale(3) → scale(1) — camera pulls back, full body revealed
+*/
+function aboutScroll(){
+  const sec   = document.getElementById('s-about');
+  const top   = -sec.getBoundingClientRect().top;
+  const split = document.getElementById('splitLay');
+  const photo = document.getElementById('photoFull');
+  const img   = photo ? photo.querySelector('img') : null;
+
+  const maxScroll = sec.offsetHeight - window.innerHeight;
+  const P1_START  = maxScroll * 0.12;
+  const P1_END    = maxScroll * 0.37;
+  const P2_END    = maxScroll * 0.70;
+
+  if(top <= 0){
+    split.style.transform = 'translateX(0)';
+    photo.style.clipPath  = 'inset(0 0 0 50%)';
+    if(img) img.style.transform = 'scale(3) translateX(8%)';
+    return;
+  }
+
+  if(top < P1_START){
+    split.style.transform = 'translateX(0)';
+    photo.style.clipPath  = 'inset(0 0 0 50%)';
+    if(img) img.style.transform = 'scale(3) translateX(8%)';
+
+  } else if(top < P1_END){
+    // Phase 1: chat slides out, clip opens — NO opacity, same image visible throughout
+    const t = ease((top - P1_START) / (P1_END - P1_START));
+    split.style.transform = 'translateX(' + lerp(0, -110, t) + '%)';
+    photo.style.clipPath  = 'inset(0 0 0 ' + lerp(50, 0, t) + '%)';
+    if(img) img.style.transform = 'scale(3) translateX(8%)';
+
+  } else if(top < P2_END){
+    // Phase 2: scale down 3→0.75, simultaneously translateY down so feet enter frame
+    // At scale(0.75) the image is 75% height — shift down ~12% to center it with headspace
+    const t = ease((top - P1_END) / (P2_END - P1_END));
+    split.style.transform = 'translateX(-110%)';
+    photo.style.clipPath  = 'inset(0 0 0 0%)';
+    const sc  = lerp(3, 0.75, t);
+    const ty  = lerp(0, 12, t);   // push image down as it shrinks, revealing headspace
+    if(img) img.style.transform = 'scale(' + sc + ') translateX(8%) translateY(' + ty + '%)';
+
+  } else {
+    split.style.transform = 'translateX(-110%)';
+    photo.style.clipPath  = 'inset(0 0 0 0%)';
+    if(img) img.style.transform = 'scale(0.75) translateX(8%) translateY(12%)';
+  }
+  /* Progress bar — always tracks scroll through entire about section */
+  const fill = document.getElementById('aboutProgressFill');
+  const cue  = document.getElementById('aboutScrollCue');
+  if(fill){
+    const pct = maxScroll > 0 ? Math.max(0, Math.min(100, (top / maxScroll) * 100)) : 0;
+    fill.style.height = pct + '%';
+  }
+  /* Scroll cue — appears only in the dead zone (after P2_END) */
+  if(cue){
+    const dz = maxScroll > P2_END ? Math.max(0, Math.min(1, (top - P2_END) / (maxScroll - P2_END))) : 0;
+    cue.style.opacity = dz > 0.05 ? String(Math.min(dz * 3, 0.65)) : '0';
+  }
+}
+window.addEventListener('scroll',()=>{
+  /* Auto-release wheel/touch capture once user scrolls past hero by any means
+     (nav links, anchor jumps, etc.) — prevents page hanging on scroll-back-up */
+  if(!allSeen && window.scrollY > 10) allSeen=true;
+  aboutScroll();
+},{passive:true});
+aboutScroll();
+/* ── DISPATCH FILTER + VIEW MORE ── */
+let dispExpanded=false;
+function toggleDispatches(){
+  dispExpanded=!dispExpanded;
+  const moreDiv=document.getElementById('disp-more');
+  const btn=document.getElementById('disp-toggle-btn');
+  moreDiv.style.display=dispExpanded?'block':'none';
+  btn.innerHTML=dispExpanded?'VIEW LESS &uarr;':'VIEW MORE &darr;';
+}
+document.querySelectorAll('.df').forEach(b=>{
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.df').forEach(x=>x.classList.remove('on'));
+    this.classList.add('on');
+    const cat=this.dataset.cat;
+    const moreDiv=document.getElementById('disp-more');
+    const toggleBtn=document.getElementById('disp-toggle-btn');
+    if(cat===''){
+      /* ALL: respect expanded state, filter inactive */
+      moreDiv.style.display=dispExpanded?'block':'none';
+      toggleBtn.parentElement.style.display='block';
+      document.querySelectorAll('#s-disp .di').forEach(row=>{row.style.display='grid';});
+    } else {
+      /* Category: show all matching rows including those inside disp-more */
+      moreDiv.style.display='block';
+      toggleBtn.parentElement.style.display='none';
+      document.querySelectorAll('#s-disp .di').forEach(row=>{
+        row.style.display=row.dataset.cat===cat?'grid':'none';
+      });
+    }
+  });
+});
+
+/* ── SEND DISPATCH (mailto) ── */
+function sendDispatch(){
+  const name=document.getElementById('cf-name').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  const msg=document.getElementById('cf-msg').value.trim();
+  const dim=document.getElementById('cf-dim').value;
+  if(!name||!email||!msg){alert('Please fill in your name, email, and message.');return;}
+  const sub=encodeURIComponent('Portfolio Inquiry — '+dim);
+  const body=encodeURIComponent('From: '+name+'\nEmail: '+email+'\nDimension: '+dim+'\n\n'+msg);
+  window.location.href='mailto:to.cosmic.shekhar@gmail.com?subject='+sub+'&body='+body;
+}
+
+/* ── RESUME VIEW TOGGLE ── */
+function toggleResumeView(btn){
+  const wrap=document.getElementById('resume-iframe-wrap');
+  const open=wrap.style.display==='block';
+  wrap.style.display=open?'none':'block';
+  btn.innerHTML=open?'⊞&nbsp;&nbsp;VIEW':'✕&nbsp;&nbsp;CLOSE';
+}
+
+/* ── CERTIFICATE MODAL ── */
+function openCert(card){
+  const modal=document.getElementById('cert-modal');
+  const img=document.getElementById('cert-modal-img');
+  const pdf=document.getElementById('cert-modal-pdf');
+  const ph=document.getElementById('cert-modal-ph');
+  const desc=document.getElementById('cert-modal-desc');
+  const src=card.dataset.src;
+  const type=card.dataset.type;
+  img.style.display='none';
+  pdf.style.display='none';
+  ph.style.display='none';
+  if(src && type==='pdf'){
+    pdf.src=src;
+    pdf.style.display='block';
+  } else if(src){
+    img.src=src;
+    img.style.display='block';
+  } else {
+    ph.style.display='flex';
+  }
+  desc.textContent=card.dataset.desc||'';
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCert(){
+  document.getElementById('cert-modal').classList.remove('open');
+  document.getElementById('cert-modal-pdf').src='';
+  document.body.style.overflow='';
+}
+document.getElementById('cert-modal').addEventListener('click',function(e){
+  if(e.target===this)closeCert();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeCert();
+});
+</script>
+</body>
+</html>
