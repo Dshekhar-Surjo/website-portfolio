@@ -19,16 +19,19 @@ main{padding:80px 32px 72px;max-width:960px;margin:0 auto}
 h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:32px}
 .sub{font-size:17.5px;color:rgba(255,255,255,.9);margin-bottom:48px;font-family:"Courier New",monospace;letter-spacing:.06em}
 .sec-label{font-family:"Courier New",monospace;font-size:13px;letter-spacing:.22em;color:rgba(255,255,255,.88);border-bottom:.5px solid rgba(255,255,255,.15);padding-bottom:10px;margin-bottom:24px;margin-top:52px}
-/* VIDEO GRID */
+
+/* ── VIDEO GRID ── */
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.video-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden}
+.video-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;position:relative}
 .video-card video{width:100%;display:block;background:#000}
 .video-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase}
 .video-card.full{grid-column:1/-1}
-/* YOUTUBE EMBED */
+
+/* ── YOUTUBE EMBED ── */
 .yt-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000}
 .yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
-/* APP SCREENSHOTS */
+
+/* ── APP SCREENSHOTS ── */
 .screenshot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .screenshot-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s;position:relative}
 .screenshot-card:hover{background:rgba(255,255,255,.1)}
@@ -36,7 +39,8 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
 .sc-link{font-size:11px;opacity:.6}
 .screenshot-card.clickable{cursor:pointer}
-/* HOVER DESCRIPTION OVERLAY */
+
+/* ── HOVER OVERLAY (Montana / Intuition / Game style) ── */
 .hover-desc{
   position:absolute;
   inset:0;
@@ -49,21 +53,91 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   transition:opacity .22s ease;
   pointer-events:none;
 }
-.screenshot-card:hover .hover-desc{opacity:1;}
+.screenshot-card:hover .hover-desc,
+.video-card:hover .hover-desc{opacity:1;}
 .hover-desc p{
   font-family:"Courier New",monospace;
   font-size:11.5px;
-  line-height:1.7;
+  line-height:1.75;
   letter-spacing:.04em;
   color:rgba(255,255,255,.85);
   text-align:center;
 }
-/* THUMBNAIL — SVG-based cards (for sections without image files) */
-.thumb-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s;position:relative;cursor:pointer}
+
+/* ── THUMB CARD (SVG thumbnails without image-file) ── */
+.thumb-card{
+  background:rgba(255,255,255,.05);
+  border:.5px solid rgba(255,255,255,.1);
+  overflow:hidden;
+  transition:background .2s;
+  position:relative;
+  cursor:pointer;
+}
 .thumb-card:hover{background:rgba(255,255,255,.1)}
-.thumb-card img,.thumb-card svg{width:100%;display:block;}
-.thumb-card .screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
-/* PROJECT DOCS — view-only PDF embeds */
+.thumb-card img{width:100%;display:block;}
+.thumb-card .screenshot-caption{
+  padding:10px 13px;
+  font-family:"Courier New",monospace;
+  font-size:13px;
+  letter-spacing:.12em;
+  color:rgba(255,255,255,.9);
+  border-top:.5px solid rgba(255,255,255,.1);
+  text-transform:uppercase;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* ── SIDE DESCRIPTION PANEL (360 / Qualtrics) ── */
+.side-desc-group{
+  position:relative;
+  display:inline-block;
+  width:100%;
+}
+.side-desc-panel{
+  position:absolute;
+  left:calc(100% + 14px);
+  top:0;
+  width:260px;
+  background:rgba(10,18,32,0.96);
+  border:.5px solid rgba(255,255,255,.13);
+  padding:20px 18px 18px;
+  opacity:0;
+  transform:translateX(-10px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  z-index:30;
+}
+.side-desc-panel.visible{
+  opacity:1;
+  transform:translateX(0);
+  pointer-events:auto;
+}
+.side-desc-close{
+  position:absolute;
+  top:8px;
+  right:10px;
+  background:none;
+  border:none;
+  color:rgba(255,255,255,.35);
+  font-family:"Courier New",monospace;
+  font-size:10px;
+  cursor:pointer;
+  padding:2px 5px;
+  letter-spacing:.1em;
+  transition:color .15s;
+}
+.side-desc-close:hover{color:rgba(255,255,255,.8)}
+.side-desc-panel p{
+  font-family:"Courier New",monospace;
+  font-size:11px;
+  line-height:1.8;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.65);
+  margin-top:6px;
+}
+
+/* ── PROJECT DOCS ── */
 .doc-grid{display:flex;flex-direction:column;gap:16px}
 .doc-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden}
 .doc-header{padding:18px 22px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:background .2s}
@@ -75,14 +149,16 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .doc-toggle{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.4);flex-shrink:0;padding:5px 12px;border:.5px solid rgba(255,255,255,.2)}
 .doc-iframe-wrap{display:none;border-top:.5px solid rgba(255,255,255,.08)}
 .doc-iframe-wrap iframe{width:100%;height:560px;border:none;display:block;background:#fff}
-/* PROJECT DESCRIPTION BLOCK */
+
+/* ── PROJECT DESCRIPTION BLOCK ── */
 .proj-desc{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);padding:22px 26px;margin-top:16px}
 .proj-desc-title{font-size:14px;font-weight:700;letter-spacing:.02em;margin-bottom:3px}
 .proj-desc-meta{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.13em;color:rgba(255,255,255,.3);margin-bottom:14px}
 .proj-desc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
 .proj-desc ul li{position:relative;padding-left:18px;font-size:13px;line-height:1.65;color:rgba(255,255,255,.65)}
 .proj-desc ul li::before{content:"—";position:absolute;left:0;opacity:.4}
-/* SKILLS PANEL */
+
+/* ── SKILLS PANEL ── */
 .skills-trigger{position:fixed;left:0;top:50%;transform:translateY(-50%);writing-mode:vertical-lr;text-orientation:mixed;font-family:"Courier New",monospace;font-size:11px;letter-spacing:.2em;padding:20px 12px;background:rgba(255,255,255,.12);color:#fff;border:none;border-right:.5px solid rgba(255,255,255,.12);cursor:pointer;z-index:200;transition:background .15s}
 .skills-trigger:hover{background:rgba(255,255,255,.22)}
 .skills-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300}
@@ -94,7 +170,8 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .skill-row{display:flex;align-items:center;gap:13px;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,.06)}
 .skill-badge{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:0;font-family:"Helvetica Neue",sans-serif;line-height:1.1;text-align:center}
 .skill-name{font-size:13px;font-weight:600;color:#fff;line-height:1.3}
-/* DEGREE SECTION */
+
+/* ── DEGREE SECTION ── */
 .degree-section{margin-top:28px;background:linear-gradient(150deg,rgba(194,216,238,.05) 0%,rgba(26,58,92,.18) 100%);border:.5px solid rgba(194,216,238,.14);overflow:hidden;position:relative}
 .degree-section::before{content:'';display:block;height:2px;background:linear-gradient(90deg,#C9A84C 0%,rgba(201,168,76,.25) 55%,transparent 100%)}
 .degree-lbl{font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:600;letter-spacing:.12em;color:#B8952A;margin:16px 18px 14px;display:flex;align-items:center;gap:10px;text-transform:uppercase;font-style:italic}
@@ -125,6 +202,9 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   .doc-header{padding:14px 16px;gap:12px}
   .proj-desc{padding:16px 18px}
   .skills-trigger{padding:12px 7px;font-size:8px}
+  .side-desc-panel{position:static;transform:none;opacity:1;pointer-events:auto;width:100%;margin-top:8px;left:auto}
+  .side-desc-panel.visible{transform:none}
+  .side-desc-group{display:block}
 }
 </style>
 </head>
@@ -155,7 +235,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   <h1>INSTRUCTIONAL DESIGN</h1>
   <div class="sub">e-learning · educational video · experience systems</div>
 
-  <!-- EDUCATIONAL APP -->
+  <!-- ══ EDUCATIONAL APP ══ -->
   <div class="sec-label">— EDUCATIONAL APP</div>
   <div class="screenshot-grid">
 
@@ -186,9 +266,9 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
       <div class="screenshot-caption">EIL</div>
     </div>
 
-    <!-- LLM Math Sec -->
+    <!-- LLM Math Sec — path is now one level up, matching qualtrics & 360 thumbs -->
     <div class="screenshot-card clickable" onclick="window.open('https://llmmathsec.lovable.app/','_blank')">
-      <img src="media/instructional%20design/educational%20app/llmmathsec-thumb.svg" alt="LLM Math Sec">
+      <img src="media/instructional%20design/llmmathsec-thumb.svg" alt="LLM Math Sec">
       <div class="hover-desc">
         <p>This is a group project; four of us created this app for the Marc Cuban Foundation. Purpose: Creating an assessment instrument that supports educators in evaluating GenAI tools for educational uses (creating a lesson plan) in mathematics, grades 6–12.</p>
       </div>
@@ -200,7 +280,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 
   </div>
 
-  <!-- EDUCATIONAL VIDEOS -->
+  <!-- ══ EDUCATIONAL VIDEOS ══ -->
   <div class="sec-label">— EDUCATIONAL VIDEOS</div>
   <div class="video-grid">
     <div class="video-card">
@@ -239,7 +319,6 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
       </div>
       <div class="video-caption">PP 38 — Nilima Das</div>
     </div>
-    <!-- PP 26 — Nondoni -->
     <div class="video-card">
       <div class="yt-wrap">
         <iframe src="https://www.youtube.com/embed/nn4ZrObLI8M"
@@ -249,7 +328,6 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
       </div>
       <div class="video-caption">PP 26 — Nondoni Gus</div>
     </div>
-    <!-- PP 40 — Chondro -->
     <div class="video-card">
       <div class="yt-wrap">
         <iframe src="https://www.youtube.com/embed/f2Wkh6nz_N0"
@@ -261,7 +339,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
     </div>
   </div>
 
-  <!-- EDUCATIONAL VIDEO DESCRIPTION -->
+  <!-- Educational video description -->
   <div class="proj-desc">
     <div class="proj-desc-title">Remote Learning Initiative — Ministry of Education, Bangladesh</div>
     <div class="proj-desc-meta">PROJECT LEAD / CREATIVE DIRECTOR &nbsp;·&nbsp; 2021–2023</div>
@@ -272,7 +350,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
     </ul>
   </div>
 
-  <!-- GAME DESIGN -->
+  <!-- ══ GAME DESIGN ══ -->
   <div class="sec-label">— GAME DESIGN</div>
   <div class="video-grid">
     <div class="video-card full">
@@ -282,52 +360,54 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
+      <!-- hover overlay — same style as Montana / Intuition -->
+      <div class="hover-desc">
+        <p>CodeCracker is a prototype game designed to help students learn the C programming language. It has already been enjoyed by more than 2,000 high school students in Bangladesh.</p>
+      </div>
       <div class="video-caption">Code Cracker — Educational Game</div>
     </div>
   </div>
 
-  <!-- QUALTRICS -->
+  <!-- ══ QUALTRICS ══ -->
   <div class="sec-label">— QUALTRICS</div>
-  <div class="screenshot-grid">
-    <div class="thumb-card" onclick="window.open('https://unc.pdx1.qualtrics.com/jfe7/preview/previewId/88d4f1b3-027c-4847-8cda-97253465aeb3/SV_1T9nTIn23tnoRRc?Q_CHL=preview&Q_SurveyVersionID=current','_blank')">
+  <div class="side-desc-group"
+       onmouseenter="showSideDesc('qualtrics-desc')"
+       onmouseleave="hideSideDesc('qualtrics-desc')">
+    <div class="thumb-card"
+         onclick="window.open('https://unc.pdx1.qualtrics.com/jfe7/preview/previewId/88d4f1b3-027c-4847-8cda-97253465aeb3/SV_1T9nTIn23tnoRRc?Q_CHL=preview&Q_SurveyVersionID=current','_blank')">
       <img src="media/instructional%20design/qualtrics-thumb.svg" alt="Qualtrics Survey">
-      <div class="hover-desc">
-        <p>An interactive survey instrument built in Qualtrics. Click to open and explore the survey.</p>
-      </div>
       <div class="screenshot-caption">
         <span>Qualtrics Survey</span>
         <span class="sc-link">↗</span>
       </div>
     </div>
+    <div class="side-desc-panel" id="qualtrics-desc">
+      <button class="side-desc-close" onclick="hideSideDesc('qualtrics-desc')">✕ CLOSE</button>
+      <p>Qualtrics can be a powerful learning tool. Explore how learners are immersed in a jungle scenario and engaged in discovering machine learning concepts.</p>
+    </div>
   </div>
 
-  <!-- 360 VIDEO PRODUCTION -->
+  <!-- ══ 360 VIDEO PRODUCTION ══ -->
   <div class="sec-label">— 360 VIDEO PRODUCTION</div>
-  <div class="screenshot-grid">
-    <div class="thumb-card" onclick="window.open('https://tour.panoee.net/preview?tour=68f83367768dc464737acd51&scene=690764d2e96a067bb65c162c','_blank')">
+  <div class="side-desc-group"
+       onmouseenter="showSideDesc('tour-desc')"
+       onmouseleave="hideSideDesc('tour-desc')">
+    <div class="thumb-card"
+         onclick="window.open('https://tour.panoee.net/preview?tour=68f83367768dc464737acd51&scene=690764d2e96a067bb65c162c','_blank')">
       <img src="media/instructional%20design/360video-thumb.svg" alt="360 Educational Video Production">
-      <div class="hover-desc">
-        <p>The Peabody Hall Geometry Tour connects geometry to real spaces — exploring the Pythagorean theorem, parallel lines, alternate interior angles, and similar triangles inside real architecture. Designed for grades 6–10.</p>
-      </div>
       <div class="screenshot-caption">
         <span>360° Educational Video Production</span>
         <span class="sc-link">↗</span>
       </div>
     </div>
+    <div class="side-desc-panel" id="tour-desc">
+      <button class="side-desc-close" onclick="hideSideDesc('tour-desc')">✕ CLOSE</button>
+      <p>The Peabody Hall Geometry Tour makes math meaningful by connecting geometry to real spaces students walk through every day. Instead of learning formulas on paper, learners see geometric concepts — the Pythagorean theorem, parallel lines, alternate interior angles, and similar triangles — inside real architecture.</p>
+      <p style="margin-top:10px">Designed for grades 6–10. The virtual tour turns an ordinary school hallway into an active learning space where geometry comes to life.</p>
+    </div>
   </div>
 
-  <!-- 360 VIDEO PRODUCTION DESCRIPTION -->
-  <div class="proj-desc" style="margin-bottom:16px">
-    <div class="proj-desc-title">Peabody Hall Geometry Tour</div>
-    <div class="proj-desc-meta">360° VIRTUAL TOUR · EDUCATIONAL TECHNOLOGY</div>
-    <ul>
-      <li>The Peabody Hall Geometry Tour was created to make math more meaningful by connecting geometry to real spaces students walk through every day.</li>
-      <li>Instead of only learning formulas on paper, this project helps learners see geometric concepts such as the Pythagorean theorem, parallel lines, alternate interior angles, and similar triangles inside the real architecture of Peabody Hall.</li>
-      <li>The lesson is designed for middle and high school students (grades 6–10) who already understand basic geometry but need to explore how it appears in the real world. The virtual tour turns an ordinary school hallway into an active learning space where geometry comes to life.</li>
-    </ul>
-  </div>
-
-  <!-- PROJECTS — view-only PDF iframes -->
+  <!-- ══ PROJECTS ══ -->
   <div class="sec-label">— PROJECTS</div>
   <div class="doc-grid">
     <div class="doc-card">
@@ -366,6 +446,12 @@ function toggleDoc(id, header){
   const open = wrap.style.display === 'block';
   wrap.style.display = open ? 'none' : 'block';
   btn.textContent = open ? 'VIEW ↓' : 'CLOSE ↑';
+}
+function showSideDesc(id){
+  document.getElementById(id).classList.add('visible');
+}
+function hideSideDesc(id){
+  document.getElementById(id).classList.remove('visible');
 }
 function openSkills(){
   document.getElementById('skills-panel').classList.add('open');
@@ -419,7 +505,6 @@ document.addEventListener('click',function(e){var mn=document.getElementById('mo
     <div><div class="skill-name">Python</div></div>
   </div>
 
-  <!-- DEGREE SECTION -->
   <div class="degree-section">
     <div class="degree-lbl">Degree</div>
     <div class="degree-item">
