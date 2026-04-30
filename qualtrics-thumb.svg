@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="qbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c2340;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0e1628;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#qbg)"/>
+  <!-- Accent bar -->
+  <rect width="400" height="3" fill="#00BF6F"/>
+  <!-- Survey form illustration -->
+  <rect x="60" y="40" width="280" height="180" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+  <!-- Form header -->
+  <rect x="60" y="40" width="280" height="28" rx="6" fill="rgba(0,191,111,0.18)"/>
+  <rect x="60" y="54" width="280" height="14" fill="rgba(0,191,111,0.18)"/>
+  <text x="200" y="59" font-family="monospace" font-size="10" letter-spacing="2" fill="rgba(255,255,255,0.7)" text-anchor="middle">SURVEY</text>
+  <!-- Q1 -->
+  <rect x="78" y="82" width="200" height="5" rx="2" fill="rgba(255,255,255,0.2)"/>
+  <rect x="78" y="93" width="14" height="14" rx="7" fill="none" stroke="rgba(0,191,111,0.6)" stroke-width="1.5"/>
+  <circle cx="85" cy="100" r="4" fill="#00BF6F"/>
+  <rect x="98" y="97" width="80" height="5" rx="2" fill="rgba(255,255,255,0.15)"/>
+  <rect x="78" y="113" width="14" height="14" rx="7" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+  <rect x="98" y="117" width="60" height="5" rx="2" fill="rgba(255,255,255,0.1)"/>
+  <!-- Q2 -->
+  <rect x="78" y="138" width="160" height="5" rx="2" fill="rgba(255,255,255,0.2)"/>
+  <rect x="78" y="150" width="220" height="22" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+  <rect x="84" y="156" width="100" height="4" rx="2" fill="rgba(255,255,255,0.12)"/>
+  <!-- Submit button -->
+  <rect x="142" y="186" width="116" height="24" rx="4" fill="rgba(0,191,111,0.7)"/>
+  <text x="200" y="202" font-family="monospace" font-size="10" letter-spacing="2" fill="#fff" text-anchor="middle">SUBMIT</text>
+  <!-- Label -->
+  <text x="200" y="238" font-family="monospace" font-size="10" letter-spacing="3" fill="rgba(255,255,255,0.35)" text-anchor="middle">QUALTRICS SURVEY</text>
+</svg>
