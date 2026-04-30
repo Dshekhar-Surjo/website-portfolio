@@ -30,12 +30,39 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 /* APP SCREENSHOTS */
 .screenshot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-.screenshot-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s}
+.screenshot-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s;position:relative}
 .screenshot-card:hover{background:rgba(255,255,255,.1)}
 .screenshot-card img{width:100%;display:block;max-height:220px;object-fit:contain;background:rgba(255,255,255,.04);padding:8px}
 .screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
 .sc-link{font-size:11px;opacity:.6}
 .screenshot-card.clickable{cursor:pointer}
+/* HOVER DESCRIPTION OVERLAY */
+.hover-desc{
+  position:absolute;
+  inset:0;
+  background:rgba(15,25,40,0.93);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px 16px;
+  opacity:0;
+  transition:opacity .22s ease;
+  pointer-events:none;
+}
+.screenshot-card:hover .hover-desc{opacity:1;}
+.hover-desc p{
+  font-family:"Courier New",monospace;
+  font-size:11.5px;
+  line-height:1.7;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.85);
+  text-align:center;
+}
+/* THUMBNAIL — SVG-based cards (for sections without image files) */
+.thumb-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden;transition:background .2s;position:relative;cursor:pointer}
+.thumb-card:hover{background:rgba(255,255,255,.1)}
+.thumb-card img,.thumb-card svg{width:100%;display:block;}
+.thumb-card .screenshot-caption{padding:10px 13px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.12em;color:rgba(255,255,255,.9);border-top:.5px solid rgba(255,255,255,.1);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
 /* PROJECT DOCS — view-only PDF embeds */
 .doc-grid{display:flex;flex-direction:column;gap:16px}
 .doc-card{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);overflow:hidden}
@@ -131,21 +158,46 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   <!-- EDUCATIONAL APP -->
   <div class="sec-label">— EDUCATIONAL APP</div>
   <div class="screenshot-grid">
+
+    <!-- Montana App -->
     <div class="screenshot-card clickable" onclick="window.open('https://montana-static1-ocuhy6ayt-dshekhar-surjos-projects.vercel.app/','_blank')">
       <img src="media/instructional%20design/educational%20app/montana-logo.png" alt="Montana App">
+      <div class="hover-desc">
+        <p>Montana detects mind wandering and helps learners reengage.</p>
+      </div>
       <div class="screenshot-caption">
         <span>Montana App</span>
         <span class="sc-link">↗</span>
       </div>
     </div>
+
+    <!-- Intuition -->
     <div class="screenshot-card">
       <img src="media/instructional%20design/educational%20app/intuition.png" alt="Intuition">
+      <div class="hover-desc">
+        <p>Intuition is a project I am currently working on — an app designed to build intuition for analytical thinking.</p>
+      </div>
       <div class="screenshot-caption">Intuition</div>
     </div>
+
+    <!-- EIL -->
     <div class="screenshot-card">
       <img src="media/instructional%20design/educational%20app/eil.png" alt="EIL">
       <div class="screenshot-caption">EIL</div>
     </div>
+
+    <!-- LLM Math Sec -->
+    <div class="screenshot-card clickable" onclick="window.open('https://llmmathsec.lovable.app/','_blank')">
+      <img src="media/instructional%20design/educational%20app/llmmathsec-thumb.svg" alt="LLM Math Sec">
+      <div class="hover-desc">
+        <p>This is a group project; four of us created this app for the Marc Cuban Foundation. Purpose: Creating an assessment instrument that supports educators in evaluating GenAI tools for educational uses (creating a lesson plan) in mathematics, grades 6–12.</p>
+      </div>
+      <div class="screenshot-caption">
+        <span>LLM Math Sec</span>
+        <span class="sc-link">↗</span>
+      </div>
+    </div>
+
   </div>
 
   <!-- EDUCATIONAL VIDEOS -->
@@ -187,16 +239,23 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
       </div>
       <div class="video-caption">PP 38 — Nilima Das</div>
     </div>
-    <!-- PP 26 & PP 40 — awaiting YouTube links -->
+    <!-- PP 26 — Nondoni -->
     <div class="video-card">
-      <div class="yt-wrap" style="background:#111;display:flex;align-items:center;justify-content:center">
-        <span style="position:absolute;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.25)">VIDEO COMING SOON</span>
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/nn4ZrObLI8M"
+          title="PP 26 — Nondoni Gus"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
       </div>
       <div class="video-caption">PP 26 — Nondoni Gus</div>
     </div>
+    <!-- PP 40 — Chondro -->
     <div class="video-card">
-      <div class="yt-wrap" style="background:#111;display:flex;align-items:center;justify-content:center">
-        <span style="position:absolute;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.25)">VIDEO COMING SOON</span>
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/f2Wkh6nz_N0"
+          title="PP 40 — Chondro"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
       </div>
       <div class="video-caption">PP 40 — Chondro</div>
     </div>
@@ -225,6 +284,47 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
       </div>
       <div class="video-caption">Code Cracker — Educational Game</div>
     </div>
+  </div>
+
+  <!-- QUALTRICS -->
+  <div class="sec-label">— QUALTRICS</div>
+  <div class="screenshot-grid">
+    <div class="thumb-card" onclick="window.open('https://unc.pdx1.qualtrics.com/jfe7/preview/previewId/88d4f1b3-027c-4847-8cda-97253465aeb3/SV_1T9nTIn23tnoRRc?Q_CHL=preview&Q_SurveyVersionID=current','_blank')">
+      <img src="media/instructional%20design/qualtrics-thumb.svg" alt="Qualtrics Survey">
+      <div class="hover-desc">
+        <p>An interactive survey instrument built in Qualtrics. Click to open and explore the survey.</p>
+      </div>
+      <div class="screenshot-caption">
+        <span>Qualtrics Survey</span>
+        <span class="sc-link">↗</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 360 VIDEO PRODUCTION -->
+  <div class="sec-label">— 360 VIDEO PRODUCTION</div>
+  <div class="screenshot-grid">
+    <div class="thumb-card" onclick="window.open('https://tour.panoee.net/preview?tour=68f83367768dc464737acd51&scene=690764d2e96a067bb65c162c','_blank')">
+      <img src="media/instructional%20design/360video-thumb.svg" alt="360 Educational Video Production">
+      <div class="hover-desc">
+        <p>The Peabody Hall Geometry Tour connects geometry to real spaces — exploring the Pythagorean theorem, parallel lines, alternate interior angles, and similar triangles inside real architecture. Designed for grades 6–10.</p>
+      </div>
+      <div class="screenshot-caption">
+        <span>360° Educational Video Production</span>
+        <span class="sc-link">↗</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 360 VIDEO PRODUCTION DESCRIPTION -->
+  <div class="proj-desc" style="margin-bottom:16px">
+    <div class="proj-desc-title">Peabody Hall Geometry Tour</div>
+    <div class="proj-desc-meta">360° VIRTUAL TOUR · EDUCATIONAL TECHNOLOGY</div>
+    <ul>
+      <li>The Peabody Hall Geometry Tour was created to make math more meaningful by connecting geometry to real spaces students walk through every day.</li>
+      <li>Instead of only learning formulas on paper, this project helps learners see geometric concepts such as the Pythagorean theorem, parallel lines, alternate interior angles, and similar triangles inside the real architecture of Peabody Hall.</li>
+      <li>The lesson is designed for middle and high school students (grades 6–10) who already understand basic geometry but need to explore how it appears in the real world. The virtual tour turns an ordinary school hallway into an active learning space where geometry comes to life.</li>
+    </ul>
   </div>
 
   <!-- PROJECTS — view-only PDF iframes -->
