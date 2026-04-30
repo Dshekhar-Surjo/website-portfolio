@@ -428,7 +428,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
       <div class="res-title">SHEKHAR DASH &mdash; RESUME</div>
       <div class="res-meta">MA · FILMMAKER · RESEARCHER · EDUCATOR · LX DESIGNER</div>
       <div class="res-btns">
-        <a class="res-dl" href="media/resume_shekhar_D.pdf" download="Shekhar_Dash_Resume.pdf">↓&nbsp;&nbsp;DOWNLOAD</a>
+        <a class="res-dl" href="media/Shekhar_Dash_Master_Resume_v3.pdf" download="Shekhar_Dash_Resume.pdf">↓&nbsp;&nbsp;DOWNLOAD</a>
         <button class="res-view" onclick="toggleResumeView(this)">⊞&nbsp;&nbsp;VIEW</button>
       </div>
     </div>
@@ -845,7 +845,7 @@ function toggleResumeView(btn){
   const iframe=document.getElementById('resume-iframe');
   const open=wrap.style.display==='block';
   /* Lazy-load: only set src the first time the user clicks VIEW */
-  if(!open && !iframe.src) iframe.src='media/resume_shekhar_D.pdf';
+  if(!open && !iframe.src) iframe.src='media/Shekhar_Dash_Master_Resume_v3.pdf';
   wrap.style.display=open?'none':'block';
   btn.innerHTML=open?'⊞&nbsp;&nbsp;VIEW':'✕&nbsp;&nbsp;CLOSE';
 }
