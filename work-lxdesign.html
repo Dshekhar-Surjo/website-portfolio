@@ -201,10 +201,14 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   .doc-iframe-wrap iframe{height:360px}
   .doc-header{padding:14px 16px;gap:12px}
   .proj-desc{padding:16px 18px}
-  .skills-trigger{padding:12px 7px;font-size:8px}
+  .skills-trigger{writing-mode:initial;text-orientation:initial;left:50%;top:auto;bottom:16px;transform:translateX(-50%);padding:9px 20px;font-size:9px;letter-spacing:.16em;border-radius:2px;white-space:nowrap;box-shadow:0 3px 12px rgba(0,0,0,.3)}
   .side-desc-group{display:block;width:100%}
-  .side-desc-panel{position:static;transform:none !important;opacity:0;pointer-events:none;width:100%;margin-top:8px;left:auto}
-  .side-desc-panel.visible{opacity:1;pointer-events:auto}
+  /* Side desc panels: always visible below thumb on mobile (no hover available) */
+  .side-desc-panel{position:static;transform:none !important;opacity:1;pointer-events:auto;width:100%;margin-top:0;left:auto;border-top:.5px solid rgba(255,255,255,.1);border-radius:0}
+  .side-desc-close{display:none}
+  /* Hover-desc overlays: show statically below image on mobile */
+  .hover-desc{position:relative;inset:auto;opacity:1;pointer-events:auto;background:rgba(15,25,40,0.88);padding:10px 14px}
+  .hover-desc p{font-size:11px;text-align:left}
 }
 </style>
 </head>

@@ -242,6 +242,28 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
 
   /* BIO PANEL — too narrow on mobile, hide it */
   .bio-panel{display:none}
+
+  /* ABOUT — single-column, skip scroll animation, shorten section */
+  #s-about{height:200vh !important}
+  .split-lay{grid-template-columns:1fr}
+  .chat-col{padding:28px 20px;border-right:none;align-items:center}
+  .photo-full{display:none}
+  .about-progress-track{display:none}
+  .about-scroll-cue{opacity:1 !important}
+
+  /* RESUME — shorter iframe on small screens */
+  .res-iframe-wrap iframe{height:380px}
+
+  /* CONTACT — prevent iOS auto-zoom on form inputs (needs ≥16px) */
+  .cf{font-size:16px}
+}
+
+/* ── LANDSCAPE MOBILE — hero fits short viewport ── */
+@media(orientation:landscape) and (max-height:500px){
+  .iam{font-size:clamp(24px,6vh,38px) !important;margin-bottom:12px !important}
+  .scene{transform:scale(0.6);margin:-50px 0}
+  .fdots{margin-top:6px}
+  .scue{margin-top:16px}
 }
 </style>
 </head>
@@ -699,6 +721,7 @@ window.addEventListener('scroll', checkAboutVisible, {passive: true});
    Phase 2: image scale(3) → scale(1) — camera pulls back, full body revealed
 */
 function aboutScroll(){
+  if(window.innerWidth <= 430) return; /* no split animation on portrait mobile */
   const sec   = document.getElementById('s-about');
   const top   = -sec.getBoundingClientRect().top;
   const split = document.getElementById('splitLay');
