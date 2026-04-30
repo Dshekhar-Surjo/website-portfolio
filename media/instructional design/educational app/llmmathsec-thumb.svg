@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260">
+  <defs>
+    <linearGradient id="llmbg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#1a2a4a"/>
+      <stop offset="100%" stop-color="#0d1b35"/>
+    </linearGradient>
+    <linearGradient id="llmacc" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#4A9EF0"/>
+      <stop offset="100%" stop-color="#7B5CF0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#llmbg)"/>
+  <!-- grid lines -->
+  <line x1="0" y1="65" x2="400" y2="65" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="0" y1="130" x2="400" y2="130" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="0" y1="195" x2="400" y2="195" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+  <line x1="100" y1="0" x2="100" y2="260" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="200" y1="0" x2="200" y2="260" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="300" y1="0" x2="300" y2="260" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <!-- top accent bar -->
+  <rect width="400" height="3" fill="url(#llmacc)"/>
+  <!-- scorecard rows -->
+  <rect x="28" y="55" width="344" height="38" rx="4" fill="#4A9EF0" fill-opacity="0.12" stroke="#4A9EF0" stroke-opacity="0.25" stroke-width="0.5"/>
+  <rect x="28" y="101" width="344" height="38" rx="4" fill="#7B5CF0" fill-opacity="0.12" stroke="#7B5CF0" stroke-opacity="0.25" stroke-width="0.5"/>
+  <rect x="28" y="147" width="344" height="38" rx="4" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.1" stroke-width="0.5"/>
+  <!-- row 1 -->
+  <circle cx="52" cy="74" r="7" fill="none" stroke="#4A9EF0" stroke-width="1.5"/>
+  <circle cx="52" cy="74" r="4" fill="#4A9EF0"/>
+  <rect x="70" y="70" width="170" height="5" rx="2" fill="#4A9EF0" fill-opacity="0.6"/>
+  <rect x="70" y="80" width="220" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="310" y="78" font-family="monospace" font-size="12" fill="#4A9EF0" fill-opacity="0.9">82%</text>
+  <!-- row 2 -->
+  <circle cx="52" cy="120" r="7" fill="none" stroke="#7B5CF0" stroke-width="1.5"/>
+  <circle cx="52" cy="120" r="4" fill="#7B5CF0"/>
+  <rect x="70" y="116" width="130" height="5" rx="2" fill="#7B5CF0" fill-opacity="0.6"/>
+  <rect x="70" y="126" width="220" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="310" y="124" font-family="monospace" font-size="12" fill="#7B5CF0" fill-opacity="0.9">61%</text>
+  <!-- row 3 -->
+  <circle cx="52" cy="166" r="7" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+  <rect x="70" y="162" width="90" height="5" rx="2" fill="#ffffff" fill-opacity="0.15"/>
+  <rect x="70" y="172" width="220" height="4" rx="2" fill="#ffffff" fill-opacity="0.06"/>
+  <text x="310" y="170" font-family="monospace" font-size="12" fill="#ffffff" fill-opacity="0.25">39%</text>
+  <!-- label -->
+  <text x="200" y="210" font-family="monospace" font-size="11" letter-spacing="3" fill="#ffffff" fill-opacity="0.5" text-anchor="middle">LLM MATH SEC</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" letter-spacing="2" fill="#ffffff" fill-opacity="0.22" text-anchor="middle">GENAI EVALUATION SCORECARD</text>
+</svg>
