@@ -746,7 +746,13 @@ function aboutScroll(){
     photo.style.clipPath  = 'inset(0 0 0 50%)';
     if(img) img.style.transform = 'scale(3) translateX(8%)';
     const bio0=document.getElementById('bioPannel');
-    if(bio0) bio0.style.opacity='0';
+    if(bio0){
+      /* Remove transition so bio hides instantly when jumping back to section top —
+         prevents it from lingering over the typing text during nav-link scroll */
+      bio0.style.transition='none';
+      bio0.style.opacity='0';
+      requestAnimationFrame(function(){ bio0.style.transition=''; });
+    }
     return;
   }
 
