@@ -31,6 +31,15 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .lab-caption{padding:11px 14px;font-family:"Courier New",monospace;font-size:13px;letter-spacing:.15em;color:var(--grn);border-top:.5px solid rgba(27,61,44,.15);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
 .lab-link-arrow{font-size:12px;opacity:.6}
 
+/* RESEARCH PROJECT */
+.rp-card{background:rgba(255,255,255,.4);border:.5px solid rgba(27,61,44,.15);padding:22px 26px}
+.rp-title{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--grn)}
+.rp-meta{font-family:"Courier New",monospace;font-size:10px;letter-spacing:.13em;color:rgba(27,61,44,.5);margin-bottom:6px}
+.rp-role{font-family:"Courier New",monospace;font-size:11px;letter-spacing:.08em;color:var(--grn-m);margin-bottom:14px;font-style:italic}
+.rp-bullets{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.rp-bullets li{position:relative;padding-left:18px;font-size:13px;line-height:1.7;color:rgba(27,61,44,.78)}
+.rp-bullets li::before{content:"—";position:absolute;left:0;opacity:.4}
+
 /* PAPER & PRESENTATION */
 .paper-grid{display:flex;flex-direction:column;gap:1px}
 .paper-card{background:rgba(255,255,255,.4);border:.5px solid rgba(27,61,44,.15);padding:18px 22px;display:flex;align-items:center;gap:18px;transition:background .2s}
@@ -118,14 +127,18 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
     <iframe src="media/research%20activities/MP7%20by%20R.html" title="Data Visualization — MP7" loading="lazy"></iframe>
     <div class="viz-caption">Data Visualization — MP7</div>
   </div>
+  <div class="viz-wrapper" style="margin-top:16px">
+    <iframe src="media/research%20activities/VER-to-MSUS.html" title="Data Visualization — VER to MSUS" loading="lazy"></iframe>
+    <div class="viz-caption">Data Visualization — VER to MSUS</div>
+  </div>
 
   <!-- RESEARCH LAB -->
   <div class="sec-label">— RESEARCH LAB</div>
   <div class="lab-grid">
     <a class="lab-card" href="https://www.mathematicspotential.com/about-1-1" target="_blank" rel="noopener">
-      <img src="media/research%20activities/%20MPL%20UNC.avif" alt="Mathematics Potential Lab — UNC">
+      <img src="media/research%20activities/%20MPL%20UNC.avif" alt="Mathematics Potential Lab — UNC-CH">
       <div class="lab-caption">
-        <span>Mathematics Potential Lab — UNC</span>
+        <span>Mathematics Potential Lab — UNC-CH</span>
         <span class="lab-link-arrow">↗</span>
       </div>
     </a>
@@ -136,6 +149,18 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
         <span class="lab-link-arrow">↗</span>
       </div>
     </a>
+  </div>
+
+  <!-- RESEARCH PROJECT -->
+  <div class="sec-label">— RESEARCH PROJECT</div>
+  <div class="rp-card">
+    <div class="rp-title">Montana App — Attention &amp; Storytelling in Digital Learning</div>
+    <div class="rp-meta">UNC CHAPEL HILL &nbsp;·&nbsp; 2025–PRESENT</div>
+    <div class="rp-role">Researcher &amp; Learning Experience Designer — in collaboration with Dr. Todd Cherner</div>
+    <ul class="rp-bullets">
+      <li>Designed and prototyped an educational app that detects learner mind-wandering and delivers story-driven re-engagement interventions, grounded in cognitive science.</li>
+      <li>Planning empirical study with Dr. Todd Cherner investigating how storytelling functions as an attention-retrieval mechanism in digital learning environments.</li>
+    </ul>
   </div>
 
   <!-- PAPER & PRESENTATION -->
