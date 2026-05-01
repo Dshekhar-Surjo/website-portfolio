@@ -795,7 +795,15 @@ function aboutScroll(){
     const dz = maxScroll > P2_END ? Math.max(0, Math.min(1, (top - P2_END) / (maxScroll - P2_END))) : 0;
     cue.style.opacity = dz > 0.05 ? String(Math.min(dz * 3, 1)) : '0';
     const bio = document.getElementById('bioPannel');
-    if(bio) bio.style.opacity = dz > 0.08 ? String(Math.min(dz * 2, 1)) : '0';
+    if(bio){
+      if(dz > 0.08){
+        bio.style.transition = '';           /* allow fade-in */
+        bio.style.opacity = String(Math.min(dz * 2, 1));
+      } else {
+        bio.style.transition = 'none';       /* hide instantly — no 0.7s linger over typing text */
+        bio.style.opacity = '0';
+      }
+    }
   }
 }
 window.addEventListener('scroll',()=>{
