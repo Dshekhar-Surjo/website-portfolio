@@ -274,12 +274,12 @@ body.a11y-dys *:not(#a11y-btn):not(#a11y-panel):not(#a11y-panel *){font-family:'
 /* HIGHLIGHT LINKS */
 body.a11y-hl a:not(#a11y-panel a){outline:3px solid #c8a000!important;outline-offset:2px!important;background:rgba(255,235,0,.2)!important;border-radius:3px!important}
 /* TEXT SIZE */
-body.a11y-txt .back,body.a11y-txt .nk{font-size:calc(11px * var(--a11y-scale))!important}
-body.a11y-txt .nav-title{font-size:calc(14px * var(--a11y-scale))!important}
+body.a11y-txt .back,body.a11y-txt .nk,body.a11y-txt nav .back,body.a11y-txt nav .nk{font-size:calc(11px * var(--a11y-scale))!important}
+body.a11y-txt .nav-title,body.a11y-txt nav .nav-title{font-size:calc(14px * var(--a11y-scale))!important}
 body.a11y-txt p,body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
 body.a11y-txt h1{font-size:calc(52px * var(--a11y-scale))!important}
 body.a11y-txt h2{font-size:calc(22px * var(--a11y-scale))!important}
-body.a11y-txt .sec-label,.dim-label{font-size:calc(13px * var(--a11y-scale))!important}
+body.a11y-txt .sec-label,body.a11y-txt .dim-label{font-size:calc(13px * var(--a11y-scale))!important}
 </style>
 </head>
 <body>
@@ -646,13 +646,9 @@ document.addEventListener('click',function(e){var mn=document.getElementById('mo
     szLvl=Math.max(-2,Math.min(3,szLvl+dir));
     var ct=document.getElementById('a11y-sz-ct');
     if(ct) ct.textContent=(szLvl>0?'+':'')+szLvl;
-    if(szLvl===0){
-      document.body.classList.remove('a11y-txt');
-      document.documentElement.style.removeProperty('--a11y-scale');
-    } else {
-      document.documentElement.style.setProperty('--a11y-scale',1+szLvl*0.1);
-      document.body.classList.add('a11y-txt');
-    }
+    /* always set variable — at 0 scale=1.0 equals base size, no visual snap */
+    document.documentElement.style.setProperty('--a11y-scale',1+szLvl*0.1);
+    document.body.classList.add('a11y-txt');
   };
   window.a11yReset=function(){
     ['a11y-hc','a11y-dys','a11y-hl','a11y-txt'].forEach(function(c){document.body.classList.remove(c);});

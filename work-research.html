@@ -47,7 +47,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
 .paper-icon{font-size:28px;flex-shrink:0;line-height:1}
 .paper-info{flex:1;min-width:0}
 .paper-title{font-size:15px;font-weight:700;margin-bottom:4px}
-.paper-type{font-family:"Courier New",monospace;font-size:12px;letter-spacing:.14em;color:rgba(27,61,44,.5);margin-bottom:10px}
+.paper-type{font-family:"Courier New",monospace;font-size:12px;letter-spacing:.14em;color:rgba(27,61,44,.82);margin-bottom:10px}
 .paper-btn{display:inline-block;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.14em;color:var(--grn-m);border:.5px solid rgba(27,61,44,.3);padding:5px 12px;text-decoration:none;background:none;cursor:pointer;transition:all .15s}.paper-btn:hover{background:var(--grn);color:var(--grn-l);border-color:var(--grn)}
 /* PDF MODAL */
 .pdf-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;align-items:center;justify-content:center}
@@ -153,6 +153,11 @@ body.a11y-hc .rp-meta{color:#aaa!important}
 body.a11y-hc .rp-role{color:#00ff88!important}
 body.a11y-hc .rp-bullets li{color:#ddd!important}
 body.a11y-hc .rp-bullets li::before{opacity:.6!important}
+/* paper-card HC */
+body.a11y-hc .paper-card{background:#111!important;border-color:#444!important}
+body.a11y-hc .paper-title{color:#ffff00!important}
+body.a11y-hc .paper-type{color:#aaa!important}
+body.a11y-hc .paper-btn{color:#00ff88!important;border-color:#00aa55!important}
 
 /* DYSLEXIA FONT */
 @font-face{font-family:'OpenDyslexic';src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');font-display:swap}
@@ -165,7 +170,7 @@ body.a11y-txt .nav-title{font-size:calc(14px * var(--a11y-scale))!important}
 body.a11y-txt p,body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
 body.a11y-txt h1{font-size:calc(52px * var(--a11y-scale))!important}
 body.a11y-txt h2{font-size:calc(22px * var(--a11y-scale))!important}
-body.a11y-txt .sec-label,.dim-label{font-size:calc(13px * var(--a11y-scale))!important}
+body.a11y-txt .sec-label,body.a11y-txt .dim-label{font-size:calc(13px * var(--a11y-scale))!important}
 </style>
 </head>
 <body>
@@ -367,13 +372,9 @@ document.addEventListener('click',function(e){var mn=document.getElementById('mo
     szLvl=Math.max(-2,Math.min(3,szLvl+dir));
     var ct=document.getElementById('a11y-sz-ct');
     if(ct) ct.textContent=(szLvl>0?'+':'')+szLvl;
-    if(szLvl===0){
-      document.body.classList.remove('a11y-txt');
-      document.documentElement.style.removeProperty('--a11y-scale');
-    } else {
-      document.documentElement.style.setProperty('--a11y-scale',1+szLvl*0.1);
-      document.body.classList.add('a11y-txt');
-    }
+    /* always set variable — at 0 scale=1.0 equals base size, no visual snap */
+    document.documentElement.style.setProperty('--a11y-scale',1+szLvl*0.1);
+    document.body.classList.add('a11y-txt');
   };
   window.a11yReset=function(){
     ['a11y-hc','a11y-dys','a11y-hl','a11y-txt'].forEach(function(c){document.body.classList.remove(c);});
