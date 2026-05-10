@@ -203,7 +203,7 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   #nav{display:flex;padding:0 14px;gap:0}
   .nl{display:none}
   .nr{display:none}
-  .nc{flex:1;font-size:14px;text-align:left}
+  .nc{flex:1;font-size:14px;text-align:center;padding-left:28px}
   .ham{display:flex;align-items:center}
 
   /* HERO */
@@ -266,26 +266,32 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   .cf{font-size:16px}
 }
 
-/* ── LANDSCAPE MOBILE — hero + about fit short viewport ── */
+/* ── LANDSCAPE MOBILE — hero + about + nav fit short viewport ── */
 @media(orientation:landscape) and (max-height:500px){
+  /* NAV — hamburger menu just like portrait mobile */
+  #nav{display:flex;padding:0 14px;gap:0}
+  .nl{display:none}
+  .nr{display:none}
+  .nc{flex:1;font-size:14px;text-align:center;padding-left:28px}
+  .ham{display:flex;align-items:center}
+
   /* HERO */
   .iam{font-size:clamp(24px,6vh,38px) !important;margin-bottom:12px !important}
   .scene{transform:scale(0.6);margin:-50px 0}
   .fdots{margin-top:6px}
   .scue{margin-top:16px}
 
-  /* ABOUT — flatten sticky scroll experience for short landscape viewports */
-  #s-about{height:auto !important;min-height:unset !important}
-  .about-stick{position:relative !important;top:auto !important;height:auto !important;padding:28px 22px 40px}
+  /* ABOUT — keep sticky structure intact, just show a clean 2-col layout */
+  #s-about{height:100vh !important}
   .a-bgname{display:none}
   .about-progress-track{display:none}
-  .about-scroll-cue{display:none}
-  .split-lay{grid-template-columns:1fr 1fr !important;height:auto !important;min-height:unset !important}
-  .chat-col{padding:20px 22px;border-right:1px solid rgba(26,58,92,.08)}
+  .about-scroll-cue{display:none !important}
+  .split-lay{transform:none !important;grid-template-columns:1fr 1fr !important;height:100% !important}
+  .chat-col{padding:16px 20px;border-right:1px solid rgba(26,58,92,.08)}
   .chat-card{max-width:100%}
-  .photo-right{display:flex !important;align-items:center;justify-content:center;padding:12px}
-  .photo-right img{max-height:42vh;width:auto;object-fit:contain}
   .photo-full{display:none !important}
+  .photo-right{display:flex !important;align-items:center;justify-content:center}
+  .photo-right img{max-height:80vh;width:auto;object-fit:contain}
   .bio-panel{display:none !important}
 }
 
@@ -831,7 +837,7 @@ window.addEventListener('scroll', checkAboutVisible, {passive: true});
    Phase 2: image scale(3) → scale(1) — camera pulls back, full body revealed
 */
 function aboutScroll(){
-  if(window.innerWidth <= 430) return; /* no split animation on portrait mobile */
+  if(window.innerWidth <= 430 || window.innerHeight <= 500) return; /* no split animation on portrait or landscape mobile */
   const sec   = document.getElementById('s-about');
   const top   = -sec.getBoundingClientRect().top;
   const split = document.getElementById('splitLay');
