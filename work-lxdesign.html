@@ -277,12 +277,49 @@ body.a11y-hl a:not(#a11y-panel a){outline:3px solid #c8a000!important;outline-of
 /* TEXT SIZE */
 body.a11y-txt .back,body.a11y-txt .nk,body.a11y-txt nav .back,body.a11y-txt nav .nk{font-size:calc(11px * var(--a11y-scale))!important}
 body.a11y-txt .nav-title,body.a11y-txt nav .nav-title{font-size:calc(14px * var(--a11y-scale))!important}
-body.a11y-txt p:not(.hover-desc p):not(.side-desc-panel p),body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
+body.a11y-txt p:not(.hover-desc p):not(.side-desc-panel p):not(.llm-desc p),body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
 body.a11y-txt .hover-desc p{font-size:calc(11.5px * var(--a11y-scale))!important}
 body.a11y-txt .side-desc-panel p{font-size:calc(11px * var(--a11y-scale))!important}
+body.a11y-txt .llm-desc p{font-size:calc(11.5px * var(--a11y-scale))!important}
 body.a11y-txt h1{font-size:calc(52px * var(--a11y-scale))!important}
 body.a11y-txt h2{font-size:calc(22px * var(--a11y-scale))!important}
 body.a11y-txt .sec-label,body.a11y-txt .dim-label{font-size:calc(13px * var(--a11y-scale))!important}
+
+/* ── LLM MATH DESC ACCORDION ── */
+.llm-desc{
+  display:none;
+  padding:14px 16px;
+  border-top:.5px solid rgba(255,255,255,.1);
+  background:rgba(15,25,40,0.93);
+  overflow-y:auto;
+  max-height:180px;
+  -webkit-overflow-scrolling:touch;
+}
+.llm-desc.open{display:block}
+.llm-desc p{
+  font-family:"Courier New",monospace;
+  font-size:11.5px;
+  line-height:1.75;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.85);
+  margin:0;
+}
+.llm-toggle{
+  background:none;
+  border:.5px solid rgba(255,255,255,.28);
+  color:rgba(255,255,255,.75);
+  font-family:"Courier New",monospace;
+  font-size:10px;
+  letter-spacing:.12em;
+  padding:3px 8px;
+  cursor:pointer;
+  transition:all .15s;
+  flex-shrink:0;
+}
+.llm-toggle:hover{color:#fff;border-color:rgba(255,255,255,.65)}
+body.a11y-hc .llm-desc{background:#111!important;border-color:#333!important}
+body.a11y-hc .llm-desc p{color:#ddd!important}
+body.a11y-hc .llm-toggle{color:#fff!important;border-color:#666!important}
 </style>
 </head>
 <body>
@@ -343,15 +380,15 @@ body.a11y-txt .sec-label,body.a11y-txt .dim-label{font-size:calc(13px * var(--a1
       <div class="screenshot-caption">EIL</div>
     </div>
 
-    <!-- LLM Math Sec — path is now one level up, matching qualtrics & 360 thumbs -->
-    <div class="screenshot-card clickable" onclick="window.open('https://llmmathsec.lovable.app/','_blank')">
-      <img src="media/instructional%20design/llmmathsec-thumb.svg" alt="LLM Math Sec">
-      <div class="hover-desc">
-        <p>This is a group project; four of us created this app for the Mark Cuban Foundation. Purpose: Creating an assessment instrument that supports educators in evaluating GenAI tools for educational uses (creating a lesson plan) in mathematics, grades 6–12.</p>
+    <!-- LLM Math Sec -->
+    <div class="screenshot-card">
+      <img src="media/instructional%20design/llmmathsec-thumb.svg" alt="LLM Math Sec" style="cursor:pointer" onclick="window.open('https://llmmathsec.lovable.app/','_blank')">
+      <div class="llm-desc" id="llm-desc">
+        <p>This is a group project; four of us created this app for the Mark Cuban Foundation. Purpose: Creating an assessment instrument that supports educators in evaluating GenAI tools for educational uses (creating a lesson plan) in mathematics, grades 6&ndash;12.</p>
       </div>
       <div class="screenshot-caption">
-        <span>LLM Math Sec</span>
-        <span class="sc-link">↗</span>
+        <span style="cursor:pointer" onclick="window.open('https://llmmathsec.lovable.app/','_blank')">LLM Math Sec <span class="sc-link">↗</span></span>
+        <button class="llm-toggle" onclick="toggleLLMDesc(this)" aria-expanded="false" aria-controls="llm-desc">READ ▾</button>
       </div>
     </div>
 
@@ -667,5 +704,13 @@ document.addEventListener('click',function(e){var mn=document.getElementById('mo
 })();
 </script>
 
+<script>
+function toggleLLMDesc(btn){
+  var desc=document.getElementById('llm-desc');
+  var open=desc.classList.toggle('open');
+  btn.textContent=open?'CLOSE ▴':'READ ▾';
+  btn.setAttribute('aria-expanded',open?'true':'false');
+}
+</script>
 </body>
 </html>
