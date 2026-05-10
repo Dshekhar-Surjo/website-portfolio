@@ -273,11 +273,60 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   .fdots{margin-top:6px}
   .scue{margin-top:16px}
 }
+
+/* ── SKIP LINK ── */
+.skip-link{position:absolute;top:-100px;left:0;background:var(--sky-d);color:#fff;padding:10px 18px;font-size:12px;font-weight:700;letter-spacing:.1em;z-index:9999;text-decoration:none;border-radius:0 0 6px 0;transition:top .2s}
+.skip-link:focus{top:0}
+
+/* ── FOCUS RING ── */
+:focus-visible{outline:3px solid var(--sky-d);outline-offset:3px;border-radius:3px}
+
+/* ── A11Y WIDGET BUTTON ── */
+#a11y-btn{position:fixed;bottom:24px;right:24px;width:50px;height:50px;border-radius:50%;background:var(--sky-d);color:#fff;border:none;cursor:pointer;font-size:24px;display:flex;align-items:center;justify-content:center;z-index:8900;box-shadow:0 4px 18px rgba(0,0,0,.28);transition:transform .2s,box-shadow .2s}
+#a11y-btn:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+
+/* ── A11Y PANEL ── */
+#a11y-panel{position:fixed;bottom:84px;right:24px;width:270px;background:#fff;border-radius:14px;box-shadow:0 8px 36px rgba(0,0,0,.18);z-index:8900;padding:22px 20px 16px;display:none;border:1px solid rgba(26,58,92,.1)}
+#a11y-panel.open{display:block}
+.a11y-head{font-size:10px;font-weight:800;letter-spacing:.15em;color:var(--sky-m);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(26,58,92,.1)}
+.a11y-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.a11y-row:last-of-type{border-bottom:none}
+.a11y-label{font-size:11px;font-weight:700;letter-spacing:.07em;color:var(--sky-d)}
+/* toggle pill */
+.a11y-tog{width:40px;height:22px;border-radius:11px;background:#cbd5e0;border:none;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0}
+.a11y-tog.on{background:var(--sky-d)}
+.a11y-tog::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.a11y-tog.on::after{left:21px}
+/* size buttons */
+.a11y-size{display:flex;gap:6px}
+.a11y-size button{width:30px;height:30px;border-radius:6px;border:1.5px solid var(--sky-d);background:#fff;color:var(--sky-d);font-weight:800;cursor:pointer;font-size:13px;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.a11y-size button:hover{background:var(--sky-d);color:#fff}
+/* reset */
+.a11y-reset{width:100%;margin-top:14px;padding:8px;background:transparent;border:1.5px solid rgba(26,58,92,.18);border-radius:8px;font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--sky-m);cursor:pointer;transition:all .2s}
+.a11y-reset:hover{background:var(--sky-d);color:#fff;border-color:var(--sky-d)}
+
+/* ── HIGH CONTRAST ── */
+body.a11y-hc{filter:contrast(1.6) grayscale(.1)}
+
+/* ── PAUSE ANIMATIONS ── */
+body.a11y-pause *{animation-play-state:paused !important;transition:none !important}
+
+/* ── DYSLEXIA FONT ── */
+@font-face{font-family:'OpenDyslexic';src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff')}
+body.a11y-dys,body.a11y-dys *{font-family:'OpenDyslexic',Arial,sans-serif !important;letter-spacing:.05em !important;line-height:1.7 !important}
+
+/* ── HIGHLIGHT LINKS ── */
+body.a11y-links a,body.a11y-links button,body.a11y-links .cert-card,body.a11y-links .wact{background:rgba(255,230,0,.35) !important;outline:2px solid #b8860b !important;border-radius:3px !important}
+
+/* ── KEYBOARD FOCUS ON CERT CARDS ── */
+.cert-card:focus-visible{outline:3px solid var(--sky-d);outline-offset:4px;border-radius:6px}
 </style>
 </head>
 <body>
 
-<nav id="nav">
+<a class="skip-link" href="#s-about">SKIP TO MAIN CONTENT</a>
+
+<nav id="nav" aria-label="Main navigation">
   <div class="nl" id="navSt">CURRENTLY: FILMMAKER</div>
   <a class="nc" href="#s-home" style="text-decoration:none">SHEKHAR DASH</a>
   <div class="nr">
@@ -899,6 +948,96 @@ document.addEventListener('click',function(e){
   var ham=document.getElementById('ham');
   if(mn&&mn.classList.contains('open')&&!mn.contains(e.target)&&!ham.contains(e.target)){closeMobNav();}
 });
+
+/* ── ACCESSIBILITY WIDGET ── */
+var a11ySizeLevel=0;
+
+document.getElementById('a11y-btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  var panel=document.getElementById('a11y-panel');
+  var isOpen=panel.classList.toggle('open');
+  this.setAttribute('aria-expanded',isOpen?'true':'false');
+});
+
+// Close panel when clicking outside
+document.addEventListener('click',function(e){
+  var panel=document.getElementById('a11y-panel');
+  var btn=document.getElementById('a11y-btn');
+  if(panel.classList.contains('open')&&!panel.contains(e.target)&&!btn.contains(e.target)){
+    panel.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+});
+
+// Close panel on Escape
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    document.getElementById('a11y-panel').classList.remove('open');
+    document.getElementById('a11y-btn').setAttribute('aria-expanded','false');
+  }
+});
+
+function a11yToggle(cls,togId){
+  var isOn=document.body.classList.toggle(cls);
+  var tog=document.getElementById(togId);
+  tog.classList.toggle('on',isOn);
+  tog.setAttribute('aria-pressed',isOn?'true':'false');
+}
+
+function a11ySize(dir){
+  a11ySizeLevel=Math.max(-3,Math.min(5,a11ySizeLevel+dir));
+  document.documentElement.style.fontSize=(16+a11ySizeLevel*2)+'px';
+}
+
+function a11yReset(){
+  ['a11y-hc','a11y-pause','a11y-dys','a11y-links'].forEach(function(c){document.body.classList.remove(c);});
+  ['tog-hc','tog-pause','tog-dys','tog-links'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.classList.remove('on');el.setAttribute('aria-pressed','false');}
+  });
+  a11ySizeLevel=0;
+  document.documentElement.style.fontSize='';
+}
+
+// Make cert cards keyboard accessible
+document.querySelectorAll('.cert-card').forEach(function(card){
+  card.setAttribute('tabindex','0');
+  card.setAttribute('role','button');
+  card.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();openCert(card);}
+  });
+});
 </script>
+
+<!-- ── ACCESSIBILITY WIDGET ── -->
+<button id="a11y-btn" aria-label="Accessibility options" aria-expanded="false" title="Accessibility options">&#9855;</button>
+<div id="a11y-panel" role="dialog" aria-label="Accessibility options">
+  <div class="a11y-head">&#9855; &nbsp;ACCESSIBILITY</div>
+  <div class="a11y-row">
+    <span class="a11y-label">TEXT SIZE</span>
+    <div class="a11y-size">
+      <button onclick="a11ySize(-1)" aria-label="Decrease text size">A−</button>
+      <button onclick="a11ySize(1)" aria-label="Increase text size">A+</button>
+    </div>
+  </div>
+  <div class="a11y-row">
+    <span class="a11y-label">HIGH CONTRAST</span>
+    <button class="a11y-tog" id="tog-hc" onclick="a11yToggle('a11y-hc','tog-hc')" aria-pressed="false" aria-label="Toggle high contrast"></button>
+  </div>
+  <div class="a11y-row">
+    <span class="a11y-label">PAUSE ANIMATIONS</span>
+    <button class="a11y-tog" id="tog-pause" onclick="a11yToggle('a11y-pause','tog-pause')" aria-pressed="false" aria-label="Toggle pause animations"></button>
+  </div>
+  <div class="a11y-row">
+    <span class="a11y-label">DYSLEXIA-FRIENDLY FONT</span>
+    <button class="a11y-tog" id="tog-dys" onclick="a11yToggle('a11y-dys','tog-dys')" aria-pressed="false" aria-label="Toggle dyslexia-friendly font"></button>
+  </div>
+  <div class="a11y-row">
+    <span class="a11y-label">HIGHLIGHT LINKS</span>
+    <button class="a11y-tog" id="tog-links" onclick="a11yToggle('a11y-links','tog-links')" aria-pressed="false" aria-label="Toggle highlight links"></button>
+  </div>
+  <button class="a11y-reset" onclick="a11yReset()">&#8635; &nbsp;RESET ALL</button>
+</div>
+
 </body>
 </html>
