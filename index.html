@@ -952,23 +952,6 @@ document.addEventListener('click',function(e){
 /* ── ACCESSIBILITY WIDGET ── */
 var a11ySizeLevel=0;
 
-document.getElementById('a11y-btn').addEventListener('click',function(e){
-  e.stopPropagation();
-  var panel=document.getElementById('a11y-panel');
-  var isOpen=panel.classList.toggle('open');
-  this.setAttribute('aria-expanded',isOpen?'true':'false');
-});
-
-// Close panel when clicking outside
-document.addEventListener('click',function(e){
-  var panel=document.getElementById('a11y-panel');
-  var btn=document.getElementById('a11y-btn');
-  if(panel.classList.contains('open')&&!panel.contains(e.target)&&!btn.contains(e.target)){
-    panel.classList.remove('open');
-    btn.setAttribute('aria-expanded','false');
-  }
-});
-
 // Close panel on Escape
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){
@@ -1007,7 +990,7 @@ document.querySelectorAll('.cert-card').forEach(function(card){
     if(e.key==='Enter'||e.key===' '){e.preventDefault();openCert(card);}
   });
 });
-
+</script>
 
 <!-- ── ACCESSIBILITY WIDGET ── -->
 <button id="a11y-btn" aria-label="Accessibility options" aria-expanded="false" title="Accessibility options">&#9855;</button>
@@ -1039,6 +1022,23 @@ document.querySelectorAll('.cert-card').forEach(function(card){
   <button class="a11y-reset" onclick="a11yReset()">&#8635; &nbsp;RESET ALL</button>
 </div>
 
+<script>
+// Accessibility widget — runs after HTML is in the DOM
+document.getElementById('a11y-btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  var panel=document.getElementById('a11y-panel');
+  var isOpen=panel.classList.toggle('open');
+  this.setAttribute('aria-expanded',isOpen?'true':'false');
+});
+document.addEventListener('click',function(e){
+  var panel=document.getElementById('a11y-panel');
+  var btn=document.getElementById('a11y-btn');
+  if(panel.classList.contains('open')&&!panel.contains(e.target)&&!btn.contains(e.target)){
+    panel.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+});
 </script>
+
 </body>
 </html>
