@@ -296,15 +296,52 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
 .a11y-szbtn:hover{background:var(--sky-d);color:#fff}
 .a11y-reset{width:100%;margin-top:12px;padding:8px;background:transparent;border:1.5px solid rgba(26,58,92,.15);border-radius:8px;font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--sky-m);cursor:pointer;transition:all .2s;font-family:inherit}
 .a11y-reset:hover{background:var(--sky-d);color:#fff;border-color:var(--sky-d)}
-/* HIGH CONTRAST — swaps CSS variables so fixed elements stay intact */
-body.a11y-hc{--sky:#0a0a0a;--sky-d:#ffffff;--sky-m:#cccccc;--sky-l:#1a1a1a;--grn:#00ee77;--grn-m:#00bb55;--grn-l:#003322;--grn-bg:#050505;--cream:#0f0f0f;--paper:#0f0f0f;--ink:#ffffff;--mu:#aaaaaa}
-body.a11y-hc #a11y-btn{background:#fff!important;color:#000!important}
+/* HIGH CONTRAST — swaps CSS variables + direct overrides for hardcoded colors */
+body.a11y-hc{--sky:#000;--sky-d:#ffff00;--sky-m:#ccc;--sky-l:#111;--grn:#00ff88;--grn-m:#00cc66;--grn-l:#003322;--grn-bg:#0a0a0a;--cream:#0a0a0a;--paper:#0a0a0a;--ink:#000;--mu:#ccc}
+/* nav — hardcoded rgba background */
+body.a11y-hc #nav{background:#000!important;border-color:#555!important}
+body.a11y-hc .nl,body.a11y-hc .nk{color:#ccc!important}
+body.a11y-hc .nc{color:#ff0!important}
+body.a11y-hc #mob-nav{background:#000!important}
+body.a11y-hc #mob-nav a{color:#fff!important;border-color:#333!important}
+/* cube faces — hardcoded white gradient */
+body.a11y-hc .face{background:#1a1a1a!important;border-color:#555!important;box-shadow:none!important}
+body.a11y-hc .face::after{display:none}
+body.a11y-hc .fword{color:#fff!important}
+body.a11y-hc .dot{background:rgba(255,255,255,.4)!important}
+body.a11y-hc .fd{border-color:#555!important}
+body.a11y-hc .fd.lit{background:#ff0!important;border-color:#ff0!important}
+/* chat bubbles — .you uses --sky-d as background (now yellow) */
+body.a11y-hc .you .bubble{background:#1a3a5c!important;color:#fff!important}
+body.a11y-hc .me .bubble{background:#1a1a1a!important;color:#fff!important}
+body.a11y-hc .chat-card{background:rgba(0,0,0,.6)!important;border-color:#444!important}
+/* resume — res-card, titles, buttons */
+body.a11y-hc .res-card{background:#111!important;border-color:#444!important}
+body.a11y-hc .res-title{color:#ff0!important}
+body.a11y-hc .res-meta{color:#ccc!important}
+body.a11y-hc .res-dl,body.a11y-hc .res-view{color:#fff!important;border-color:#555!important}
+/* work — .wc2 has hardcoded light pink bg */
+body.a11y-hc .wc2{background:#1a0000!important}
+body.a11y-hc .wc2 .wt,body.a11y-hc .wc2 .wact{color:#ff9999!important}
+body.a11y-hc .wc2 .wn{color:rgba(255,153,153,.5)!important}
+body.a11y-hc .wc2 .ws{color:rgba(255,153,153,.7)!important}
+/* contact — .cform has hardcoded #fff */
+body.a11y-hc .ctop{background:#003322!important}
+body.a11y-hc .cq{color:#fff!important}
+body.a11y-hc .cbtn{color:#ccc!important;border-color:#555!important}
+body.a11y-hc .cform{background:#111!important;border-color:#444!important}
+body.a11y-hc .cf{background:#1a1a1a!important;color:#fff!important;border-color:#555!important}
+body.a11y-hc .csub{background:#ffff00!important;color:#000!important}
+/* footer */
+body.a11y-hc footer{background:#003322!important}
+/* a11y panel stays usable */
+body.a11y-hc #a11y-btn{background:#ffff00!important;color:#000!important}
 body.a11y-hc #a11y-panel{background:#111!important;border-color:#444!important}
 body.a11y-hc .a11y-head{color:#ccc!important;border-color:#333!important}
 body.a11y-hc .a11y-lbl{color:#fff!important}
 body.a11y-hc .a11y-row{border-color:#333!important}
 body.a11y-hc .a11y-tog{background:#444!important}
-body.a11y-hc .a11y-tog.on{background:#fff!important}
+body.a11y-hc .a11y-tog.on{background:#ff0!important}
 body.a11y-hc .a11y-tog.on::after{background:#000!important}
 body.a11y-hc .a11y-szbtn{background:#222!important;color:#fff!important;border-color:#666!important}
 body.a11y-hc .a11y-reset{color:#aaa!important;border-color:#444!important}
