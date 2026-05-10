@@ -266,12 +266,27 @@ footer{background:var(--grn);padding:16px 22px;display:flex;justify-content:spac
   .cf{font-size:16px}
 }
 
-/* ── LANDSCAPE MOBILE — hero fits short viewport ── */
+/* ── LANDSCAPE MOBILE — hero + about fit short viewport ── */
 @media(orientation:landscape) and (max-height:500px){
+  /* HERO */
   .iam{font-size:clamp(24px,6vh,38px) !important;margin-bottom:12px !important}
   .scene{transform:scale(0.6);margin:-50px 0}
   .fdots{margin-top:6px}
   .scue{margin-top:16px}
+
+  /* ABOUT — flatten sticky scroll experience for short landscape viewports */
+  #s-about{height:auto !important;min-height:unset !important}
+  .about-stick{position:relative !important;top:auto !important;height:auto !important;padding:28px 22px 40px}
+  .a-bgname{display:none}
+  .about-progress-track{display:none}
+  .about-scroll-cue{display:none}
+  .split-lay{grid-template-columns:1fr 1fr !important;height:auto !important;min-height:unset !important}
+  .chat-col{padding:20px 22px;border-right:1px solid rgba(26,58,92,.08)}
+  .chat-card{max-width:100%}
+  .photo-right{display:flex !important;align-items:center;justify-content:center;padding:12px}
+  .photo-right img{max-height:42vh;width:auto;object-fit:contain}
+  .photo-full{display:none !important}
+  .bio-panel{display:none !important}
 }
 
 /* ── A11Y WIDGET ── */
