@@ -52,6 +52,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   opacity:0;
   transition:opacity .22s ease;
   pointer-events:none;
+  overflow-y:auto;
 }
 .screenshot-card:hover .hover-desc,
 .video-card:hover .hover-desc{opacity:1;}
@@ -98,7 +99,7 @@ h1{font-size:clamp(36px,7vw,72px);font-weight:800;letter-spacing:-.02em;line-hei
   position:absolute;
   left:calc(100% + 14px);
   top:0;
-  width:280px;
+  width:380px;
   background:rgba(10,18,32,0.96);
   border:.5px solid rgba(255,255,255,.13);
   padding:20px 18px 18px;
@@ -276,7 +277,9 @@ body.a11y-hl a:not(#a11y-panel a){outline:3px solid #c8a000!important;outline-of
 /* TEXT SIZE */
 body.a11y-txt .back,body.a11y-txt .nk,body.a11y-txt nav .back,body.a11y-txt nav .nk{font-size:calc(11px * var(--a11y-scale))!important}
 body.a11y-txt .nav-title,body.a11y-txt nav .nav-title{font-size:calc(14px * var(--a11y-scale))!important}
-body.a11y-txt p,body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
+body.a11y-txt p:not(.hover-desc p):not(.side-desc-panel p),body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
+body.a11y-txt .hover-desc p{font-size:calc(11.5px * var(--a11y-scale))!important}
+body.a11y-txt .side-desc-panel p{font-size:calc(11px * var(--a11y-scale))!important}
 body.a11y-txt h1{font-size:calc(52px * var(--a11y-scale))!important}
 body.a11y-txt h2{font-size:calc(22px * var(--a11y-scale))!important}
 body.a11y-txt .sec-label,body.a11y-txt .dim-label{font-size:calc(13px * var(--a11y-scale))!important}
