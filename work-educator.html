@@ -106,7 +106,7 @@ body.a11y-hc main,body.a11y-hc body{background:#000!important;color:#fff!importa
 body.a11y-hc h1,body.a11y-hc h2,body.a11y-hc h3{color:#ffff00!important}
 body.a11y-hc p,body.a11y-hc li,body.a11y-hc span,body.a11y-hc td,body.a11y-hc th{color:#fff!important}
 body.a11y-hc a{color:#ffff00!important}
-body.a11y-hc .dim-label,.sub{color:#ccc!important}
+body.a11y-hc .dim-label,body.a11y-hc .sub{color:#ccc!important}
 body.a11y-hc .sec-label{color:#ffff00!important;border-color:#555!important}
 body.a11y-hc .video-card,.entry,.card,.project-card,.item{background:#111!important;border-color:#444!important}
 body.a11y-hc .video-caption,.entry-meta,.card-label{color:#ccc!important;border-color:#333!important}
@@ -122,12 +122,24 @@ body.a11y-hc .a11y-tog.on{background:#ff0!important}
 body.a11y-hc .a11y-tog.on::after{background:#000!important}
 body.a11y-hc .a11y-szbtn{background:#222!important;color:#fff!important;border-color:#666!important}
 body.a11y-hc .a11y-reset{color:#aaa!important;border-color:#444!important}
+/* teaching quote card — background becomes yellow in HC, white text invisible */
+body.a11y-hc .teaching-quote-card{background:#003366!important}
+body.a11y-hc .t-quote-text{color:#ffff00!important}
+body.a11y-hc .t-quote-mark{color:#aaa!important;opacity:1!important}
+/* teaching cards */
+body.a11y-hc .teaching-card{background:#111!important;border-color:#444!important}
+body.a11y-hc .teaching-info h3,.a11y-hc .teaching-info h3{color:#ffff00!important}
+body.a11y-hc .teaching-info p,body.a11y-hc .teaching-info li{color:#ddd!important}
+body.a11y-hc .teaching-info .t-role{color:#aaa!important}
+
 /* DYSLEXIA FONT */
 @font-face{font-family:'OpenDyslexic';src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');font-display:swap}
 body.a11y-dys *:not(#a11y-btn):not(#a11y-panel):not(#a11y-panel *){font-family:'OpenDyslexic',Arial,sans-serif!important;letter-spacing:.05em!important;line-height:1.75!important}
 /* HIGHLIGHT LINKS */
 body.a11y-hl a:not(#a11y-panel a){outline:3px solid #c8a000!important;outline-offset:2px!important;background:rgba(255,235,0,.2)!important;border-radius:3px!important}
 /* TEXT SIZE */
+body.a11y-txt .back,body.a11y-txt .nk{font-size:calc(11px * var(--a11y-scale))!important}
+body.a11y-txt .nav-title{font-size:calc(14px * var(--a11y-scale))!important}
 body.a11y-txt p,body.a11y-txt li,body.a11y-txt .video-caption,body.a11y-txt .sub{font-size:calc(15px * var(--a11y-scale))!important}
 body.a11y-txt h1{font-size:calc(52px * var(--a11y-scale))!important}
 body.a11y-txt h2{font-size:calc(22px * var(--a11y-scale))!important}
