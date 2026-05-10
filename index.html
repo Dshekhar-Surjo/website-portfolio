@@ -312,14 +312,15 @@ body.a11y-hc .dot{background:rgba(255,255,255,.4)!important}
 body.a11y-hc .fd{border-color:#555!important}
 body.a11y-hc .fd.lit{background:#ff0!important;border-color:#ff0!important}
 /* chat bubbles — .you uses --sky-d as background (now yellow) */
-body.a11y-hc .you .bubble{background:#1a3a5c!important;color:#fff!important}
+body.a11y-hc .you .bubble{background:#003366!important;color:#ffff00!important;border-radius:10px 0 10px 10px!important}
 body.a11y-hc .me .bubble{background:#1a1a1a!important;color:#fff!important}
 body.a11y-hc .chat-card{background:rgba(0,0,0,.6)!important;border-color:#444!important}
 /* resume — res-card, titles, buttons */
 body.a11y-hc .res-card{background:#111!important;border-color:#444!important}
 body.a11y-hc .res-title{color:#ff0!important}
 body.a11y-hc .res-meta{color:#ccc!important}
-body.a11y-hc .res-dl,body.a11y-hc .res-view{color:#fff!important;border-color:#555!important}
+body.a11y-hc .res-dl,body.a11y-hc .res-view{color:#ffff00!important;border-color:#ffff00!important}
+body.a11y-hc #s-resume{background:#000!important}
 /* work — .wc2 has hardcoded light pink bg */
 body.a11y-hc .wc2{background:#1a0000!important}
 body.a11y-hc .wc2 .wt,body.a11y-hc .wc2 .wact{color:#ff9999!important}
@@ -334,6 +335,8 @@ body.a11y-hc .cf{background:#1a1a1a!important;color:#fff!important;border-color:
 body.a11y-hc .csub{background:#ffff00!important;color:#000!important}
 /* footer */
 body.a11y-hc footer{background:#003322!important}
+body.a11y-hc .fl{color:#fff!important}
+body.a11y-hc .soc-icon{color:#fff!important;border-color:#888!important}
 /* a11y panel stays usable */
 body.a11y-hc #a11y-btn{background:#ffff00!important;color:#000!important}
 body.a11y-hc #a11y-panel{background:#111!important;border-color:#444!important}
@@ -345,8 +348,6 @@ body.a11y-hc .a11y-tog.on{background:#ff0!important}
 body.a11y-hc .a11y-tog.on::after{background:#000!important}
 body.a11y-hc .a11y-szbtn{background:#222!important;color:#fff!important;border-color:#666!important}
 body.a11y-hc .a11y-reset{color:#aaa!important;border-color:#444!important}
-/* PAUSE ANIMATIONS — excludes a11y panel so it stays interactive */
-body.a11y-pause *:not(#a11y-btn):not(#a11y-panel):not(#a11y-panel *){animation-play-state:paused!important;transition-duration:0s!important}
 /* DYSLEXIA FONT */
 @font-face{font-family:'OpenDyslexic';src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');font-display:swap}
 body.a11y-dys *:not(#a11y-btn):not(#a11y-panel):not(#a11y-panel *){font-family:'OpenDyslexic',Arial,sans-serif!important;letter-spacing:.05em!important;line-height:1.75!important}
@@ -1013,10 +1014,6 @@ document.addEventListener('click',function(e){
     <button class="a11y-tog" id="tog-hc" onclick="a11yToggle('a11y-hc','tog-hc')" aria-pressed="false" aria-label="Toggle high contrast"></button>
   </div>
   <div class="a11y-row">
-    <span class="a11y-lbl">PAUSE ANIMATIONS</span>
-    <button class="a11y-tog" id="tog-pause" onclick="a11yToggle('a11y-pause','tog-pause')" aria-pressed="false" aria-label="Toggle pause animations"></button>
-  </div>
-  <div class="a11y-row">
     <span class="a11y-lbl">DYSLEXIA FONT</span>
     <button class="a11y-tog" id="tog-dys" onclick="a11yToggle('a11y-dys','tog-dys')" aria-pressed="false" aria-label="Toggle dyslexia-friendly font"></button>
   </div>
@@ -1074,8 +1071,8 @@ document.addEventListener('click',function(e){
 
   /* reset */
   window.a11yReset=function(){
-    ['a11y-hc','a11y-pause','a11y-dys','a11y-hl','a11y-txt'].forEach(function(c){document.body.classList.remove(c);});
-    ['tog-hc','tog-pause','tog-dys','tog-hl'].forEach(function(id){
+    ['a11y-hc','a11y-dys','a11y-hl','a11y-txt'].forEach(function(c){document.body.classList.remove(c);});
+    ['tog-hc','tog-dys','tog-hl'].forEach(function(id){
       var el=document.getElementById(id);
       if(el){el.classList.remove('on');el.setAttribute('aria-pressed','false');}
     });
