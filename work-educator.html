@@ -352,5 +352,16 @@ document.addEventListener('click',function(e){var mn=document.getElementById('mo
 })();
 </script>
 
+<script>
+/* ── BACKSPACE / ESC TO RETURN ── go back to portfolio (skips if a modal/menu is open) */
+document.addEventListener('keydown',function(e){
+  if((e.key==='Backspace'||e.key==='Escape')
+    &&['INPUT','TEXTAREA','SELECT'].indexOf(e.target.tagName)===-1
+    &&!document.querySelector('.open,[aria-expanded="true"]')){
+    e.preventDefault(); window.history.back();
+  }
+});
+</script>
+
 </body>
 </html>

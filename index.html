@@ -391,6 +391,17 @@ body.a11y-txt .cq{font-size:calc(20px * var(--a11y-scale))!important}
 body.a11y-txt .wt{font-size:calc(24px * var(--a11y-scale))!important}
 /* keyboard focus on cert cards */
 .cert-card:focus-visible{outline:3px solid #fff;outline-offset:4px;border-radius:6px}
+
+/* ── KEYBOARD NAVIGATION ── */
+#kb-nav-hint{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:rgba(26,58,92,.93);color:#fff;font-family:"Courier New",monospace;font-size:10px;letter-spacing:.18em;padding:8px 20px;border-radius:3px;z-index:8000;pointer-events:none;opacity:0;transition:opacity .4s;white-space:nowrap}
+#kb-nav-hint.kbh-on{opacity:1}
+/* Work card keyboard focus */
+#s-work .wc.kb-focus{outline:3px solid var(--sky-d);outline-offset:-3px;position:relative;z-index:1}
+#s-work .wc.kb-focus::before{content:'↵ ENTER';position:absolute;bottom:12px;right:12px;font-family:"Courier New",monospace;font-size:9px;letter-spacing:.16em;background:var(--sky-d);color:#fff;padding:4px 10px;pointer-events:none;z-index:2}
+#s-work .wc.wd.kb-focus{outline-color:rgba(255,255,255,.7)}
+#s-work .wc.wd.kb-focus::before{background:#fff;color:var(--sky-d)}
+/* Cert card keyboard focus */
+.cert-card.kb-focus{outline:3px solid #fff!important;outline-offset:4px;transform:scale(1.1)!important;box-shadow:0 16px 40px rgba(0,0,0,.22)!important}
 </style>
 </head>
 <body>
@@ -1086,13 +1097,9 @@ document.addEventListener('click',function(e){
     szLvl=Math.max(-2,Math.min(3,szLvl+dir));
     var ct=document.getElementById('a11y-sz-ct');
     if(ct) ct.textContent=(szLvl>0?'+':'')+szLvl;
-    if(szLvl===0){
-      document.body.classList.remove('a11y-txt');
-      document.documentElement.style.removeProperty('--a11y-scale');
-    } else {
-      document.documentElement.style.setProperty('--a11y-scale',1+szLvl*0.1);
-      document.body.classList.add('a11y-txt');
-    }
+    /* always set variable — at 0 scale=1.0 equals base size, no visual snap */
+    document.documentElement.style.setProperty('--a11y-scale',1+szLvl*0.1);
+    document.body.classList.add('a11y-txt');
   };
 
   /* reset */
@@ -1115,6 +1122,144 @@ document.addEventListener('click',function(e){
     card.addEventListener('keydown',function(e){
       if(e.key==='Enter'||e.key===' '){e.preventDefault();openCert(card);}
     });
+  });
+})();
+</script>
+
+
+<script>
+/* ── KEYBOARD NAVIGATION SYSTEM ──────────────────────────────────────────
+   New feature only — all existing code above is untouched.
+   Arrow keys navigate Work cards / Certificate strip / Resume when those
+   sections are visible in the viewport.
+   Enter  → open the focused item.
+   Esc    → exit keyboard mode, resume normal scroll.
+   (Backspace to return from sub-pages is handled in each work-*.html file.)
+─────────────────────────────────────────────────────────────────────────── */
+(function(){
+  var workCards = Array.from(document.querySelectorAll('#s-work .wc'));
+  var certCardEls = Array.from(document.querySelectorAll('#s-certs .cert-card'));
+
+  var kbSection = null;   /* 'work' | 'certs' | 'resume' | null */
+  var kbActive  = false;  /* true once user pressed an arrow key in this section */
+  var workIdx   = 0;
+  var certIdx   = 0;
+
+  /* ── Hint bar ── */
+  var hint = document.createElement('div');
+  hint.id = 'kb-nav-hint';
+  document.body.appendChild(hint);
+  function showHint(t){ hint.textContent = t; hint.classList.add('kbh-on'); }
+  function hideHint(){ hint.classList.remove('kbh-on'); }
+
+  /* ── Work focus ── */
+  function focusWork(idx){
+    workCards.forEach(function(c,i){ c.classList.toggle('kb-focus', i===idx); });
+    workIdx = idx;
+    workCards[idx].scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  function clearWork(){ workCards.forEach(function(c){ c.classList.remove('kb-focus'); }); }
+
+  /* ── Cert focus ── */
+  function focusCert(idx){
+    certCardEls.forEach(function(c,i){ c.classList.toggle('kb-focus', i===idx); });
+    certIdx = idx;
+    certCardEls[idx].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  }
+  function clearCerts(){ certCardEls.forEach(function(c){ c.classList.remove('kb-focus'); }); }
+
+  /* ── Deactivate all kb nav ── */
+  function deactivate(){
+    kbSection = null; kbActive = false;
+    clearWork(); clearCerts(); hideHint();
+  }
+
+  /* ── Which navigable section is currently prominent in viewport ── */
+  function currentSection(){
+    var vp = window.innerHeight;
+    function score(el){ var r=el.getBoundingClientRect(); var t=Math.max(0,r.top); var b=Math.min(vp,r.bottom); return b>t?(b-t)/vp:0; }
+    if(score(document.getElementById('s-work'))   >= 0.22) return 'work';
+    if(score(document.getElementById('s-certs'))  >= 0.22) return 'certs';
+    if(score(document.getElementById('s-resume')) >= 0.22) return 'resume';
+    return null;
+  }
+
+  /* ── Scroll: update which section is live, show/hide hint ── */
+  window.addEventListener('scroll', function(){
+    var sec = currentSection();
+    if(sec === kbSection) return;
+    if(kbActive) deactivate(); else { clearWork(); clearCerts(); }
+    kbSection = sec;
+    if(sec === 'work')   showHint('← →  ↑ ↓   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
+    else if(sec === 'certs')  showHint('← →   NAVIGATE CERTIFICATES  ·  ENTER TO VIEW  ·  ESC TO SCROLL');
+    else if(sec === 'resume') showHint('ENTER  TO VIEW RESUME');
+    else hideHint();
+  }, {passive:true});
+
+  /* ── Keyboard handler ── */
+  document.addEventListener('keydown', function(e){
+    /* Never intercept while user is typing in a field */
+    if(['INPUT','TEXTAREA','SELECT'].indexOf(e.target.tagName) !== -1) return;
+    /* Don't steal keys if cert modal is open (existing Escape handler covers it) */
+    if(document.getElementById('cert-modal').classList.contains('open')) return;
+
+    var sec = kbSection || currentSection();
+
+    /* ESC always exits kb nav */
+    if(e.key === 'Escape' && kbActive){ deactivate(); return; }
+
+    /* ── WORK section ── */
+    if(sec === 'work'){
+      var isArrow = ['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].indexOf(e.key) !== -1;
+      if(isArrow){
+        e.preventDefault();
+        if(!kbActive){
+          kbActive = true; kbSection = 'work'; workIdx = 0;
+          showHint('← →  ↑ ↓   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
+        }
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+          workIdx = (workIdx + 1) % workCards.length;
+        } else {
+          workIdx = (workIdx - 1 + workCards.length) % workCards.length;
+        }
+        focusWork(workIdx);
+        return;
+      }
+      if(e.key === 'Enter' && kbActive){
+        e.preventDefault();
+        var lnk = workCards[workIdx].querySelector('a[href]');
+        if(lnk) window.location.href = lnk.href;
+        return;
+      }
+    }
+
+    /* ── CERTS section ── */
+    if(sec === 'certs'){
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        if(!kbActive){
+          kbActive = true; kbSection = 'certs'; certIdx = 0;
+          showHint('← →   NAVIGATE CERTIFICATES  ·  ENTER TO VIEW  ·  ESC TO SCROLL');
+        }
+        if(e.key === 'ArrowRight') certIdx = Math.min(certIdx+1, certCardEls.length-1);
+        else                        certIdx = Math.max(certIdx-1, 0);
+        focusCert(certIdx);
+        return;
+      }
+      if(e.key === 'Enter' && kbActive){
+        e.preventDefault();
+        openCert(certCardEls[certIdx]);
+        return;
+      }
+    }
+
+    /* ── RESUME section ── */
+    if(sec === 'resume' && e.key === 'Enter'){
+      e.preventDefault();
+      var vBtn = document.querySelector('.res-view');
+      if(vBtn) toggleResumeView(vBtn);
+      return;
+    }
   });
 })();
 </script>
