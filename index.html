@@ -402,6 +402,10 @@ body.a11y-txt .wt{font-size:calc(24px * var(--a11y-scale))!important}
 #s-work .wc.wd.kb-focus::before{background:#fff;color:var(--sky-d)}
 /* Cert card keyboard focus */
 .cert-card.kb-focus{outline:3px solid #fff!important;outline-offset:4px;transform:scale(1.1)!important;box-shadow:0 16px 40px rgba(0,0,0,.22)!important}
+/* Resume view button kb-focus */
+.res-view.kb-focus{outline:3px solid rgba(255,255,255,.8)!important;outline-offset:3px;color:#fff!important;border-color:rgba(255,255,255,.7)!important;background:rgba(255,255,255,.12)!important}
+/* A11y button kb-focus */
+#a11y-btn.kb-focus{outline:4px solid #fff;outline-offset:5px;transform:scale(1.18)!important;box-shadow:0 6px 28px rgba(0,0,0,.45)!important}
 </style>
 </head>
 <body>
@@ -782,7 +786,8 @@ heroSec.style.height=(window.innerHeight-40)+'px';
 applyRot();
 /* ── ALWAYS START AT TOP ON LOAD / REFRESH ── */
 if(history.scrollRestoration)history.scrollRestoration='manual';
-window.scrollTo(0,0);
+/* Only force-scroll to top on a fresh load — if a hash is present (e.g. returning from a subpage via #s-work) let the browser honour it */
+if(!window.location.hash) window.scrollTo(0,0);
 
 /* ── TYPEWRITER ──
    m1,m2,m3 = Shekhar (me/left)
@@ -1169,10 +1174,14 @@ document.addEventListener('click',function(e){
   }
   function clearCerts(){ certCardEls.forEach(function(c){ c.classList.remove('kb-focus'); }); }
 
+  /* ── Resume button + A11y button focus ── */
+  function clearResume(){ var b=document.querySelector('.res-view'); if(b) b.classList.remove('kb-focus'); }
+  function clearA11y(){ var b=document.getElementById('a11y-btn'); if(b) b.classList.remove('kb-focus'); }
+
   /* ── Deactivate: keep kbSection so scroll handler detects when user actually moves on ── */
   function deactivate(){
     kbActive = false; kbSuppressed = true;
-    clearWork(); clearCerts(); hideHint();
+    clearWork(); clearCerts(); clearResume(); clearA11y(); hideHint();
   }
 
   /* ── Which navigable section is currently prominent in viewport ── */
@@ -1191,12 +1200,19 @@ document.addEventListener('click',function(e){
     if(sec === kbSection) return;
     /* User scrolled to a different section — reset everything */
     kbSuppressed = false; kbActive = false;
-    clearWork(); clearCerts();
+    clearWork(); clearCerts(); clearResume(); clearA11y();
     kbSection = sec;
-    if(sec === 'work')   showHint('← →  ↑ ↓   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
-    else if(sec === 'certs')  showHint('← →   NAVIGATE CERTIFICATES  ·  ENTER TO VIEW  ·  ESC TO SCROLL');
-    else if(sec === 'resume') showHint('ENTER  TO VIEW RESUME');
-    else hideHint();
+    if(sec === 'work'){
+      showHint('↑ ↓  ← →   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
+    } else if(sec === 'certs'){
+      showHint('← →   NAVIGATE CERTIFICATES  ·  ENTER TO VIEW  ·  ESC TO SCROLL');
+    } else if(sec === 'resume'){
+      kbActive = true; /* auto-activate: button is pre-highlighted */
+      var vb=document.querySelector('.res-view'); if(vb) vb.classList.add('kb-focus');
+      showHint('ENTER  VIEW RESUME  ·  ↓  ACCESSIBILITY BUTTON  ·  ESC TO SCROLL');
+    } else {
+      hideHint();
+    }
   }, {passive:true});
 
   /* ── Keyboard handler ── */
@@ -1259,11 +1275,41 @@ document.addEventListener('click',function(e){
     }
 
     /* ── RESUME section ── */
-    if(sec === 'resume' && e.key === 'Enter'){
-      e.preventDefault();
-      var vBtn = document.querySelector('.res-view');
-      if(vBtn) toggleResumeView(vBtn);
-      return;
+    if(sec === 'resume'){
+      if(kbSuppressed) return;
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        var vBtn = document.querySelector('.res-view');
+        if(vBtn) toggleResumeView(vBtn);
+        return;
+      }
+      if(e.key === 'ArrowDown' || e.key === 'ArrowRight'){
+        e.preventDefault();
+        clearResume();
+        kbSection = 'a11y'; kbActive = true;
+        var ab = document.getElementById('a11y-btn');
+        if(ab) ab.classList.add('kb-focus');
+        showHint('ENTER  OPEN ACCESSIBILITY PANEL  ·  ↑  BACK  ·  ESC TO EXIT');
+        return;
+      }
+    }
+
+    /* ── ACCESSIBILITY BUTTON ── */
+    if(sec === 'a11y'){
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        var aBtn = document.getElementById('a11y-btn');
+        if(aBtn) aBtn.click();
+        return;
+      }
+      if(e.key === 'ArrowUp' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        clearA11y();
+        kbSection = 'resume'; kbActive = true;
+        var rv = document.querySelector('.res-view'); if(rv) rv.classList.add('kb-focus');
+        showHint('ENTER  VIEW RESUME  ·  ↓  ACCESSIBILITY BUTTON  ·  ESC TO SCROLL');
+        return;
+      }
     }
   });
 })();
