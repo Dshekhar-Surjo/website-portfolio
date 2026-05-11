@@ -413,6 +413,8 @@ body.a11y-hc #s-work .wc.kb-focus::before{background:#ffff00!important;color:#00
 body.a11y-hc .cert-card.kb-focus{outline-color:#ffff00!important}
 body.a11y-hc .res-view.kb-focus{outline-color:#ffff00!important;color:#000!important;background:#ffff00!important;border-color:#ffff00!important}
 body.a11y-hc #a11y-btn.kb-focus{outline-color:#ffff00!important}
+/* "SCROLL TO CONTINUE" cue in about section — high contrast */
+body.a11y-hc .about-scroll-cue{background:#ffff00!important;color:#000!important}
 </style>
 </head>
 <body>
@@ -1162,9 +1164,18 @@ document.addEventListener('click',function(e){
      Hints and auto-highlights only appear when the user is navigating by keyboard.
      Any mouse/touch interaction clears the flag. ── */
   var usingKeyboard = false;
-  document.addEventListener('keydown',   function(){ usingKeyboard = true;  }, {capture: true});
-  document.addEventListener('mousedown', function(){ usingKeyboard = false; }, {capture: true});
-  document.addEventListener('touchstart',function(){ usingKeyboard = false; }, {capture: true, passive: true});
+  document.addEventListener('keydown', function(){ usingKeyboard = true; }, {capture: true});
+  function onMouseInput(){
+    usingKeyboard = false;
+    /* If a keyboard hint is currently visible, hide it and clear all focus states.
+       Do NOT set kbSuppressed so keyboard can re-activate the moment user presses a key. */
+    if(kbActive || hint.classList.contains('kbh-on')){
+      kbActive = false;
+      clearWork(); clearCerts(); clearResume(); clearA11y(); hideHint();
+    }
+  }
+  document.addEventListener('mousedown',  onMouseInput, {capture: true});
+  document.addEventListener('touchstart', onMouseInput, {capture: true, passive: true});
 
   /* ── Hint bar ── */
   var hint = document.createElement('div');
