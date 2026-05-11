@@ -1140,10 +1140,11 @@ document.addEventListener('click',function(e){
   var workCards = Array.from(document.querySelectorAll('#s-work .wc'));
   var certCardEls = Array.from(document.querySelectorAll('#s-certs .cert-card'));
 
-  var kbSection = null;   /* 'work' | 'certs' | 'resume' | null */
-  var kbActive  = false;  /* true once user pressed an arrow key in this section */
-  var workIdx   = 0;
-  var certIdx   = 0;
+  var kbSection    = null;  /* 'work' | 'certs' | 'resume' | null */
+  var kbActive     = false; /* true = user pressed arrow and is in nav mode */
+  var kbSuppressed = false; /* true after Esc — don't re-activate until section changes */
+  var workIdx = 0;
+  var certIdx = 0;
 
   /* ── Hint bar ── */
   var hint = document.createElement('div');
@@ -1168,9 +1169,9 @@ document.addEventListener('click',function(e){
   }
   function clearCerts(){ certCardEls.forEach(function(c){ c.classList.remove('kb-focus'); }); }
 
-  /* ── Deactivate all kb nav ── */
+  /* ── Deactivate: keep kbSection so scroll handler detects when user actually moves on ── */
   function deactivate(){
-    kbSection = null; kbActive = false;
+    kbActive = false; kbSuppressed = true;
     clearWork(); clearCerts(); hideHint();
   }
 
@@ -1184,11 +1185,13 @@ document.addEventListener('click',function(e){
     return null;
   }
 
-  /* ── Scroll: update which section is live, show/hide hint ── */
+  /* ── Scroll: detect section change; clear suppression when user moves on ── */
   window.addEventListener('scroll', function(){
     var sec = currentSection();
     if(sec === kbSection) return;
-    if(kbActive) deactivate(); else { clearWork(); clearCerts(); }
+    /* User scrolled to a different section — reset everything */
+    kbSuppressed = false; kbActive = false;
+    clearWork(); clearCerts();
     kbSection = sec;
     if(sec === 'work')   showHint('← →  ↑ ↓   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
     else if(sec === 'certs')  showHint('← →   NAVIGATE CERTIFICATES  ·  ENTER TO VIEW  ·  ESC TO SCROLL');
@@ -1212,10 +1215,11 @@ document.addEventListener('click',function(e){
     if(sec === 'work'){
       var isArrow = ['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].indexOf(e.key) !== -1;
       if(isArrow){
+        if(kbSuppressed) return; /* let browser scroll freely after Esc */
         e.preventDefault();
         if(!kbActive){
           kbActive = true; kbSection = 'work'; workIdx = 0;
-          showHint('← →  ↑ ↓   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
+          showHint('↑ ↓  ← →   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
         }
         if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
           workIdx = (workIdx + 1) % workCards.length;
@@ -1236,6 +1240,7 @@ document.addEventListener('click',function(e){
     /* ── CERTS section ── */
     if(sec === 'certs'){
       if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        if(kbSuppressed) return; /* let browser scroll freely after Esc */
         e.preventDefault();
         if(!kbActive){
           kbActive = true; kbSection = 'certs'; certIdx = 0;
