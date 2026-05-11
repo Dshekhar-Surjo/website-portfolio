@@ -406,6 +406,13 @@ body.a11y-txt .wt{font-size:calc(24px * var(--a11y-scale))!important}
 .res-view.kb-focus{outline:3px solid rgba(255,255,255,.8)!important;outline-offset:3px;color:#fff!important;border-color:rgba(255,255,255,.7)!important;background:rgba(255,255,255,.12)!important}
 /* A11y button kb-focus */
 #a11y-btn.kb-focus{outline:4px solid #fff;outline-offset:5px;transform:scale(1.18)!important;box-shadow:0 6px 28px rgba(0,0,0,.45)!important}
+/* ── HIGH CONTRAST overrides for keyboard nav elements ── */
+body.a11y-hc #kb-nav-hint{background:#ffff00!important;color:#000!important}
+body.a11y-hc #s-work .wc.kb-focus{outline-color:#ffff00!important}
+body.a11y-hc #s-work .wc.kb-focus::before{background:#ffff00!important;color:#000!important}
+body.a11y-hc .cert-card.kb-focus{outline-color:#ffff00!important}
+body.a11y-hc .res-view.kb-focus{outline-color:#ffff00!important;color:#000!important;background:#ffff00!important;border-color:#ffff00!important}
+body.a11y-hc #a11y-btn.kb-focus{outline-color:#ffff00!important}
 </style>
 </head>
 <body>
@@ -1145,11 +1152,19 @@ document.addEventListener('click',function(e){
   var workCards = Array.from(document.querySelectorAll('#s-work .wc'));
   var certCardEls = Array.from(document.querySelectorAll('#s-certs .cert-card'));
 
-  var kbSection    = null;  /* 'work' | 'certs' | 'resume' | null */
+  var kbSection    = null;  /* 'work' | 'certs' | 'resume' | 'a11y' | null */
   var kbActive     = false; /* true = user pressed arrow and is in nav mode */
   var kbSuppressed = false; /* true after Esc — don't re-activate until section changes */
   var workIdx = 0;
   var certIdx = 0;
+
+  /* ── Mouse vs keyboard detection ──
+     Hints and auto-highlights only appear when the user is navigating by keyboard.
+     Any mouse/touch interaction clears the flag. ── */
+  var usingKeyboard = false;
+  document.addEventListener('keydown',   function(){ usingKeyboard = true;  }, {capture: true});
+  document.addEventListener('mousedown', function(){ usingKeyboard = false; }, {capture: true});
+  document.addEventListener('touchstart',function(){ usingKeyboard = false; }, {capture: true, passive: true});
 
   /* ── Hint bar ── */
   var hint = document.createElement('div');
@@ -1202,6 +1217,8 @@ document.addEventListener('click',function(e){
     kbSuppressed = false; kbActive = false;
     clearWork(); clearCerts(); clearResume(); clearA11y();
     kbSection = sec;
+    /* Only show hints and activate highlights when navigating by keyboard */
+    if(!usingKeyboard){ hideHint(); return; }
     if(sec === 'work'){
       showHint('↑ ↓  ← →   NAVIGATE WORK  ·  ENTER TO OPEN  ·  ESC TO SCROLL');
     } else if(sec === 'certs'){
