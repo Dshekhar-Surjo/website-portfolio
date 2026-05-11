@@ -1175,6 +1175,8 @@ document.addEventListener('click',function(e){
     }
   }
   document.addEventListener('mousedown',  onMouseInput, {capture: true});
+  document.addEventListener('mousemove',  onMouseInput, {capture: true, passive: true});
+  document.addEventListener('wheel',      onMouseInput, {capture: true, passive: true});
   document.addEventListener('touchstart', onMouseInput, {capture: true, passive: true});
 
   /* ── Hint bar ── */
