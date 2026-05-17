@@ -285,6 +285,27 @@ body.a11y-txt h1{font-size:calc(52px * var(--a11y-scale))!important}
 body.a11y-txt h2{font-size:calc(22px * var(--a11y-scale))!important}
 body.a11y-txt .sec-label,body.a11y-txt .dim-label{font-size:calc(13px * var(--a11y-scale))!important}
 
+/* ── COURSE EMBED ── */
+.course-embed-wrap{
+  position:relative;
+  width:100%;
+  padding-bottom:62%;   /* ~16:10 — Rise 360 default ratio */
+  height:0;
+  overflow:hidden;
+  background:#111;
+  border:.5px solid rgba(255,255,255,.12);
+}
+.course-embed-wrap iframe{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  border:none;
+  display:block;
+}
+@media(max-width:430px){
+  .course-embed-wrap{padding-bottom:140%}  /* taller on mobile — Rise reflows */
+}
+
 /* ── LLM MATH DESC ACCORDION ── */
 .llm-desc{
   display:none;
@@ -348,6 +369,18 @@ body.a11y-hc .llm-toggle{color:#fff!important;border-color:#666!important}
   <div class="dim-label">04 — LX DESIGNER</div>
   <h1>INSTRUCTIONAL DESIGN</h1>
   <div class="sub">e-learning · educational video · experience systems</div>
+
+  <!-- ══ MNEMONICON COURSE EMBED ══ -->
+  <div class="sec-label">— E-LEARNING COURSE · MNEMONICON</div>
+  <div class="course-embed-wrap">
+    <iframe
+      src="Mnemonicon/content/index.html"
+      title="Mnemonicon — Cognitive Science in the Land of Cognito"
+      allowfullscreen
+      allow="fullscreen"
+      loading="lazy">
+    </iframe>
+  </div>
 
   <!-- ══ EDUCATIONAL APP ══ -->
   <div class="sec-label">— EDUCATIONAL APP</div>
