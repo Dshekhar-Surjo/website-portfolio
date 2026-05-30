@@ -685,7 +685,14 @@ function detectFace(){
     allSeen=true;
     scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
     heroSec.style.height=(window.innerHeight*1.05)+'px';
-    setTimeout(()=>{tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});},300);
+    setTimeout(()=>{
+      function doReturnTween(){tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});}
+      if(drag){
+        function onRelease(){window.removeEventListener('mouseup',onRelease);window.removeEventListener('touchend',onRelease);setTimeout(doReturnTween,200);}
+        window.addEventListener('mouseup',onRelease);
+        window.addEventListener('touchend',onRelease);
+      } else {doReturnTween();}
+    },2000);
   }
 }
 let drag=false,dragX=0,dragY=0,dragMoved=false,dragStartX=0,dragStartY=0;
@@ -781,7 +788,22 @@ function autoRevealAll(){
           scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
           heroSec.style.height=(window.innerHeight*1.05)+'px';
           /* Smooth tween back to landing position (LX Designer) then start spinning */
-          setTimeout(()=>{tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});},300);
+          function doReturnTween(){tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});}
+          function returnToLanding(){
+            if(drag){
+              /* User is grabbing — wait until they release */
+              function onRelease(){
+                window.removeEventListener('mouseup',onRelease);
+                window.removeEventListener('touchend',onRelease);
+                setTimeout(doReturnTween,200);
+              }
+              window.addEventListener('mouseup',onRelease);
+              window.addEventListener('touchend',onRelease);
+            } else {
+              doReturnTween();
+            }
+          }
+          setTimeout(returnToLanding,2000);
         },600);
       });
     },500);
