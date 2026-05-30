@@ -659,6 +659,15 @@ function applyRot(){
   cube.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
   detectFace();
 }
+function tweenTo(tx,ty,dur,done){
+  const sx=rotX,sy=rotY,t0=performance.now();
+  (function fr(now){
+    const p=Math.min((now-t0)/dur,1);
+    const e=p<0.5?2*p*p:-1+(4-2*p)*p;
+    rotX=sx+(tx-sx)*e;rotY=sy+(ty-sy)*e;applyRot();
+    p<1?requestAnimationFrame(fr):(rotX=tx,rotY=ty,applyRot(),done&&done());
+  })(performance.now());
+}
 let lastBestFace=-1;
 function detectFace(){
   let best=0,bs=-Infinity;
@@ -676,7 +685,7 @@ function detectFace(){
     allSeen=true;
     scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
     heroSec.style.height=(window.innerHeight*1.05)+'px';
-    setTimeout(()=>{rotX=-18;rotY=0;applyRot();setTimeout(startAutoRot,400);},400);
+    setTimeout(()=>{tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});},300);
   }
 }
 let drag=false,dragX=0,dragY=0,dragMoved=false,dragStartX=0,dragStartY=0;
@@ -759,17 +768,6 @@ function autoRevealAll(){
   if(allSeen||isAutoRevealing)return;
   isAutoRevealing=true;
   scueTxt.textContent='✦ REVEALING HIDDEN FACES...';
-  function tweenTo(tx,ty,dur,done){
-    const sx=rotX,sy=rotY,t0=performance.now();
-    function fr(now){
-      const p=Math.min((now-t0)/dur,1);
-      const e=p<0.5?2*p*p:-1+(4-2*p)*p; /* ease in-out quad */
-      rotX=sx+(tx-sx)*e; rotY=sy+(ty-sy)*e;
-      applyRot();
-      p<1?requestAnimationFrame(fr):(rotX=tx,rotY=ty,applyRot(),done&&done());
-    }
-    requestAnimationFrame(fr);
-  }
   tweenTo(-90,0,700,()=>{           /* show top */
     facesSeen.add(4);
     dotsEl.forEach((d,i)=>d.classList.toggle('lit',facesSeen.has(i)));
@@ -782,8 +780,8 @@ function autoRevealAll(){
           isAutoRevealing=false;
           scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
           heroSec.style.height=(window.innerHeight*1.05)+'px';
-          /* Snap back to landing position (LX Designer) then start spinning */
-          setTimeout(()=>{rotX=-18;rotY=0;applyRot();setTimeout(startAutoRot,400);},400);
+          /* Smooth tween back to landing position (LX Designer) then start spinning */
+          setTimeout(()=>{tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});},300);
         },600);
       });
     },500);
