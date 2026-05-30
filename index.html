@@ -676,7 +676,7 @@ function detectFace(){
     allSeen=true;
     scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
     heroSec.style.height=(window.innerHeight*1.05)+'px';
-    setTimeout(startAutoRot,800);
+    setTimeout(()=>{rotX=-18;rotY=0;applyRot();setTimeout(startAutoRot,400);},400);
   }
 }
 let drag=false,dragX=0,dragY=0,dragMoved=false,dragStartX=0,dragStartY=0;
@@ -686,7 +686,7 @@ window.addEventListener('mousemove',e=>{if(!drag)return;if(Math.abs(e.clientX-dr
 window.addEventListener('touchmove',e=>{if(!drag)return;if(Math.abs(e.touches[0].clientX-dragStartX)>4||Math.abs(e.touches[0].clientY-dragStartY)>4)dragMoved=true;rotY+=(e.touches[0].clientX-dragX)*.55;rotX-=(e.touches[0].clientY-dragY)*.55;dragX=e.touches[0].clientX;dragY=e.touches[0].clientY;applyRot();e.preventDefault()},{passive:false});
 function handleClickAdvance(){
   /* Safety net: if 3 passes done but top/bottom still not found, auto-reveal now */
-  if(!allSeen&&!isAutoRevealing&&passCount>=3&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
+  if(!allSeen&&!isAutoRevealing&&passCount>=2&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
   const ni=Math.round(clamp(wheelPos/WHEEL_TOTAL*3,0,3));
   wheelTarget=clamp(((ni+1)%4)/3*WHEEL_TOTAL,0,WHEEL_TOTAL);
   startSpring();
@@ -742,8 +742,8 @@ function onPassComplete(fromScroll){
   if(allSeen||isAutoRevealing)return;
   if(facesSeen.has(4)||facesSeen.has(5)){scrollCycleLock=false;return;}
   passCount++;
-  if(passCount>=3){
-    /* 3rd pass complete — auto-reveal top & bottom */
+  if(passCount>=2){
+    /* 2nd pass complete — auto-reveal top & bottom */
     autoRevealAll();
   } else {
     scueTxt.textContent=passCount===1?'GRAB & SPIN THE CUBE ↕↕':'SPIN IT UPSIDE DOWN! ↕↕';
@@ -782,14 +782,15 @@ function autoRevealAll(){
           isAutoRevealing=false;
           scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
           heroSec.style.height=(window.innerHeight*1.05)+'px';
-          setTimeout(startAutoRot,800);
+          /* Snap back to landing position (LX Designer) then start spinning */
+          setTimeout(()=>{rotX=-18;rotY=0;applyRot();setTimeout(startAutoRot,400);},400);
         },600);
       });
     },500);
   });
 }
 window.addEventListener('wheel',e=>{
-  if(!allSeen&&!isAutoRevealing&&passCount>=3&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
+  if(!allSeen&&!isAutoRevealing&&passCount>=2&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
   if(allSeen||isAutoRevealing)return;
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   e.preventDefault();
@@ -801,7 +802,7 @@ window.addEventListener('wheel',e=>{
 let tY=0;
 document.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
 document.addEventListener('touchmove',e=>{
-  if(!allSeen&&!isAutoRevealing&&!drag&&passCount>=3&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
+  if(!allSeen&&!isAutoRevealing&&!drag&&passCount>=2&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
   if(allSeen||isAutoRevealing||drag)return;
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   const dy=tY-e.touches[0].clientY;tY=e.touches[0].clientY;
