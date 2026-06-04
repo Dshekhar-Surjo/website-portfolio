@@ -639,6 +639,7 @@ const scueTxt=document.getElementById('scue');
 const heroSec=document.getElementById('s-home');
 let rotX=-18,rotY=20,facesSeen=new Set([0]),allSeen=false,wheelAcc=0;
 let passCount=0,isAutoRevealing=false,scrollCycleLock=false;
+let allSeenBlockUntil=0;
 const WHEEL_TOTAL=1800;
 const DIMS=['LX DESIGNER','RESEARCHER','MENTOR','FILMMAKER','SYSTEMS THINKER','COLLABORATIVE PERSON BY BIRTH'];
 const FACE_ANG=[{rx:0,ry:0},{rx:0,ry:180},{rx:0,ry:-90},{rx:0,ry:90},{rx:-90,ry:0},{rx:90,ry:0}];
@@ -692,9 +693,9 @@ function detectFace(){
   /* Only update nav text when face actually changes — prevents layout-shift jitter */
   if(best!==lastBestFace){lastBestFace=best;navSt.textContent='CURRENTLY: '+DIMS[best];}
   if(facesSeen.size===6&&!allSeen){
-    allSeen=true;
+    allSeen=true;allSeenBlockUntil=Date.now()+800;
     scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
-    heroSec.style.height=(window.innerHeight*1.05)+'px';
+    heroSec.style.height=(window.scrollY+window.innerHeight*1.05)+'px';
     setTimeout(()=>{
       function doReturnTween(){tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});}
       if(drag){
@@ -793,10 +794,10 @@ function autoRevealAll(){
         facesSeen.add(5);
         dotsEl.forEach((d,i)=>d.classList.toggle('lit',facesSeen.has(i)));
         setTimeout(()=>{
-          allSeen=true;
+          allSeen=true;allSeenBlockUntil=Date.now()+800;
           isAutoRevealing=false;
           scueTxt.textContent='ALL SIX REVEALED — SCROLL TO CONTINUE';
-          heroSec.style.height=(window.innerHeight*1.05)+'px';
+          heroSec.style.height=(window.scrollY+window.innerHeight*1.05)+'px';
           /* Smooth tween back to landing position (LX Designer) then start spinning */
           function doReturnTween(){tweenTo(-18,0,700,()=>{setTimeout(startAutoRot,300);});}
           function returnToLanding(){
@@ -821,7 +822,7 @@ function autoRevealAll(){
 }
 window.addEventListener('wheel',e=>{
   if(!allSeen&&!isAutoRevealing&&passCount>=2&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
-  if(allSeen||isAutoRevealing)return;
+  if(allSeen||isAutoRevealing){if(Date.now()<allSeenBlockUntil)e.preventDefault();return;}
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   e.preventDefault();
   wheelTarget=clamp(wheelTarget+e.deltaY,0,WHEEL_TOTAL);
@@ -833,7 +834,7 @@ let tY=0;
 document.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
 document.addEventListener('touchmove',e=>{
   if(!allSeen&&!isAutoRevealing&&!drag&&passCount>=2&&!facesSeen.has(4)&&!facesSeen.has(5)){autoRevealAll();return;}
-  if(allSeen||isAutoRevealing||drag)return;
+  if(allSeen||isAutoRevealing||drag){if(Date.now()<allSeenBlockUntil)e.preventDefault();return;}
   if(heroSec.getBoundingClientRect().bottom<=40)return;
   const dy=tY-e.touches[0].clientY;tY=e.touches[0].clientY;
   if(Math.abs(dy)<1)return;
